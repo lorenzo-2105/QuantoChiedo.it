@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Calcolatore Tariffe & Negoziazione</title>
+    <title>QuantoChiedo.it | Calcolatore Tariffe Reali & Negoziazione</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -385,9 +385,9 @@
 
 <div class="wrapper">
     <header>
-        <span class="brand-badge">IA Multi-Tier Engine v4.6</span>
+        <span class="brand-badge">IA Multi-Tier Engine v5.1</span>
         <h1>QuantoChiedo.it</h1>
-        <p class="subtitle">Calcolo Tariffe, Pacchetti a 3 Livelli & Modulo Negoziazione Sconti</p>
+        <p class="subtitle">Calcolo Tariffe Reali per il Mercato Italiano & Modulo Negoziazione</p>
     </header>
 
     <div class="main-card">
@@ -418,23 +418,23 @@
 
         <div class="form-group" id="followerContainer" style="display: none;">
             <label for="followers">Numero di Follower / Audience Totale</label>
-            <input type="number" id="followers" placeholder="Es. 15000">
+            <input type="number" id="followers" placeholder="Es. 8000">
         </div>
 
         <div class="form-group">
             <label for="description">Descrizione Dettagliata del Lavoro</label>
-            <textarea id="description" placeholder="Es. Realizzazione 1 Reel + 3 Stories per brand locale, oppure Sviluppo sito e-commerce in WooCommerce."></textarea>
+            <textarea id="description" placeholder="Es. Realizzazione 1 Reel promozionale per attività locale."></textarea>
         </div>
 
         <div class="form-group">
             <label for="hours">Ore Stimate di Lavoro Totali</label>
-            <input type="number" id="hours" value="8">
+            <input type="number" id="hours" value="6">
         </div>
 
         <!-- SEZIONE SPESE OPZIONALE -->
         <label class="checkbox-container">
             <input type="checkbox" id="hasExpenses" onchange="toggleExpensesBlock()">
-            <span>Ci sono spese vive o di trasferta da calcolare?</span>
+            <span>Ci sono spese vive o di trasferta da inserire?</span>
         </label>
 
         <div id="expensesBlock" style="display: none;">
@@ -473,15 +473,15 @@
             </div>
         </div>
 
-        <button class="btn-submit" onclick="calculatePricing()">Genera Preventivo & Strategie Negoziazione</button>
+        <button class="btn-submit" onclick="calculatePricing()">Genera Opzioni & Strategia Negoziazione</button>
 
-        <div id="loading">✨ Elaborazione strategia d'ancoraggio e pacchetti in corso...</div>
+        <div id="loading">✨ Calcolo preventivo e tariffe equilibrate in corso...</div>
 
         <!-- RISULTATI MULTI-TIER & NEGOZIAZIONE -->
         <div class="results-container" id="resultsBlock">
             
             <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 12px;">
-                🎯 STRUTTURA PREVENTIVO MULTI-PACK:
+                🎯 PACCHETTI REALISTICI PER IL MERCATO ITALIANO:
             </label>
 
             <div class="tiers-grid">
@@ -509,7 +509,7 @@
                 <!-- TIER PREMIUM -->
                 <div class="tier-card">
                     <div>
-                        <div class="tier-title" id="tPremName">Full Pack & Priority</div>
+                        <div class="tier-title" id="tPremName">Completo & Priority</div>
                         <div class="tier-price-gross" id="tPremGross">€0</div>
                         <div class="tier-price-net" id="tPremNet">Netto: €0</div>
                         <ul class="tier-features" id="tPremFeatures"></ul>
@@ -518,7 +518,7 @@
             </div>
 
             <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 6px;">
-                🔍 STRATEGIA COMMERCIALE ADOTTATA:
+                🔍 LOGICA COMMERCIALE:
             </label>
             <div class="justification-box" id="resJustification"></div>
 
@@ -526,12 +526,11 @@
                 <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">OGGETTO EMAIL:</label>
                 <input type="text" id="emailSubject" readonly style="margin: 6px 0 15px 0; font-weight: 700; color: var(--accent-primary);">
 
-                <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">PROPOSTA COMMERCIALE PRONTA CON 3 OPZIONI:</label>
+                <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">PROPOSTA EMAIL PRONTA:</label>
                 <div class="email-body" id="emailBody"></div>
                 
                 <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
 
-                <!-- TASTO GENERATORE OBIEZIONI -->
                 <button class="btn-objection-toggle" onclick="toggleObjections()">
                     💬 Il cliente chiede uno sconto: cosa rispondo?
                 </button>
@@ -544,13 +543,13 @@
                     </div>
 
                     <div class="objection-card">
-                        <div class="objection-title">2. Descoping (Sconto in cambio di meno deliverable)</div>
+                        <div class="objection-title">2. Descoping (Riduzione Deliverable)</div>
                         <div class="objection-text" id="objDescoping"></div>
                         <button class="btn-copy" onclick="copyText('objDescoping')">📋 Copia Risposta</button>
                     </div>
 
                     <div class="objection-card">
-                        <div class="objection-title">3. Trade-off Commerciale (Sconto 10% vs Saldo 100% Anticipato)</div>
+                        <div class="objection-title">3. Trade-off (Sconto 10% vs Saldo 100% Anticipato)</div>
                         <div class="objection-text" id="objTradeoff"></div>
                         <button class="btn-copy" onclick="copyText('objTradeoff')">📋 Copia Risposta</button>
                     </div>
