@@ -242,13 +242,6 @@
             border-color: var(--fin-emerald);
         }
 
-        .keyword-hints {
-            font-size: 0.73rem;
-            color: var(--fin-emerald);
-            margin-top: 5px;
-            line-height: 1.4;
-        }
-
         /* Tasto Toggle Compatto per Spese Extra */
         .toggle-extra-btn {
             background: rgba(255, 255, 255, 0.04);
@@ -446,7 +439,7 @@
             white-space: pre-line;
         }
 
-        /* Email Breve per il Cliente */
+        /* Email Dettagliata per il Cliente */
         .email-short-box {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid var(--border-glass);
@@ -606,9 +599,8 @@
                     <input type="number" id="followers" value="0" placeholder="Es. 50000">
                 </div>
                 <div class="field-group">
-                    <label>DESCRIZIONE E KEYWORD STRATEGICHE</label>
-                    <input type="text" id="description" value="1 reel, 10 storie, esclusiva, whitelisting" placeholder="Es. 1 reel, 10 storie, esclusiva, ads...">
-                    <div class="keyword-hints">💡 Parole chiave che alzano il prezzo: <b>esclusiva, adv, ads, whitelisting, dark post, finanza, tech, urgente</b></div>
+                    <label>DESCRIZIONE DEL PROGETTO E KEYWORD</label>
+                    <input type="text" id="description" value="" placeholder="Es. 1 reel, 10 storie, esclusiva, whitelisting...">
                 </div>
             </div>
 
@@ -675,11 +667,11 @@
             <div class="rationale-content" id="rationaleText"></div>
         </div>
 
-        <!-- SEZIONE EMAIL BREVE PRONTA PER IL CLIENTE -->
+        <!-- SEZIONE EMAIL DETTAGLIATA PER IL CLIENTE -->
         <div class="email-short-box">
-            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">✉️ EMAIL BREVE PER IL CLIENTE</label>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">✉️ EMAIL DETTAGLIATA PER IL CLIENTE</label>
             <div class="email-preview-text" id="emailBody"></div>
-            <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Email Cliente</button>
+            <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Email Dettagliata</button>
         </div>
 
         <button class="objection-btn" onclick="toggleObjections()" style="margin-top: 20px;">
@@ -783,10 +775,10 @@
             return;
         }
 
-        // Tariffe base di mercato
-        let baseStandard = 400;     
-        let proStandard = 500;      
-        let completeStandard = 650; 
+        // TARIFFE DI PARTENZA ALZATE (Es. 50k follower / 1 reel -> Partenza Pro a 650€)
+        let baseStandard = 550;     
+        let proStandard = 750;      
+        let completeStandard = 950; 
 
         let followerRatio = followers / 50000;
         let hoursRatio = hours / 7;
@@ -830,7 +822,7 @@
         let numCarousels = extractQuantity(lowerDesc, 'carosello|caroselli');
 
         let workloadMultiplier = 1.0;
-        let volumeDescriptionStr = "Volumi standard di riferimento (1 Reel, 10 Storie)";
+        let volumeDescriptionStr = "Volumi standard di riferimento";
         if (numReels > 0 || numStories > 0 || numCarousels > 0) {
             let equivalentWork = (numReels * 2.5) + (numCarousels * 1.5) + (numStories * 0.25);
             let standardReferenceWork = (1 * 2.5) + (10 * 0.25);
@@ -898,11 +890,11 @@
             ? detectedKeywordsDetails.map(k => `  - ${k.name} (${k.impact})`).join('\n') 
             : "  - Nessuna keyword ad alto impatto rilevata";
 
-        let rationaleString = `1. Base di Partenza: Benchmark italiani per creator con 50k follower e 7h di lavoro (Tariffa Pro standard: €500).
+        let rationaleString = `1. Base di Partenza: Benchmark italiani professionali per creator con 50k follower (Tariffa Pro standard: €750).
 2. Peso Audience & Ore: Con ${followers.toLocaleString('it-IT')} follower e ${hours} ore stimate, il coefficiente applicato è di ${(baseWeight).toFixed(2)}x.
 3. Seniority (${level}): Moltiplicatore livello pari a ${levelFactor}x.
 4. Volumi & Deliverable: ${volumeDescriptionStr}.
-5. Keyword Strategiche Rilevate nella Descrizione:
+5. Keyword Strategiche Rilevate:
 ${keywordsLogStr}
 (Moltiplicatore complessivo keyword: x${keywordExtraMultiplier.toFixed(2)})`;
 
@@ -912,9 +904,35 @@ ${keywordsLogStr}
 
         document.getElementById('rationaleText').innerText = rationaleString;
 
-        // Email breve per il cliente
-        let emailExpenseNote = totalClientExpenses > 0 ? `\n- Spese extra/rimborsi a carico cliente: €${totalClientExpenses}` : '';
-        document.getElementById('emailBody').innerText = `Buongiorno,\n\nIn merito alla richiesta per "${description}", vi propongo le seguenti soluzioni:\n\n1. Opzione Essenziale: €${baseGross}\n2. Opzione Pro (Consigliata): €${recGross}\n3. Opzione Completa & Priority: €${premGross}${emailExpenseNote}\n\nResto a disposizione per definire i dettagli.\n\nUn saluto,\n[Tuo Nome]`;
+        // Email dettagliata per il cliente
+        let emailExpenseNote = totalClientExpenses > 0 ? `\n- Rimborsi spese / pernottamenti a carico del cliente: €${totalClientExpenses} (come da dettaglio extra)` : '\n- Spese di trasferta/produzione: Non incluse / A carico del creator';
+        
+        document.getElementById('emailBody').innerText = `Gentile Team,
+
+in merito alla richiesta di collaborazione per il progetto "${description}", vi sottopongo la proposta economica strutturata in base al perimetro delle attività richieste, al valore strategico dei contenuti e alla copertura dell'audience (${followers.toLocaleString('it-IT')} follower attivi).
+
+Le soluzioni proposte si suddividono in tre livelli di servizio:
+
+1. OPZIONE ESSENZIALE: €${baseGross} (IVA esclusa se applicabile)
+   - Realizzazione dei contenuti secondo specifiche standard.
+   - 1 round di revisione inclusi.
+   - Cessione diritti di sfruttamento per 12 mesi sui canali ufficiali.
+
+2. OPZIONE PRO / CONSIGLIATA: €${recGross} (IVA esclusa se applicabile)
+   - Copertura completa del brief concordato: "${description}".
+   - Fino a 3 round di revisioni approfondite.
+   - Report di performance e analytics post-campagna.${emailExpenseNote}
+
+3. OPZIONE COMPLETA & PRIORITY: €${premGross} (IVA esclusa se applicabile)
+   - Soluzione All-Inclusive con gestione prioritaria delle tempistiche.
+   - Revisioni illimitate in fase di montaggio/editing.
+   - Call strategiche dedicate e supporto continuativo.
+
+Resto a disposizione per un confronto telefonico per approfondire la linea creativa o definire eventuali personalizzazioni del contratto.
+
+Un cordiale saluto,
+[Tuo Nome]
+[Tuo Ruolo / Creator]`;
 
         // Obiezioni
         document.getElementById('objDefense').innerText = `"Comprendo la vostra esigenza di budget, tuttavia il prezzo di €${recGross} riflette l'impegno tecnico, la visibilità dell'audience (${followers.toLocaleString('it-IT')} follower) e le ore pianificate."`;
