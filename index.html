@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Calcolatore Tariffe Realistico</title>
+    <title>QuantoChiedo.it | Calcolatore Tariffe & Negoziazione</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,6 +14,7 @@
             --card-border: #1f293d;
             --accent-primary: #38bdf8;
             --accent-green: #4ade80;
+            --accent-orange: #fb923c;
             --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
@@ -43,7 +44,7 @@
         }
 
         .wrapper {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
         }
 
@@ -178,7 +179,6 @@
             font-size: 0.95rem;
         }
 
-        /* Results Display */
         .results-container {
             display: none;
             margin-top: 30px;
@@ -186,38 +186,85 @@
             padding-top: 25px;
         }
 
-        .metric-cards {
+        /* Tiers Grid Display */
+        .tiers-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 25px;
         }
 
-        .metric-card {
+        @media (max-width: 768px) {
+            .tiers-grid { grid-template-columns: 1fr; }
+        }
+
+        .tier-card {
             background-color: var(--input-bg);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
+            border-radius: 14px;
+            padding: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .metric-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 6px;
+        .tier-card.recommended {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
         }
 
-        .metric-value {
-            font-size: 1.5rem;
+        .tier-badge {
+            position: absolute;
+            top: -12px;
+            right: 15px;
+            background: var(--accent-primary);
+            color: #090d16;
+            font-size: 0.65rem;
             font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
         }
 
-        .metric-sub {
+        .tier-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .tier-price-gross {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+        }
+
+        .tier-price-net {
             font-size: 0.75rem;
+            color: var(--accent-green);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .tier-features {
+            list-style: none;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-top: 4px;
+            margin-bottom: 15px;
+        }
+
+        .tier-features li {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tier-features li::before {
+            content: "✓";
+            color: var(--accent-primary);
+            font-weight: bold;
         }
 
         .justification-box {
@@ -262,15 +309,69 @@
         .btn-copy:hover {
             background: rgba(255, 255, 255, 0.15);
         }
+
+        /* Sezione Negoziazione Obiezioni */
+        .btn-objection-toggle {
+            width: 100%;
+            background: rgba(251, 146, 60, 0.1);
+            color: var(--accent-orange);
+            border: 1px solid rgba(251, 146, 60, 0.3);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-objection-toggle:hover {
+            background: rgba(251, 146, 60, 0.2);
+        }
+
+        .objections-wrapper {
+            display: none;
+            margin-top: 15px;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .objection-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .objection-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .objection-title {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .objection-text {
+            font-size: 0.85rem;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
     <header>
-        <span class="brand-badge">IA Pricing Engine v3.6</span>
+        <span class="brand-badge">IA Multi-Tier Engine v4.5</span>
         <h1>QuantoChiedo.it</h1>
-        <p class="subtitle">Calcolo preventivi e tariffe aderenti alla realtà del mercato italiano</p>
+        <p class="subtitle">Calcolo Tariffe, Pacchetti a 3 Livelli & Modulo Negoziazione Sconti</p>
     </header>
 
     <div class="main-card">
@@ -349,28 +450,52 @@
             <input type="number" id="expenses" value="0">
         </div>
 
-        <button class="btn-submit" onclick="calculatePricing()">Calcola Stima Realistica & Preventivo</button>
+        <button class="btn-submit" onclick="calculatePricing()">Genera Preventivo & Strategie Negoziazione</button>
 
-        <div id="loading">✨ Elaborazione analisi reale di mercato in corso...</div>
+        <div id="loading">✨ Elaborazione strategia d'ancoraggio e pacchetti in corso...</div>
 
-        <!-- RISULTATI -->
+        <!-- RISULTATI MULTI-TIER & NEGOZIAZIONE -->
         <div class="results-container" id="resultsBlock">
             
-            <div class="metric-cards">
-                <div class="metric-card">
-                    <div class="metric-label">Da Chiedere (Lordo Fattura)</div>
-                    <div class="metric-value" id="resGrossRate" style="color: var(--accent-primary);">-</div>
-                    <div class="metric-sub" id="resGrossRange">Range: -</div>
+            <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 12px;">
+                🎯 STRUTTURA PREVENTIVO MULTI-PACK:
+            </label>
+
+            <div class="tiers-grid">
+                <!-- TIER BASE -->
+                <div class="tier-card">
+                    <div>
+                        <div class="tier-title" id="tBaseName">Essenziale</div>
+                        <div class="tier-price-gross" id="tBaseGross">€0</div>
+                        <div class="tier-price-net" id="tBaseNet">Netto: €0</div>
+                        <ul class="tier-features" id="tBaseFeatures"></ul>
+                    </div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">In Tasca a Te (Netto Stimato)</div>
-                    <div class="metric-value" id="resNetRate" style="color: var(--accent-green);">-</div>
-                    <div class="metric-sub" id="resNetRange">Range: -</div>
+
+                <!-- TIER RECOMMENDED -->
+                <div class="tier-card recommended">
+                    <span class="tier-badge">Consigliato</span>
+                    <div>
+                        <div class="tier-title" id="tRecName">Pro / Consigliato</div>
+                        <div class="tier-price-gross" id="tRecGross">€0</div>
+                        <div class="tier-price-net" id="tRecNet">Netto: €0</div>
+                        <ul class="tier-features" id="tRecFeatures"></ul>
+                    </div>
+                </div>
+
+                <!-- TIER PREMIUM -->
+                <div class="tier-card">
+                    <div>
+                        <div class="tier-title" id="tPremName">Full Pack & Priority</div>
+                        <div class="tier-price-gross" id="tPremGross">€0</div>
+                        <div class="tier-price-net" id="tPremNet">Netto: €0</div>
+                        <ul class="tier-features" id="tPremFeatures"></ul>
+                    </div>
                 </div>
             </div>
 
             <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 6px;">
-                🔍 ANALISI & REALTÀ DI MERCATO:
+                🔍 STRATEGIA COMMERCIALE ADOTTATA:
             </label>
             <div class="justification-box" id="resJustification"></div>
 
@@ -378,10 +503,36 @@
                 <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">OGGETTO EMAIL:</label>
                 <input type="text" id="emailSubject" readonly style="margin: 6px 0 15px 0; font-weight: 700; color: var(--accent-primary);">
 
-                <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">PROPOSTA COMMERCIALE PRONTA:</label>
+                <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">PROPOSTA COMMERCIALE PRONTA CON 3 OPZIONI:</label>
                 <div class="email-body" id="emailBody"></div>
                 
-                <button class="btn-copy" onclick="copyEmail()">📋 Copia Testo Email</button>
+                <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
+
+                <!-- TASTO GENERATORE OBIEZIONI -->
+                <button class="btn-objection-toggle" onclick="toggleObjections()">
+                    💬 Il cliente chiede uno sconto: cosa rispondo?
+                </button>
+
+                <div class="objections-wrapper" id="objectionsBlock">
+                    <div class="objection-card">
+                        <div class="objection-title">1. Difesa del Valore (Nessun Sconto)</div>
+                        <div class="objection-text" id="objDefense"></div>
+                        <button class="btn-copy" onclick="copyText('objDefense')">📋 Copia Risposta</button>
+                    </div>
+
+                    <div class="objection-card">
+                        <div class="objection-title">2. Descoping (Sconto in cambio di meno deliverable)</div>
+                        <div class="objection-text" id="objDescoping"></div>
+                        <button class="btn-copy" onclick="copyText('objDescoping')">📋 Copia Risposta</button>
+                    </div>
+
+                    <div class="objection-card">
+                        <div class="objection-title">3. Trade-off Commerciale (Sconto 10% vs Saldo 100% Anticipato)</div>
+                        <div class="objection-text" id="objTradeoff"></div>
+                        <button class="btn-copy" onclick="copyText('objTradeoff')">📋 Copia Risposta</button>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -394,6 +545,11 @@
         const type = document.getElementById('serviceType').value;
         const followerContainer = document.getElementById('followerContainer');
         followerContainer.style.display = (type === 'creator') ? 'block' : 'none';
+    }
+
+    function toggleObjections() {
+        const block = document.getElementById('objectionsBlock');
+        block.style.display = (block.style.display === 'block') ? 'none' : 'block';
     }
 
     async function calculatePricing() {
@@ -416,6 +572,7 @@
 
         document.getElementById('loading').style.display = 'block';
         document.getElementById('resultsBlock').style.display = 'none';
+        document.getElementById('objectionsBlock').style.display = 'none';
 
         try {
             const response = await fetch('/api/generate', {
@@ -441,13 +598,36 @@
             if (data.error) {
                 alert('Errore: ' + data.error);
             } else {
-                document.getElementById('resGrossRate').innerText = '€' + data.grossRate;
-                document.getElementById('resGrossRange').innerText = 'Range: ' + data.marketRangeGross;
-                document.getElementById('resNetRate').innerText = '€' + data.netRate;
-                document.getElementById('resNetRange').innerText = 'Range: ' + data.marketRangeNet;
+                // Tier Base
+                document.getElementById('tBaseName').innerText = data.tiers.base.name;
+                document.getElementById('tBaseGross').innerText = '€' + data.tiers.base.grossRate;
+                document.getElementById('tBaseNet').innerText = 'Netto st.: €' + data.tiers.base.netRate;
+                renderFeatures('tBaseFeatures', data.tiers.base.features);
+
+                // Tier Consigliato
+                document.getElementById('tRecName').innerText = data.tiers.recommended.name;
+                document.getElementById('tRecGross').innerText = '€' + data.tiers.recommended.grossRate;
+                document.getElementById('tRecNet').innerText = 'Netto st.: €' + data.tiers.recommended.netRate;
+                renderFeatures('tRecFeatures', data.tiers.recommended.features);
+
+                // Tier Premium
+                document.getElementById('tPremName').innerText = data.tiers.premium.name;
+                document.getElementById('tPremGross').innerText = '€' + data.tiers.premium.grossRate;
+                document.getElementById('tPremNet').innerText = 'Netto st.: €' + data.tiers.premium.netRate;
+                renderFeatures('tPremFeatures', data.tiers.premium.features);
+
+                // Giustificazione ed Email
                 document.getElementById('resJustification').innerText = data.justification;
                 document.getElementById('emailSubject').value = data.emailSubject;
                 document.getElementById('emailBody').innerText = data.emailBody;
+
+                // Obiezioni / Negoziazione
+                if (data.objections) {
+                    document.getElementById('objDefense').innerText = data.objections.defense;
+                    document.getElementById('objDescoping').innerText = data.objections.descoping;
+                    document.getElementById('objTradeoff').innerText = data.objections.tradeoff;
+                }
+
                 document.getElementById('resultsBlock').style.display = 'block';
             }
         } catch (err) {
@@ -457,10 +637,22 @@
         }
     }
 
-    function copyEmail() {
-        const bodyText = document.getElementById('emailBody').innerText;
-        navigator.clipboard.writeText(bodyText);
-        alert('Testo email copiato!');
+    function renderFeatures(containerId, features) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        if (features && Array.isArray(features)) {
+            features.forEach(ft => {
+                const li = document.createElement('li');
+                li.innerText = ft;
+                container.appendChild(li);
+            });
+        }
+    }
+
+    function copyText(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text);
+        alert('Testo copiato negli appunti!');
     }
 </script>
 
