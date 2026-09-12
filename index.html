@@ -248,73 +248,89 @@
             border-color: var(--fin-emerald);
         }
 
-        /* Tasto Toggle Compatto per Spese Extra */
-        .toggle-extra-btn {
-            background: rgba(255, 255, 255, 0.04);
-            color: var(--text-muted);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
-            padding: 10px 16px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 18px;
-            text-align: left;
+        /* Sezione Interruttore Spese Extra */
+        .extra-toggle-container {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            transition: all 0.2s;
+            justify-content: space-between;
         }
 
-        .toggle-extra-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
+        .extra-toggle-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Switch Custom Stile "Pallino" */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .3s;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--fin-emerald);
             border-color: var(--fin-emerald);
         }
 
-        .extra-panel-collapse {
-            display: none;
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            padding: 14px;
-            margin-top: 10px;
+        input:checked + .slider:before {
+            transform: translateX(24px);
         }
 
-        .extra-row {
+        /* Sottomenu Spese Extra a scomparsa */
+        .extra-fields-panel {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .extra-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr auto;
-            gap: 8px;
-            margin-top: 8px;
-            align-items: center;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
         }
 
         @media (max-width: 768px) {
-            .extra-row { grid-template-columns: 1fr; }
-        }
-
-        .btn-add-extra-mini {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--fin-emerald);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 8px;
-            display: inline-block;
-        }
-
-        .btn-remove-extra {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
+            .extra-grid { grid-template-columns: 1fr; }
         }
 
         /* Risultati Report */
@@ -610,25 +626,33 @@
                 </div>
             </div>
 
-            <!-- TASTO COMPATTO SPESE EXTRA / PERNOTTAMENTI -->
-            <button type="button" class="toggle-extra-btn" onclick="toggleExtraPanel()">
-                <span>✈️ Aggiungi spese extra, pernottamenti o rimborsi</span>
-                <span id="toggleIcon">+ Apri</span>
-            </button>
+            <!-- INTERRUTTORE SPESE EXTRA (PALLINO) -->
+            <div class="extra-toggle-container">
+                <div class="extra-toggle-label">
+                    🚗 Aggiungi Spese Extra, Chilometri e Trasferte
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="extraToggle" onclick="toggleExtraFields()">
+                    <span class="slider"></span>
+                </label>
+            </div>
 
-            <div class="extra-panel-collapse" id="extraPanel">
-                <div id="expensesList">
-                    <div class="extra-row">
-                        <input type="text" class="expense-desc" placeholder="Es. Hotel 2 notti / Treno">
-                        <input type="number" class="expense-cost" placeholder="Importo €" value="0">
-                        <select class="expense-payer">
-                            <option value="client">A carico del cliente</option>
-                            <option value="me">A carico mio</option>
-                        </select>
-                        <button type="button" class="btn-remove-extra" onclick="removeExpenseRow(this)">✕</button>
+            <!-- SCHERMATA EXTRA A SCOMPARSA -->
+            <div class="extra-fields-panel" id="extraFieldsPanel">
+                <div class="extra-grid">
+                    <div class="field-group" style="margin-top:0;">
+                        <label>CHILOMETRI PERCORSI (A/R)</label>
+                        <input type="number" id="extraKm" value="0" placeholder="Es. 120">
+                    </div>
+                    <div class="field-group" style="margin-top:0;">
+                        <label>COSTO HOTEL / PERNOTTAMENTO (€)</label>
+                        <input type="number" id="extraHotel" value="0" placeholder="Es. 90">
+                    </div>
+                    <div class="field-group" style="margin-top:0;">
+                        <label>ALTRE SPESE (Pasti, Mezzi, Extra) (€)</label>
+                        <input type="number" id="extraMisc" value="0" placeholder="Es. 35">
                     </div>
                 </div>
-                <button type="button" class="btn-add-extra-mini" onclick="addExpenseRow()">+ Aggiungi altra spesa</button>
             </div>
         </div>
     </section>
@@ -711,42 +735,10 @@
         document.getElementById('dynamicCounter').innerText = currentCounter.toLocaleString('it-IT');
     }, 4000);
 
-    function toggleExtraPanel() {
-        const panel = document.getElementById('extraPanel');
-        const icon = document.getElementById('toggleIcon');
-        if (panel.style.display === 'block') {
-            panel.style.display = 'none';
-            icon.innerText = '+ Apri';
-        } else {
-            panel.style.display = 'block';
-            icon.innerText = '- Chiudi';
-        }
-    }
-
-    function addExpenseRow() {
-        const container = document.getElementById('expensesList');
-        const row = document.createElement('div');
-        row.className = 'extra-row';
-        row.innerHTML = `
-            <input type="text" class="expense-desc" placeholder="Es. Hotel 2 notti / Treno">
-            <input type="number" class="expense-cost" placeholder="Importo €" value="0">
-            <select class="expense-payer">
-                <option value="client">A carico del cliente</option>
-                <option value="me">A carico mio</option>
-            </select>
-            <button type="button" class="btn-remove-extra" onclick="removeExpenseRow(this)">✕</button>
-        `;
-        container.appendChild(row);
-    }
-
-    function removeExpenseRow(btn) {
-        const row = btn.parentElement;
-        if (document.getElementById('expensesList').children.length > 1) {
-            row.remove();
-        } else {
-            row.querySelector('.expense-desc').value = '';
-            row.querySelector('.expense-cost').value = 0;
-        }
+    function toggleExtraFields() {
+        const panel = document.getElementById('extraFieldsPanel');
+        const isChecked = document.getElementById('extraToggle').checked;
+        panel.style.display = isChecked ? 'block' : 'none';
     }
 
     function toggleObjections() {
@@ -798,13 +790,11 @@
             if (posts > 0) deliverablesSummary.push(`${posts} Post`);
         }
 
-        // Calcolo carico con storie a 10€ l'una
         let workloadUnits = (reels * 370) + (stories * 10) + (tiktoks * 370) + (carousels * 250) + (posts * 200);
-        let standardReference = 370; // 1 Reel base
+        let standardReference = 370;
         let workloadRatio = workloadUnits > 0 ? (workloadUnits / standardReference) : 1.0;
         if (workloadRatio < 0.5) workloadRatio = 0.5;
 
-        // Rilevamento contesto brand / locale / Milano
         if (lower.includes('importante') || lower.includes('grande brand') || lower.includes('brand famoso') || lower.includes('multinazionale')) {
             totalMultiplierBonus += 0.35;
             multipliers.push({ label: 'Brand importante / Strutturato', bonus: '+35%' });
@@ -855,9 +845,31 @@
         const followers = (!isNaN(inputFollowers) && inputFollowers > 0) ? inputFollowers : 50000;
         const hours = (!isNaN(inputHours) && inputHours > 0) ? inputHours : 5;
 
+        // Calcolo Spese Extra se il toggle è attivo
+        let extraTotal = 0;
+        let extraDetailsText = "";
+        const isExtraActive = document.getElementById('extraToggle').checked;
+        
+        if (isExtraActive) {
+            const km = parseFloat(document.getElementById('extraKm').value) || 0;
+            const hotel = parseFloat(document.getElementById('extraHotel').value) || 0;
+            const misc = parseFloat(document.getElementById('extraMisc').value) || 0;
+            
+            // Rimborso chilometrico stimato a 0.35€ / km
+            const kmCost = km * 0.35;
+            extraTotal = kmCost + hotel + misc;
+
+            if (extraTotal > 0) {
+                let parts = [];
+                if (km > 0) parts.push(`${km} km (stimati €${kmCost.toFixed(2)})`);
+                if (hotel > 0) parts.push(`Hotel/Pernottamento €${hotel}`);
+                if (misc > 0) parts.push(`Altre spese €${misc}`);
+                extraDetailsText = `\nSpese Extra Trasferta incluse: ${parts.join(', ')} (Totale extra: €${Math.round(extraTotal)})`;
+            }
+        }
+
         const semantics = parseDescriptionSemantics(description);
 
-        // Tariffe base precise con abbassamento generale del 5% (fattore 0.95)
         let baseStandard = 370 * 0.95;     
         let proStandard = 500 * 0.95;      
         let completeStandard = 650 * 0.95; 
@@ -866,9 +878,9 @@
         let hoursRatio = hours / 5;
         let audienceWeight = (followerRatio * 0.5) + (hoursRatio * 0.5);
 
-        let calculatedBase = baseStandard * audienceWeight * semantics.workloadRatio * semantics.totalMultiplierBonus;
-        let calculatedPro = proStandard * audienceWeight * semantics.workloadRatio * semantics.totalMultiplierBonus;
-        let calculatedComplete = completeStandard * audienceWeight * semantics.workloadRatio * semantics.totalMultiplierBonus;
+        let calculatedBase = (baseStandard * audienceWeight * semantics.workloadRatio * semantics.totalMultiplierBonus);
+        let calculatedPro = (proStandard * audienceWeight * semantics.workloadRatio * semantics.totalMultiplierBonus);
+        let calculatedComplete = (completeStandard * audienceWeight * semantics.workloadRatio * semantics.totalMultiplierBonus);
 
         let levelFactor = 1.0;
         if (level.includes('Junior')) levelFactor = 0.85;
@@ -878,26 +890,10 @@
         calculatedPro *= levelFactor;
         calculatedComplete *= levelFactor;
 
-        let totalClientExpenses = 0;
-        let expenseSummaryText = "";
-        const descInputs = document.querySelectorAll('.expense-desc');
-        const costInputs = document.querySelectorAll('.expense-cost');
-        const payerInputs = document.querySelectorAll('.expense-payer');
-
-        for (let i = 0; i < descInputs.length; i++) {
-            let name = descInputs[i].value.trim();
-            let cost = parseFloat(costInputs[i].value) || 0;
-            let payer = payerInputs[i].value;
-
-            if (cost > 0 && payer === 'client') {
-                totalClientExpenses += cost;
-                expenseSummaryText += `• ${name || 'Spesa extra'}: +€${cost}\n`;
-            }
-        }
-
-        let baseGross = Math.round(calculatedBase + totalClientExpenses);
-        let recGross = Math.round(calculatedPro + totalClientExpenses);
-        let premGross = Math.round(calculatedComplete + totalClientExpenses);
+        // Aggiunta delle spese extra calcolate al lordo di ogni pacchetto
+        let baseGross = Math.round(calculatedBase + extraTotal);
+        let recGross = Math.round(calculatedPro + extraTotal);
+        let premGross = Math.round(calculatedComplete + extraTotal);
 
         let baseNet = Math.round(baseGross * 0.78);
         let recNet = Math.round(recGross * 0.78);
@@ -906,41 +902,36 @@
         document.getElementById('tBaseName').innerText = "Essenziale";
         document.getElementById('tBaseGross').innerText = "€" + baseGross;
         document.getElementById('tBaseNet').innerText = "Netto st.: €" + baseNet;
-        document.getElementById('tBaseFeatures').innerHTML = `<li>Deliverable: ${semantics.deliverablesSummary}</li><li>Audience: ${followers.toLocaleString('it-IT')} follower</li><li>1 round revisione</li>`;
+        document.getElementById('tBaseFeatures').innerHTML = `<li>Deliverable: ${semantics.deliverablesSummary}</li><li>Audience: ${followers.toLocaleString('it-IT')} follower</li>${extraTotal > 0 ? '<li>Incluse spese extra trasferta</li>' : ''}<li>1 round revisione</li>`;
 
         document.getElementById('tRecName').innerText = "Pro / Consigliato";
         document.getElementById('tRecGross').innerText = "€" + recGross;
         document.getElementById('tRecNet').innerText = "Netto st.: €" + recNet;
-        document.getElementById('tRecFeatures').innerHTML = `<li>Brief analizzato: "${description ? description.substring(0, 40) + '...' : 'Standard di mercato'}"</li><li>Fino a 2 round revisioni</li><li>Ottimizzazione engagement</li>`;
+        document.getElementById('tRecFeatures').innerHTML = `<li>Brief analizzato: "${description ? description.substring(0, 40) + '...' : 'Standard di mercato'}"</li>${extraTotal > 0 ? '<li>Incluse spese extra trasferta</li>' : ''}<li>Fino a 2 round revisioni</li>`;
 
         document.getElementById('tPremName').innerText = "Completo & Priority";
         document.getElementById('tPremGross').innerText = "€" + premGross;
         document.getElementById('tPremNet').innerText = "Netto st.: €" + premNet;
-        document.getElementById('tPremFeatures').innerHTML = `<li>Pacchetto completo all-inclusive</li><li>Revisioni illimitate</li><li>Supporto e consegna prioritaria</li>`;
+        document.getElementById('tPremFeatures').innerHTML = `<li>Pacchetto completo all-inclusive</li>${extraTotal > 0 ? '<li>Incluse spese extra trasferta</li>' : ''}<li>Revisioni illimitate e priorità</li>`;
 
         let multipliersLogStr = semantics.multipliersLog.length > 0 
             ? semantics.multipliersLog.map(m => `  - ${m.label} (${m.bonus})`).join('\n') 
             : "  - Nessuna richiesta extra complessa rilevata";
 
         let rationaleString = `1. Analisi Semantica del Brief: Rilevati -> [ ${semantics.deliverablesSummary} ].
-2. Tariffe base di riferimento (50k follower, scontate del 5%): Reel Base €351.50 | Medio €475 | Pro €617.50 (Storie calcolate a €10 l'una).
-3. Peso del Contesto (Brand importante / Locale Milano / Piccolo ristorante): Correttivo applicato tramite semantica.
+2. Tariffe base di riferimento (50k follower, scontate del 5%): Reel Base €351.50 | Medio €475 | Pro €617.50 (Storie a €10).
+3. Peso del Contesto: Correttivo applicato tramite semantica.
 4. Audience & Ore: ${followers.toLocaleString('it-IT')} follower e ${hours}h stimate.
 5. Seniority (${level}): Correttivo x${levelFactor}.
-6. Extra dal Testo:
+6. Spese Trasferta Extra: €${Math.round(extraTotal)}${extraDetailsText}
+7. Extra dal Testo:
 ${multipliersLogStr}`;
 
-        if (totalClientExpenses > 0) {
-            rationaleString += `\n7. Rimborsi e Spese Extra:\n${expenseSummaryText}`;
-        }
-
         document.getElementById('rationaleText').innerText = rationaleString;
-
-        let emailExpenseNote = totalClientExpenses > 0 ? `\n- Rimborsi spese / pernottamenti a carico del cliente: €${totalClientExpenses}` : '\n- Spese vive: Non incluse';
         
         document.getElementById('emailBody').innerText = `Gentile Team,
 
-in merito alla proposta di collaborazione (${description ? '"' + description + '"' : 'progetto concordato'}), vi sottopongo il preventivo calibrato sui reali standard di mercato e sul valore della mia community (${followers.toLocaleString('it-IT')} follower).
+in merito alla proposta di collaborazione (${description ? '"' + description + '"' : 'progetto concordato'}), vi sottopongo il preventivo calibrato sui reali standard di mercato e sul valore della mia community (${followers.toLocaleString('it-IT')} follower). ${extraTotal > 0 ? 'Include inoltre il rimborso per le spese di trasferta preventivate.' : ''}
 
 Le opzioni di fornitura si dividono in:
 
@@ -951,7 +942,7 @@ Le opzioni di fornitura si dividono in:
 
 2. OPZIONE PRO / CONSIGLIATA: €${recGross} (IVA esclusa)
    - Copertura completa del brief con ottimizzazione.
-   - Fino a 2 round di revisioni.${emailExpenseNote}
+   - Fino a 2 round di revisioni.
 
 3. OPZIONE COMPLETA & PRIORITY: €${premGross} (IVA esclusa)
    - Soluzione all-inclusive con gestione prioritaria.
@@ -963,7 +954,7 @@ Un cordiale saluto,
 [Tuo Nome]
 [Tuo Ruolo / Creator]`;
 
-        document.getElementById('objDefense').innerText = `"Comprendo il budget aziendale, tuttavia la tariffa di €${recGross} riflette i normali benchmark di mercato italiani e l'impegno qualitativo richiesto per valorizzare al meglio il brand."`;
+        document.getElementById('objDefense').innerText = `"Comprendo il budget aziendale, tuttavia la tariffa di €${recGross} riflette i normali benchmark di mercato italiani e le spese vive di trasferta documentate."`;
         document.getElementById('objDescoping').innerText = `"Se avete necessità di ottimizzare la spesa, possiamo valutare la formula Essenziale a €${baseGross} adattando leggermente il perimetro delle consegne."`;
         document.getElementById('objTradeoff').innerText = `"Posso applicare un piccolo agevolamento del 5% sull'opzione Pro (€${Math.round(recGross * 0.95)}) a fronte di una conferma immediata e della chiusura degli accordi entro la settimana."`;
 
