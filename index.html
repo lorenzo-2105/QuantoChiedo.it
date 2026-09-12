@@ -562,7 +562,7 @@
     <!-- HERO SECTION -->
     <section class="hero-section">
         <h1 class="hero-title">Quanto vale il tuo lavoro?</h1>
-        <p class="hero-subtitle">Tariffe basate su benchmark di mercato, follower, ore e analisi semantica del brief.</p>
+        <p class="hero-subtitle">Tariffe allineate ai reali benchmark di mercato italiano, follower e analisi semantica.</p>
 
         <div class="counter-box">
             <div class="counter-label">Più di 10k preventivi e analisi elaborate</div>
@@ -594,8 +594,8 @@
                     </select>
                 </div>
                 <div class="field-group">
-                    <label>STIMA ORE DI LAVORO (Lascia 0 per default: 7h)</label>
-                    <input type="number" id="hours" value="0" placeholder="Es. 7">
+                    <label>STIMA ORE DI LAVORO (Lascia 0 per default: 5h)</label>
+                    <input type="number" id="hours" value="0" placeholder="Es. 5">
                 </div>
             </div>
 
@@ -606,7 +606,7 @@
                 </div>
                 <div class="field-group">
                     <label>DESCRIZIONE APPROFONDITA DEL PROGETTO (Brief e Richieste)</label>
-                    <textarea id="description" placeholder="Descrivi qui dettagliatamente cosa vuole il brand: es. 2 reel strutturati con copioni scritti ad hoc, riprese esterne con attrezzatura professionale, 10 storie con swipe-up, cessione diritti whitelisting per 3 mesi e clausola di esclusività di settore..."></textarea>
+                    <textarea id="description" placeholder=""></textarea>
                 </div>
             </div>
 
@@ -754,22 +754,18 @@
         block.style.display = (block.style.display === 'block') ? 'none' : 'block';
     }
 
-    // Motore avanzato di interpretazione semantica della descrizione
     function parseDescriptionSemantics(text) {
         const lower = text.toLowerCase();
         let multipliers = [];
         let totalMultiplierBonus = 1.0;
-        let workloadUnits = 0;
         let deliverablesSummary = [];
 
-        // 1. Estrazione intelligente dei volumi (Reel, Video, Storie, Caroselli, TikTok, Post)
-        // Cerca numeri vicini o parole chiave
         const extractCountFor = (keywords) => {
             let pattern = new RegExp(`(?:(\\d+)\\s*(?:${keywords}))|(?:(?:un|una)\\s+(?:${keywords}))`, 'i');
             let match = text.match(pattern);
             if (match) {
                 if (match[1]) return parseInt(match[1], 10);
-                return 1; // Se c'è "un reel", vale 1
+                return 1;
             }
             return 0;
         };
@@ -780,23 +776,19 @@
         let tiktoks = extractCountFor('tiktok|tiktoks');
         let posts = extractCountFor('post|post statici|fotografia|foto');
 
-        // Se non trova numeri specifici ma cita i formati, assegna almeno 1
         if (reels === 0 && (lower.includes('reel') || lower.includes('video'))) reels = 1;
-        if (stories === 0 && lower.includes('stori')) stories = 5; // default pacchetto storie
+        if (stories === 0 && lower.includes('stori')) stories = 5;
         if (carousels === 0 && lower.includes('carosell')) carousels = 1;
         if (tiktoks === 0 && lower.includes('tiktok')) tiktoks = 1;
 
-        // Se proprio il testo è discorsivo senza numeri, calcoliamo in base alla lunghezza del brief (densità descrittiva)
         let totalExplicitItems = reels + (stories / 5) + carousels + tiktoks + posts;
         if (totalExplicitItems === 0) {
-            // Analisi basata sulla complessità testuale (parole chiave nel testo)
-            if (lower.includes('molto') || lower.includes('completo') || lower.includes('campagna') || lower.length > 100) {
-                reels = 2;
-                stories = 5;
-                deliverablesSummary.push("Brief articolato senza conteggio rigido (stimato pacchetto standard multi-canale)");
+            if (text.trim().length > 0) {
+                reels = 1;
+                deliverablesSummary.push("Contenuto descritto nel brief");
             } else {
                 reels = 1;
-                deliverablesSummary.push("Contenuto singolo rilevato dal testo generico");
+                deliverablesSummary.push("1 Reel standard (default)");
             }
         } else {
             if (reels > 0) deliverablesSummary.push(`${reels} Reel/Video`);
@@ -806,36 +798,42 @@
             if (posts > 0) deliverablesSummary.push(`${posts} Post`);
         }
 
-        // Calcolo carico di lavoro basato sui deliverable (Reel pesano di più)
-        workloadUnits = (reels * 2.5) + (tiktoks * 2.5) + (carousels * 1.5) + (stories * 0.25) + (posts * 1.0);
-        let standardReference = 2.5; // 1 reel standard
+        let workloadUnits = (reels * 2.0) + (tiktoks * 2.0) + (carousels * 1.0) + (stories * 0.2) + (posts * 0.8);
+        let standardReference = 2.0;
         let workloadRatio = workloadUnits > 0 ? (workloadUnits / standardReference) : 1.0;
         if (workloadRatio < 0.8) workloadRatio = 0.8;
 
-        // 2. Analisi Semantica di Produzione, Diritti e Complessità (Bonus sul prezzo)
-        if (lower.includes('esclusiva') || lower.includes('esclusività') || lower.includes('competitor')) {
-            totalMultiplierBonus += 0.25;
-            multipliers.push({ label: 'Esclusività di settore / Competitor lock', bonus: '+25%' });
-        }
-        if (lower.includes('adv') || lower.includes('ads') || lower.includes('sponsor') || lower.includes('whitelisting') || lower.includes('dark post') || lower.includes('dark')) {
+        // Rilevamento contesto brand / locale / Milano
+        if (lower.includes('importante') || lower.includes('grande brand') || lower.includes('brand famoso') || lower.includes('multinazionale')) {
             totalMultiplierBonus += 0.35;
-            multipliers.push({ label: 'Diritti ADV / Whitelisting / Dark Advertising', bonus: '+35%' });
+            multipliers.push({ label: 'Brand importante / Strutturato', bonus: '+35%' });
+        } else if (lower.includes('ristorante milano') || lower.includes('locale milano') || lower.includes('milano centro')) {
+            totalMultiplierBonus += 0.25;
+            multipliers.push({ label: 'Ristorante / Locale importante a Milano', bonus: '+25%' });
+        } else if (lower.includes('piccolo') || lower.includes('piccolo ristorante') || lower.includes('locale di quartiere') || lower.includes('piccola attività')) {
+            totalMultiplierBonus -= 0.20;
+            multipliers.push({ label: 'Piccolo ristorante / Locale locale', bonus: '-20%' });
         }
-        if (lower.includes('copione') || lower.includes('script') || lower.includes('storyboard') || lower.includes('strategia') || lower.includes('ideazione')) {
-            totalMultiplierBonus += 0.15;
-            multipliers.push({ label: 'Scrittura script / Storyboard strategico', bonus: '+15%' });
-        }
-        if (lower.includes('esterne') || lower.includes('location') || lower.includes('viaggio') || lower.includes('trasferta') || lower.includes('shooting') || lower.includes('evento')) {
+
+        if (lower.includes('esclusiva') || lower.includes('esclusività') || lower.includes('competitor')) {
             totalMultiplierBonus += 0.20;
-            multipliers.push({ label: 'Produzione in location esterna / Shooting', bonus: '+20%' });
+            multipliers.push({ label: 'Esclusività di settore', bonus: '+20%' });
         }
-        if (lower.includes('finanza') || lower.includes('tech') || lower.includes('crypto') ||lower.includes('legal') || lower.includes('medico') || lower.includes('assicurazion')) {
-            totalMultiplierBonus += 0.20;
-            multipliers.push({ label: 'Nicchia ad alta specializzazione', bonus: '+20%' });
+        if (lower.includes('adv') || lower.includes('ads') || lower.includes('sponsor') || lower.includes('whitelisting') || lower.includes('dark')) {
+            totalMultiplierBonus += 0.25;
+            multipliers.push({ label: 'Diritti ADV / Whitelisting', bonus: '+25%' });
         }
-        if (lower.includes('urgente') || lower.includes('express') || lower.includes('subito') || lower.includes('rapida')) {
+        if (lower.includes('copione') || lower.includes('script') || lower.includes('storyboard')) {
+            totalMultiplierBonus += 0.10;
+            multipliers.push({ label: 'Scrittura script / Storyboard', bonus: '+10%' });
+        }
+        if (lower.includes('location') || lower.includes('viaggio') || lower.includes('trasferta') || lower.includes('shooting')) {
             totalMultiplierBonus += 0.15;
-            multipliers.push({ label: 'Gestione prioritaria / Urgenza', bonus: '+15%' });
+            multipliers.push({ label: 'Produzione esterna / Shooting', bonus: '+15%' });
+        }
+        if (lower.includes('urgente') || lower.includes('express')) {
+            totalMultiplierBonus += 0.15;
+            multipliers.push({ label: 'Urgenza', bonus: '+15%' });
         }
 
         return {
@@ -854,33 +852,26 @@
         const inputHours = parseFloat(document.getElementById('hours').value);
 
         const followers = (!isNaN(inputFollowers) && inputFollowers > 0) ? inputFollowers : 50000;
-        const hours = (!isNaN(inputHours) && inputHours > 0) ? inputHours : 7;
+        const hours = (!isNaN(inputHours) && inputHours > 0) ? inputHours : 5;
 
-        if (!description) {
-            alert('Inserisci una descrizione o un brief del progetto per consentire l\'analisi semantica.');
-            return;
-        }
-
-        // Eseguiamo l'interpretazione semantica profonda del testo
         const semantics = parseDescriptionSemantics(description);
 
-        // Tariffe base di partenza per 50k follower (un reel standard parte da una base solida di mercato)
-        let baseStandard = 600;     
-        let proStandard = 850;      
-        let completeStandard = 1150; 
+        // Tariffe base precise richieste: 370 base, 500 medio, 650 pro per 50k follower
+        let baseStandard = 370;     
+        let proStandard = 500;      
+        let completeStandard = 650; 
 
         let followerRatio = followers / 50000;
-        let hoursRatio = hours / 7;
-        let audienceWeight = (followerRatio * 0.6) + (hoursRatio * 0.4);
+        let hoursRatio = hours / 5;
+        let audienceWeight = (followerRatio * 0.5) + (hoursRatio * 0.5);
 
-        // Applicazione di audience, carico di lavoro estratto dal testo e bonus semantici
         let calculatedBase = baseStandard * audienceWeight * semantics.workloadRatio * semantics.totalMultiplierBonus;
         let calculatedPro = proStandard * audienceWeight * semantics.workloadRatio * semantics.totalMultiplierBonus;
         let calculatedComplete = completeStandard * audienceWeight * semantics.workloadRatio * semantics.totalMultiplierBonus;
 
         let levelFactor = 1.0;
         if (level.includes('Junior')) levelFactor = 0.85;
-        if (level.includes('Senior')) levelFactor = 1.25;
+        if (level.includes('Senior')) levelFactor = 1.20;
 
         calculatedBase *= levelFactor;
         calculatedPro *= levelFactor;
@@ -911,7 +902,6 @@
         let recNet = Math.round(recGross * 0.78);
         let premNet = Math.round(premGross * 0.78);
 
-        // UI Riempi
         document.getElementById('tBaseName').innerText = "Essenziale";
         document.getElementById('tBaseGross').innerText = "€" + baseGross;
         document.getElementById('tBaseNet').innerText = "Netto st.: €" + baseNet;
@@ -920,66 +910,61 @@
         document.getElementById('tRecName').innerText = "Pro / Consigliato";
         document.getElementById('tRecGross').innerText = "€" + recGross;
         document.getElementById('tRecNet').innerText = "Netto st.: €" + recNet;
-        document.getElementById('tRecFeatures').innerHTML = `<li>Brief analizzato: "${description.substring(0, 50)}..."</li><li>Fino a 3 round revisioni</li><li>Report performance</li>`;
+        document.getElementById('tRecFeatures').innerHTML = `<li>Brief analizzato: "${description ? description.substring(0, 40) + '...' : 'Standard di mercato'}"</li><li>Fino a 2 round revisioni</li><li>Ottimizzazione engagement</li>`;
 
         document.getElementById('tPremName').innerText = "Completo & Priority";
         document.getElementById('tPremGross').innerText = "€" + premGross;
         document.getElementById('tPremNet').innerText = "Netto st.: €" + premNet;
-        document.getElementById('tPremFeatures').innerHTML = `<li>All-Inclusive con diritti estesi</li><li>Revisioni illimitate</li><li>Supporto e call strategiche</li>`;
+        document.getElementById('tPremFeatures').innerHTML = `<li>Pacchetto completo all-inclusive</li><li>Revisioni illimitate</li><li>Supporto e consegna prioritaria</li>`;
 
-        // Logica di spiegazione analitica
         let multipliersLogStr = semantics.multipliersLog.length > 0 
             ? semantics.multipliersLog.map(m => `  - ${m.label} (${m.bonus})`).join('\n') 
-            : "  - Nessuna richiesta speciale complessa rilevata nel testo";
+            : "  - Nessuna richiesta extra complessa rilevata";
 
-        let rationaleString = `1. Analisi Semantica del Brief: Rilevati i seguenti elementi nel testo inserito -> [ ${semantics.deliverablesSummary} ].
-2. Peso del Carico di Lavoro: Coefficiente di complessità strutturale pari a x${semantics.workloadRatio.toFixed(2)}.
-3. Audience & Ore: Stima basata su ${followers.toLocaleString('it-IT')} follower e ${hours}h di lavoro dedicate.
-4. Seniority (${level}): Fattore correttivo di livello x${levelFactor}.
-5. Condizioni e Richieste Speciali dal Testo:
-${multipliersLogStr}
-(Moltiplicatore complessivo extra: x${semantics.totalMultiplierBonus.toFixed(2)})`;
+        let rationaleString = `1. Analisi Semantica del Brief: Rilevati -> [ ${semantics.deliverablesSummary} ].
+2. Tariffe base di riferimento (50k follower): Base €370 | Medio €500 | Pro €650.
+3. Peso del Contesto (Brand importante / Locale Milano / Piccolo ristorante): Correttivo applicato tramite semantica.
+4. Audience & Ore: ${followers.toLocaleString('it-IT')} follower e ${hours}h stimate.
+5. Seniority (${level}): Correttivo x${levelFactor}.
+6. Extra dal Testo:
+${multipliersLogStr}`;
 
         if (totalClientExpenses > 0) {
-            rationaleString += `\n6. Rimborsi e Spese Extra a carico cliente:\n${expenseSummaryText}`;
+            rationaleString += `\n7. Rimborsi e Spese Extra:\n${expenseSummaryText}`;
         }
 
         document.getElementById('rationaleText').innerText = rationaleString;
 
-        // Email dettagliata per il cliente
-        let emailExpenseNote = totalClientExpenses > 0 ? `\n- Rimborsi spese / pernottamenti a carico del cliente: €${totalClientExpenses}` : '\n- Spese di trasferta/produzione: Non incluse / A carico del creator';
+        let emailExpenseNote = totalClientExpenses > 0 ? `\n- Rimborsi spese / pernottamenti a carico del cliente: €${totalClientExpenses}` : '\n- Spese vive: Non incluse';
         
         document.getElementById('emailBody').innerText = `Gentile Team,
 
-in merito alla richiesta di collaborazione definita nel vostro brief ("${description}"), vi sottopongo la proposta economica strutturata in base all'effettivo perimetro delle attività, alla complessità di produzione e al valore strategico della copertura sui miei canali (${followers.toLocaleString('it-IT')} follower attivi).
+in merito alla proposta di collaborazione (${description ? '"' + description + '"' : 'progetto concordato'}), vi sottopongo il preventivo calibrato sui reali standard di mercato e sul valore della mia community (${followers.toLocaleString('it-IT')} follower).
 
-Le soluzioni proposte si suddividono in tre livelli di servizio:
+Le opzioni di fornitura si dividono in:
 
-1. OPZIONE ESSENZIALE: €${baseGross} (IVA esclusa se applicabile)
-   - Realizzazione dei contenuti secondo specifiche standard.
+1. OPZIONE ESSENZIALE: €${baseGross} (IVA esclusa)
+   - Realizzazione dei contenuti concordati.
    - 1 round di revisione incluso.
-   - Cessione diritti di sfruttamento per 12 mesi sui canali ufficiali.
+   - Diritti di pubblicazione standard sui canali ufficiali.
 
-2. OPZIONE PRO / CONSIGLIATA: €${recGross} (IVA esclusa se applicabile)
-   - Copertura completa e dettagliata del brief concordato.
-   - Fino a 3 round di revisioni approfondite.
-   - Report di performance e analytics post-campagna.${emailExpenseNote}
+2. OPZIONE PRO / CONSIGLIATA: €${recGross} (IVA esclusa)
+   - Copertura completa del brief con ottimizzazione.
+   - Fino a 2 round di revisioni.${emailExpenseNote}
 
-3. OPZIONE COMPLETA & PRIORITY: €${premGross} (IVA esclusa se applicabile)
-   - Soluzione All-Inclusive con gestione prioritaria delle tempistiche.
-   - Revisioni illimitate e inclusione di diritti estesi/adv.
-   - Call strategiche dedicate e supporto continuativo.
+3. OPZIONE COMPLETA & PRIORITY: €${premGross} (IVA esclusa)
+   - Soluzione all-inclusive con gestione prioritaria.
+   - Revisioni illimitate e massima flessibilità.
 
-Resto a disposizione per un confronto telefonico per approfondire la linea creativa o definire eventuali personalizzazioni.
+Resto a disposizione per un confronto telefonico.
 
 Un cordiale saluto,
 [Tuo Nome]
 [Tuo Ruolo / Creator]`;
 
-        // Obiezioni
-        document.getElementById('objDefense').innerText = `"Comprendo la vostra esigenza di budget, tuttavia il prezzo di €${recGross} riflette puntualmente l'impegno produttivo, la stesura dei contenuti e la visibilità della mia audience (${followers.toLocaleString('it-IT')} follower) così come richiesto nel brief."`;
-        document.getElementById('objDescoping').innerText = `"Se avete la necessità di rientrare in un budget inferiore, possiamo rimodulare il brief iniziale optando per la versione Essenziale a €${baseGross}, riducendo il perimetro delle attività."`;
-        document.getElementById('objTradeoff').innerText = `"Posso applicare un margine di favore del 5% sull'opzione Pro (€${Math.round(recGross * 0.95)}) esclusivamente a fronte della conferma degli accordi e del saldo anticipato entro questa settimana."`;
+        document.getElementById('objDefense').innerText = `"Comprendo il budget aziendale, tuttavia la tariffa di €${recGross} riflette i normali benchmark di mercato italiani e l'impegno qualitativo richiesto per valorizzare al meglio il brand."`;
+        document.getElementById('objDescoping').innerText = `"Se avete necessità di ottimizzare la spesa, possiamo valutare la formula Essenziale a €${baseGross} adattando leggermente il perimetro delle consegne."`;
+        document.getElementById('objTradeoff').innerText = `"Posso applicare un piccolo agevolamento del 5% sull'opzione Pro (€${Math.round(recGross * 0.95)}) a fronte di una conferma immediata e della chiusura degli accordi entro la settimana."`;
 
         document.getElementById('resultsBlock').style.display = 'block';
         document.getElementById('resultsBlock').scrollIntoView({ behavior: 'smooth' });
