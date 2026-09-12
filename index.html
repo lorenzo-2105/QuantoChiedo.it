@@ -559,14 +559,14 @@
                 </div>
                 <div class="field-group">
                     <label>STIMA ORE DI LAVORO</label>
-                    <input type="number" id="hours" value="7">
+                    <input type="number" id="hours" value="0" placeholder="Es. 7">
                 </div>
             </div>
 
             <div class="config-grid">
                 <div class="field-group">
                     <label>FOLLOWER / AUDIENCE</label>
-                    <input type="number" id="followers" value="50000" placeholder="Es. 50000">
+                    <input type="number" id="followers" value="0" placeholder="Es. 50000">
                 </div>
                 <div class="field-group">
                     <label>DESCRIZIONE (Es. 1 reel, 5 storie e 2 caroselli...)</label>
@@ -726,19 +726,23 @@
     }
 
     function calculatePricing() {
-        const serviceType = document.getElementById('serviceType').value;
         const description = document.getElementById('description').value.trim();
         const level = document.getElementById('level').value;
-        const hours = parseFloat(document.getElementById('hours').value) || 7;
-        const followers = parseInt(document.getElementById('followers').value) || 50000;
+        
+        // Se i campi sono a 0 o vuoti, usiamo i valori di default di riferimento (50k follower e 7 ore)
+        const inputFollowers = parseInt(document.getElementById('followers').value);
+        const inputHours = parseFloat(document.getElementById('hours').value);
+
+        const followers = (!isNaN(inputFollowers) && inputFollowers > 0) ? inputFollowers : 50000;
+        const hours = (!isNaN(inputHours) && inputHours > 0) ? inputHours : 7;
 
         if (!description) {
             alert('Inserisci una breve descrizione del progetto (es. 1 reel, 5 storie, 2 caroselli...).');
             return;
         }
 
-        // --- BASE MATEMATICA DI PARTENZA ---
-        let baseStandard = 300;
+        // --- BASE MATEMATICA RICHIESTA ---
+        let baseStandard = 400;
         let proStandard = 500;
         let completeStandard = 650;
 
@@ -759,9 +763,8 @@
 
         let workloadMultiplier = 1.0;
         if (numReels > 0 || numStories > 0 || numCarousels > 0) {
-            // Ponderazione specifica: Reel = 2.5, Carosello = 1.5, Storia = 0.25
             let equivalentWork = (numReels * 2.5) + (numCarousels * 1.5) + (numStories * 0.25);
-            let standardReferenceWork = (1 * 2.5) + (10 * 0.25); // Riferimento standard di calcolo
+            let standardReferenceWork = (1 * 2.5) + (10 * 0.25); 
             
             workloadMultiplier = equivalentWork / standardReferenceWork;
             if (workloadMultiplier < 0.4) workloadMultiplier = 0.4;
