@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Smart Pricing & Financial Analytics</title>
+    <title>QuantoChiedo.it | Professional Creator Pricing Analytics</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
             --fin-emerald: #10b981;
             --fin-emerald-hover: #059669;
             --bg-dark: #090d16;
-            --card-glass: rgba(15, 23, 42, 0.7);
+            --card-glass: rgba(15, 23, 42, 0.75);
             --border-glass: rgba(255, 255, 255, 0.08);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
@@ -242,6 +242,13 @@
             border-color: var(--fin-emerald);
         }
 
+        .keyword-hints {
+            font-size: 0.73rem;
+            color: var(--fin-emerald);
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
         /* Tasto Toggle Compatto per Spese Extra */
         .toggle-extra-btn {
             background: rgba(255, 255, 255, 0.04);
@@ -322,6 +329,7 @@
             backdrop-filter: blur(20px);
             animation: fadeIn 0.4s ease-out forwards;
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            text-align: left;
         }
 
         @keyframes fadeIn {
@@ -410,12 +418,41 @@
             font-size: 0.7rem;
         }
 
-        .email-box-area {
-            background: rgba(0,0,0,0.35);
-            border-radius: 12px;
+        /* Sezione Spiegazione Analitica per il Creator */
+        .creator-rationale-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 14px;
             padding: 20px;
-            margin-top: 20px;
+            margin-top: 24px;
+        }
+
+        .rationale-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--fin-emerald);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rationale-content {
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+
+        /* Email Breve per il Cliente */
+        .email-short-box {
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 24px;
         }
 
         .email-preview-text {
@@ -429,27 +466,7 @@
             line-height: 1.6;
         }
 
-        .btn-copy {
-            background: rgba(255,255,255,0.08);
-            color: white;
-            border: 1px solid var(--border-glass);
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: background 0.2s;
-        }
-
-        .btn-copy:hover {
-            background: rgba(255,255,255,0.15);
-        }
-
-        /* Sezione Obiezioni */
+        /* Sezione Obiezioni Sconto */
         .objection-btn {
             width: 100%;
             background: rgba(245, 158, 11, 0.08);
@@ -506,6 +523,26 @@
             color: var(--text-main);
             line-height: 1.5;
         }
+
+        .btn-copy {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border: 1px solid var(--border-glass);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .btn-copy:hover {
+            background: rgba(255,255,255,0.15);
+        }
     </style>
 </head>
 <body>
@@ -526,7 +563,7 @@
     <!-- HERO SECTION -->
     <section class="hero-section">
         <h1 class="hero-title">Quanto vale il tuo lavoro?</h1>
-        <p class="hero-subtitle">Tariffe realistiche basate su follower, ore e complessità del progetto.</p>
+        <p class="hero-subtitle">Tariffe basate su benchmark di mercato, follower, ore e parole chiave strategiche.</p>
 
         <div class="counter-box">
             <div class="counter-label">Più di 10k preventivi e analisi elaborate</div>
@@ -542,7 +579,7 @@
                     <option value="videomaker">🎥 Videomaker / Fotografo</option>
                     <option value="consultant">📊 Consulente / Strategist</option>
                 </select>
-                <button class="btn-search-main" onclick="calculatePricing()">Analizza</button>
+                <button class="btn-search-main" onclick="calculatePricing()">Analizza Prezzi</button>
             </div>
         </div>
 
@@ -558,19 +595,20 @@
                     </select>
                 </div>
                 <div class="field-group">
-                    <label>STIMA ORE DI LAVORO</label>
+                    <label>STIMA ORE DI LAVORO (Lascia 0 per default: 7h)</label>
                     <input type="number" id="hours" value="0" placeholder="Es. 7">
                 </div>
             </div>
 
             <div class="config-grid">
                 <div class="field-group">
-                    <label>FOLLOWER / AUDIENCE</label>
+                    <label>FOLLOWER / AUDIENCE (Lascia 0 per default: 50.000)</label>
                     <input type="number" id="followers" value="0" placeholder="Es. 50000">
                 </div>
                 <div class="field-group">
-                    <label>DESCRIZIONE (Es. 1 reel, 10 storie e caroselli...)</label>
-                    <input type="text" id="description" value="" placeholder="Es. 1 reel, 10 storie, 2 caroselli">
+                    <label>DESCRIZIONE E KEYWORD STRATEGICHE</label>
+                    <input type="text" id="description" value="1 reel, 10 storie, esclusiva, whitelisting" placeholder="Es. 1 reel, 10 storie, esclusiva, ads...">
+                    <div class="keyword-hints">💡 Parole chiave che alzano il prezzo: <b>esclusiva, adv, ads, whitelisting, dark post, finanza, tech, urgente</b></div>
                 </div>
             </div>
 
@@ -599,7 +637,7 @@
 
     <!-- SEZIONE RISULTATI REPORT -->
     <div class="results-wrapper" id="resultsBlock">
-        <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--fin-emerald);">📈 Report & Pacchetti Consigliati</h2>
+        <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--fin-emerald);">📈 Report & Pacchetti Consigliati (Market Verified)</h2>
         
         <div class="results-grid">
             <div class="tier-box">
@@ -631,33 +669,38 @@
             </div>
         </div>
 
-        <div id="resJustification" style="font-size: 0.85rem; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 14px; border-radius: 10px; margin-bottom: 20px; line-height: 1.5;"></div>
+        <!-- SEZIONE SPIEGAZIONE ANALITICA PER IL CREATOR -->
+        <div class="creator-rationale-box">
+            <div class="rationale-title">🧠 Analisi dei Calcoli & Driver di Mercato (Perché questa cifra?)</div>
+            <div class="rationale-content" id="rationaleText"></div>
+        </div>
 
-        <div class="email-box-area">
-            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">TESTO EMAIL PRONTO PER IL CLIENTE (CON DESCRIZIONE DETTAGLIATA)</label>
+        <!-- SEZIONE EMAIL BREVE PRONTA PER IL CLIENTE -->
+        <div class="email-short-box">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">✉️ EMAIL BREVE PER IL CLIENTE</label>
             <div class="email-preview-text" id="emailBody"></div>
-            <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
+            <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Email Cliente</button>
+        </div>
 
-            <button class="objection-btn" onclick="toggleObjections()">
-                💬 Gestione Obiezioni Sconto (Cosa dire se chiedono un ribasso)
-            </button>
+        <button class="objection-btn" onclick="toggleObjections()" style="margin-top: 20px;">
+            💬 Gestione Obiezioni Sconto (Cosa dire se chiedono un ribasso)
+        </button>
 
-            <div class="objection-box" id="objectionsBlock">
-                <div class="objection-card">
-                    <div class="obj-title">1. Difesa del Valore (Nessun Sconto)</div>
-                    <div class="obj-desc" id="objDefense"></div>
-                    <button class="btn-copy" onclick="copyText('objDefense')" style="margin-top:8px;">Copia Risposta</button>
-                </div>
-                <div class="objection-card">
-                    <div class="obj-title">2. Descoping (Riduzione Attività)</div>
-                    <div class="obj-desc" id="objDescoping"></div>
-                    <button class="btn-copy" onclick="copyText('objDescoping')" style="margin-top:8px;">Copia Risposta</button>
-                </div>
-                <div class="objection-card">
-                    <div class="obj-title">3. Trade-off (Sconto vs Saldo Anticipato)</div>
-                    <div class="obj-desc" id="objTradeoff"></div>
-                    <button class="btn-copy" onclick="copyText('objTradeoff')" style="margin-top:8px;">Copia Risposta</button>
-                </div>
+        <div class="objection-box" id="objectionsBlock">
+            <div class="objection-card">
+                <div class="obj-title">1. Difesa del Valore (Nessun Sconto)</div>
+                <div class="obj-desc" id="objDefense"></div>
+                <button class="btn-copy" onclick="copyText('objDefense')">Copia Risposta</button>
+            </div>
+            <div class="objection-card">
+                <div class="obj-title">2. Descoping (Riduzione Attività)</div>
+                <div class="obj-desc" id="objDescoping"></div>
+                <button class="btn-copy" onclick="copyText('objDescoping')">Copia Risposta</button>
+            </div>
+            <div class="objection-card">
+                <div class="obj-title">3. Trade-off (Sconto vs Saldo Anticipato)</div>
+                <div class="obj-desc" id="objTradeoff"></div>
+                <button class="btn-copy" onclick="copyText('objTradeoff')">Copia Risposta</button>
             </div>
         </div>
     </div>
@@ -736,50 +779,71 @@
         const hours = (!isNaN(inputHours) && inputHours > 0) ? inputHours : 7;
 
         if (!description) {
-            alert('Inserisci una breve descrizione del progetto (es. 1 reel, 10 storie, caroselli...).');
+            alert('Inserisci una descrizione del progetto.');
             return;
         }
 
-        // --- TARIFFE BASE ESatte RICHIESTE ---
-        let baseStandard = 400;
-        let proStandard = 500;
-        let completeStandard = 650;
+        // Tariffe base di mercato
+        let baseStandard = 400;     
+        let proStandard = 500;      
+        let completeStandard = 650; 
 
         let followerRatio = followers / 50000;
         let hoursRatio = hours / 7;
-        let weightFactor = (followerRatio * 0.6) + (hoursRatio * 0.4);
+        let baseWeight = (followerRatio * 0.65) + (hoursRatio * 0.35);
 
-        let calculatedBase = baseStandard * weightFactor;
-        let calculatedPro = proStandard * weightFactor;
-        let calculatedComplete = completeStandard * weightFactor;
+        let calculatedBase = baseStandard * baseWeight;
+        let calculatedPro = proStandard * baseWeight;
+        let calculatedComplete = completeStandard * baseWeight;
 
-        // --- ANALISI DINAMICA DEI VOLUMI (Reel, Storie, Caroselli) ---
         const lowerDesc = description.toLowerCase();
-        
+        let keywordExtraMultiplier = 1.0;
+        let detectedKeywordsDetails = [];
+
+        if (lowerDesc.includes('esclusiva') || lowerDesc.includes('esclusività')) {
+            keywordExtraMultiplier += 0.20;
+            detectedKeywordsDetails.push({ name: 'Esclusività di settore', impact: '+20%' });
+        }
+        if (lowerDesc.includes('adv') || lowerDesc.includes('ads') || lowerDesc.includes('sponsor') || lowerDesc.includes('whitelisting') || lowerDesc.includes('dark post')) {
+            keywordExtraMultiplier += 0.30;
+            detectedKeywordsDetails.push({ name: 'Diritti ADV / Whitelisting / Dark Post', impact: '+30%' });
+        }
+        if (lowerDesc.includes('finanza') || lowerDesc.includes('tech') || lowerDesc.includes('crypto') || lowerDesc.includes('legal') || lowerDesc.includes('medico')) {
+            keywordExtraMultiplier += 0.25;
+            detectedKeywordsDetails.push({ name: 'Nicchia ad alto valore (Finanza/Tech/Legal)', impact: '+25%' });
+        }
+        if (lowerDesc.includes('urgente') || lowerDesc.includes('express') || lowerDesc.includes('subito')) {
+            keywordExtraMultiplier += 0.15;
+            detectedKeywordsDetails.push({ name: 'Priorità / Consegna Urgente', impact: '+15%' });
+        }
+        if (lowerDesc.includes('brand ambassador') || lowerDesc.includes('continuativa') || lowerDesc.includes('ambassador')) {
+            keywordExtraMultiplier += 0.15;
+            detectedKeywordsDetails.push({ name: 'Accordo Brand Ambassador', impact: '+15%' });
+        }
+
+        calculatedBase *= keywordExtraMultiplier;
+        calculatedPro *= keywordExtraMultiplier;
+        calculatedComplete *= keywordExtraMultiplier;
+
         let numReels = extractQuantity(lowerDesc, 'reel|video');
         let numStories = extractQuantity(lowerDesc, 'storia|storie');
         let numCarousels = extractQuantity(lowerDesc, 'carosello|caroselli');
 
         let workloadMultiplier = 1.0;
+        let volumeDescriptionStr = "Volumi standard di riferimento (1 Reel, 10 Storie)";
         if (numReels > 0 || numStories > 0 || numCarousels > 0) {
             let equivalentWork = (numReels * 2.5) + (numCarousels * 1.5) + (numStories * 0.25);
-            let standardReferenceWork = (1 * 2.5) + (10 * 0.25); // Riferimento 1 reel e 10 storie
+            let standardReferenceWork = (1 * 2.5) + (10 * 0.25);
             
             workloadMultiplier = equivalentWork / standardReferenceWork;
-            if (workloadMultiplier < 0.4) workloadMultiplier = 0.4;
-        } else {
-            if (lowerDesc.includes('complesso') || lowerDesc.includes('ecommerce') || lowerDesc.includes('strategia')) {
-                workloadMultiplier = 1.30;
-            } else if (lowerDesc.includes('bozza') || lowerDesc.includes('post singolo')) {
-                workloadMultiplier = 0.80;
-            }
+            if (workloadMultiplier < 0.5) workloadMultiplier = 0.5;
+            volumeDescriptionStr = `Rilevati volumi specifici: ${numReels} Reel, ${numCarousels} Caroselli, ${numStories} Storie (Peso di lavoro: ${(workloadMultiplier * 100).toFixed(0)}%)`;
         }
 
         calculatedBase *= workloadMultiplier;
         calculatedPro *= workloadMultiplier;
         calculatedComplete *= workloadMultiplier;
 
-        // Modificatore Seniority
         let levelFactor = 1.0;
         if (level.includes('Junior')) levelFactor = 0.85;
         if (level.includes('Senior')) levelFactor = 1.25;
@@ -788,9 +852,8 @@
         calculatedPro *= levelFactor;
         calculatedComplete *= levelFactor;
 
-        // Calcolo Spese Extra a carico del cliente
         let totalClientExpenses = 0;
-        let expenseDetailsText = "";
+        let expenseSummaryText = "";
         const descInputs = document.querySelectorAll('.expense-desc');
         const costInputs = document.querySelectorAll('.expense-cost');
         const payerInputs = document.querySelectorAll('.expense-payer');
@@ -800,17 +863,12 @@
             let cost = parseFloat(costInputs[i].value) || 0;
             let payer = payerInputs[i].value;
 
-            if (cost > 0) {
-                if (payer === 'client') {
-                    totalClientExpenses += cost;
-                    expenseDetailsText += `- ${name ? name : 'Spesa extra'}: €${cost} (a carico cliente)\n`;
-                } else {
-                    expenseDetailsText += `- ${name ? name : 'Spesa extra'}: €${cost} (a carico mio)\n`;
-                }
+            if (cost > 0 && payer === 'client') {
+                totalClientExpenses += cost;
+                expenseSummaryText += `• ${name || 'Spesa extra'}: +€${cost}\n`;
             }
         }
 
-        // Totali finali arrotondati
         let baseGross = Math.round(calculatedBase + totalClientExpenses);
         let recGross = Math.round(calculatedPro + totalClientExpenses);
         let premGross = Math.round(calculatedComplete + totalClientExpenses);
@@ -819,30 +877,46 @@
         let recNet = Math.round(recGross * 0.78);
         let premNet = Math.round(premGross * 0.78);
 
-        // Popolamento HTML
+        // UI Riempi
         document.getElementById('tBaseName').innerText = "Essenziale";
         document.getElementById('tBaseGross').innerText = "€" + baseGross;
         document.getElementById('tBaseNet').innerText = "Netto st.: €" + baseNet;
-        document.getElementById('tBaseFeatures').innerHTML = `<li>Consegna standard (${hours} ore)</li><li>Target: ${followers.toLocaleString('it-IT')} follower</li><li>1 round di revisioni</li>`;
+        document.getElementById('tBaseFeatures').innerHTML = `<li>Consegna standard (${hours} ore)</li><li>Audience: ${followers.toLocaleString('it-IT')} follower</li><li>1 round revisione</li>`;
 
         document.getElementById('tRecName').innerText = "Pro / Consigliato";
         document.getElementById('tRecGross').innerText = "€" + recGross;
         document.getElementById('tRecNet').innerText = "Netto st.: €" + recNet;
-        document.getElementById('tRecFeatures').innerHTML = `<li>Perimetro: "${description}"</li><li>Fino a 3 round di revisioni</li><li>Report di performance incluso</li>`;
+        document.getElementById('tRecFeatures').innerHTML = `<li>Perimetro: "${description}"</li><li>Fino a 3 round revisioni</li><li>Report performance</li>`;
 
         document.getElementById('tPremName').innerText = "Completo & Priority";
         document.getElementById('tPremGross').innerText = "€" + premGross;
         document.getElementById('tPremNet').innerText = "Netto st.: €" + premNet;
-        document.getElementById('tPremFeatures').innerHTML = `<li>Soluzione All-Inclusive prioritaria</li><li>Revisioni illimitate</li><li>Supporto e call strategiche dedicate</li>`;
+        document.getElementById('tPremFeatures').innerHTML = `<li>All-Inclusive prioritario</li><li>Revisioni illimitate</li><li>Call strategiche</li>`;
 
-        let expenseSummaryString = totalClientExpenses > 0 ? ` (inclusi €${totalClientExpenses} di rimborsi spese cliente)` : '';
-        document.getElementById('resJustification').innerText = `Analisi completata basata su ${followers.toLocaleString('it-IT')} follower, ${hours} ore stimate e perimetro "${description}"${expenseSummaryString}.`;
-        
-        let emailExpensesBlock = expenseDetailsText !== "" ? `\n\nDettaglio costi e spese accessorie gestite:\n${expenseDetailsText}` : '';
+        // Analisi interna per il creator
+        let keywordsLogStr = detectedKeywordsDetails.length > 0 
+            ? detectedKeywordsDetails.map(k => `  - ${k.name} (${k.impact})`).join('\n') 
+            : "  - Nessuna keyword ad alto impatto rilevata";
 
-        // Testo Email con Descrizione Dettagliata
-        document.getElementById('emailBody').innerText = `Buongiorno,\n\nIn riferimento agli accordi preliminari e alle specifiche tecniche per la campagna sui social media, ho elaborato un preventivo strutturato focalizzato sulla qualità e sul raggiungimento dei vostri obiettivi di comunicazione.\n\nPROGETTO E PERIMETRO DELLE ATTIVITÀ:\n- Deliverable richiesti: ${description}\n- Audience di riferimento / Copertura stimata: ${followers.toLocaleString('it-IT')} follower attivi\n- Impegno tecnico e creativo stimato: ${hours} ore di lavoro specializzato (ideazione, scrittura script, produzione, montaggio, ottimizzazione e copywriting)\n\nPROPOSTA ECONOMICA SUDDIVISA PER PACCHETTI:\n\n1. Opzione Essenziale: €${baseGross}\n   - Include la produzione dei contenuti concordati con standard qualitativi professionali, 1 round di revisioni e la consegna nei tempi stabiliti.\n\n2. Opzione Pro (Consigliata): €${recGross}\n   - Soluzione ottimale che include l'intero perimetro, fino a 3 round di revisioni mirate, cura sartoriale del format e report di performance finale.\n\n3. Opzione Completa & Priority: €${premGross}\n   - Pacchetto All-Inclusive prioritario con revisioni illimitate, supporto strategico dedicato e sessioni di consulenza approfondite.${emailExpensesBlock}\n\nResto a completa disposizione per definire insieme l'opzione più adatta alle vostre esigenze e procedere con la pianificazione.\n\nUn cordiale saluto,\n[Tuo Nome]`;
+        let rationaleString = `1. Base di Partenza: Benchmark italiani per creator con 50k follower e 7h di lavoro (Tariffa Pro standard: €500).
+2. Peso Audience & Ore: Con ${followers.toLocaleString('it-IT')} follower e ${hours} ore stimate, il coefficiente applicato è di ${(baseWeight).toFixed(2)}x.
+3. Seniority (${level}): Moltiplicatore livello pari a ${levelFactor}x.
+4. Volumi & Deliverable: ${volumeDescriptionStr}.
+5. Keyword Strategiche Rilevate nella Descrizione:
+${keywordsLogStr}
+(Moltiplicatore complessivo keyword: x${keywordExtraMultiplier.toFixed(2)})`;
 
+        if (totalClientExpenses > 0) {
+            rationaleString += `\n6. Rimborsi e Spese Extra a carico cliente:\n${expenseSummaryText}`;
+        }
+
+        document.getElementById('rationaleText').innerText = rationaleString;
+
+        // Email breve per il cliente
+        let emailExpenseNote = totalClientExpenses > 0 ? `\n- Spese extra/rimborsi a carico cliente: €${totalClientExpenses}` : '';
+        document.getElementById('emailBody').innerText = `Buongiorno,\n\nIn merito alla richiesta per "${description}", vi propongo le seguenti soluzioni:\n\n1. Opzione Essenziale: €${baseGross}\n2. Opzione Pro (Consigliata): €${recGross}\n3. Opzione Completa & Priority: €${premGross}${emailExpenseNote}\n\nResto a disposizione per definire i dettagli.\n\nUn saluto,\n[Tuo Nome]`;
+
+        // Obiezioni
         document.getElementById('objDefense').innerText = `"Comprendo la vostra esigenza di budget, tuttavia il prezzo di €${recGross} riflette l'impegno tecnico, la visibilità dell'audience (${followers.toLocaleString('it-IT')} follower) e le ore pianificate."`;
         document.getElementById('objDescoping').innerText = `"Se avete la necessità di rientrare in un budget inferiore, possiamo optare per la versione Essenziale a €${baseGross}, riducendo o ottimizzando il perimetro delle attività."`;
         document.getElementById('objTradeoff').innerText = `"Posso applicare un piccolo margine di favore del 5% sull'opzione Pro (€${Math.round(recGross * 0.95)}) esclusivamente se definiamo l'accordo e il saldo anticipato entro questa settimana."`;
