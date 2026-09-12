@@ -798,8 +798,8 @@
             if (posts > 0) deliverablesSummary.push(`${posts} Post`);
         }
 
-        // Calcolo carico basato sui Reel (370€) e rimodulazione storie a 20€ l'una
-        let workloadUnits = (reels * 370) + (stories * 20) + (tiktoks * 370) + (carousels * 250) + (posts * 200);
+        // Calcolo carico con storie a 10€ l'una
+        let workloadUnits = (reels * 370) + (stories * 10) + (tiktoks * 370) + (carousels * 250) + (posts * 200);
         let standardReference = 370; // 1 Reel base
         let workloadRatio = workloadUnits > 0 ? (workloadUnits / standardReference) : 1.0;
         if (workloadRatio < 0.5) workloadRatio = 0.5;
@@ -857,10 +857,10 @@
 
         const semantics = parseDescriptionSemantics(description);
 
-        // Tariffe base precise: 370 base, 500 medio, 650 pro per 50k follower (con storie ponderate a 20€)
-        let baseStandard = 370;     
-        let proStandard = 500;      
-        let completeStandard = 650; 
+        // Tariffe base precise con abbassamento generale del 5% (fattore 0.95)
+        let baseStandard = 370 * 0.95;     
+        let proStandard = 500 * 0.95;      
+        let completeStandard = 650 * 0.95; 
 
         let followerRatio = followers / 50000;
         let hoursRatio = hours / 5;
@@ -923,7 +923,7 @@
             : "  - Nessuna richiesta extra complessa rilevata";
 
         let rationaleString = `1. Analisi Semantica del Brief: Rilevati -> [ ${semantics.deliverablesSummary} ].
-2. Tariffe base di riferimento (50k follower): Reel Base €370 | Medio €500 | Pro €650 (Storie calcolate a €20 l'una).
+2. Tariffe base di riferimento (50k follower, scontate del 5%): Reel Base €351.50 | Medio €475 | Pro €617.50 (Storie calcolate a €10 l'una).
 3. Peso del Contesto (Brand importante / Locale Milano / Piccolo ristorante): Correttivo applicato tramite semantica.
 4. Audience & Ore: ${followers.toLocaleString('it-IT')} follower e ${hours}h stimate.
 5. Seniority (${level}): Correttivo x${levelFactor}.
