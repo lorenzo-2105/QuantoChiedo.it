@@ -537,7 +537,7 @@
         <div class="search-area-wrapper">
             <div class="search-card">
                 <select id="serviceType">
-                    <option value="creator">✨ Content Creator / UGC / Influencer (Base 50k / 7h)</option>
+                    <option value="creator">✨ Content Creator / UGC / Influencer</option>
                     <option value="freelance">💼 Freelancer / Developer / Copywriter</option>
                     <option value="videomaker">🎥 Videomaker / Fotografo</option>
                     <option value="consultant">📊 Consulente / Strategist</option>
@@ -569,8 +569,8 @@
                     <input type="number" id="followers" value="50000" placeholder="Es. 50000">
                 </div>
                 <div class="field-group">
-                    <label>DESCRIZIONE DEL PROGETTO (Es. 1 reel e 10 storie...)</label>
-                    <input type="text" id="description" value="1 reel e 10 storie" placeholder="Es. 1 reel e 10 storie, sponsorizzazione brand...">
+                    <label>DESCRIZIONE (Es. 1 reel, 5 storie e 2 caroselli...)</label>
+                    <input type="text" id="description" value="" placeholder="Es. 1 reel, 5 storie e 2 caroselli">
                 </div>
             </div>
 
@@ -733,7 +733,7 @@
         const followers = parseInt(document.getElementById('followers').value) || 50000;
 
         if (!description) {
-            alert('Inserisci una breve descrizione del progetto.');
+            alert('Inserisci una breve descrizione del progetto (es. 1 reel, 5 storie, 2 caroselli...).');
             return;
         }
 
@@ -750,16 +750,18 @@
         let calculatedPro = proStandard * weightFactor;
         let calculatedComplete = completeStandard * weightFactor;
 
-        // --- ANALISI DINAMICA DEI VOLUMI NELLA DESCRIZIONE ---
+        // --- ANALISI DINAMICA DEI VOLUMI (Reel, Storie, Caroselli) ---
         const lowerDesc = description.toLowerCase();
         
         let numReels = extractQuantity(lowerDesc, 'reel|video');
         let numStories = extractQuantity(lowerDesc, 'storia|storie');
+        let numCarousels = extractQuantity(lowerDesc, 'carosello|caroselli');
 
         let workloadMultiplier = 1.0;
-        if (numReels > 0 || numStories > 0) {
-            let equivalentWork = (numReels * 2.5) + (numStories * 0.25);
-            let standardReferenceWork = (1 * 2.5) + (10 * 0.25); // = 5.0 (riferimento 1 reel + 10 storie)
+        if (numReels > 0 || numStories > 0 || numCarousels > 0) {
+            // Ponderazione specifica: Reel = 2.5, Carosello = 1.5, Storia = 0.25
+            let equivalentWork = (numReels * 2.5) + (numCarousels * 1.5) + (numStories * 0.25);
+            let standardReferenceWork = (1 * 2.5) + (10 * 0.25); // Riferimento standard di calcolo
             
             workloadMultiplier = equivalentWork / standardReferenceWork;
             if (workloadMultiplier < 0.4) workloadMultiplier = 0.4;
