@@ -461,7 +461,7 @@
 
         <div class="counter-box">
             <div class="counter-label">Preventivi & Analisi Elaborate</div>
-            <div class="counter-number" id="dynamicCounter">28.490.112</div>
+            <div class="counter-number" id="dynamicCounter">5.000</div>
         </div>
 
         <!-- BARRA INPUT PRINCIPALE -->
@@ -579,8 +579,8 @@
 </div>
 
 <script>
-    // Contatore dinamico che incrementa leggermente nel tempo
-    let currentCounter = 28490112;
+    // Contatore dinamico che parte da 5.000 e incrementa nel tempo
+    let currentCounter = 5000;
     setInterval(() => {
         currentCounter += Math.floor(Math.random() * 3) + 1;
         document.getElementById('dynamicCounter').innerText = currentCounter.toLocaleString('it-IT');
@@ -592,6 +592,7 @@
     }
 
     function calculatePricing() {
+        const serviceType = document.getElementById('serviceType').value;
         const description = document.getElementById('description').value;
         const level = document.getElementById('level').value;
         const hours = parseFloat(document.getElementById('hours').value) || 10;
@@ -603,26 +604,35 @@
             return;
         }
 
-        // Calcolo tariffa oraria in base al livello
-        let hourlyRate = 38;
-        if (level.includes('Junior')) hourlyRate = 25;
-        if (level.includes('Senior')) hourlyRate = 60;
+        // 1. Tariffa base oraria dinamica in base alla categoria scelta
+        let baseMultiplier = 30;
+        if (serviceType === 'creator') baseMultiplier = 35;
+        if (serviceType === 'videomaker') baseMultiplier = 45;
+        if (serviceType === 'consultant') baseMultiplier = 55;
 
-        let subtotal = (hours * hourlyRate) + travelCost;
-        if (followers > 50000) {
-            subtotal += Math.round(followers * 0.005);
+        // 2. Modificatore basato sulla seniority
+        let levelFactor = 1.0;
+        if (level.includes('Junior')) levelFactor = 0.8;
+        if (level.includes('Senior')) levelFactor = 1.4;
+
+        // 3. Calcolo subtotale basato sui campi effettivi inseriti dall'utente
+        let calculatedSubtotal = (hours * baseMultiplier * levelFactor) + travelCost;
+        
+        if (followers > 0) {
+            calculatedSubtotal += (followers * 0.003); // Bonus audience dinamico
         }
 
-        let baseGross = Math.round(subtotal * 0.85);
-        let recGross = Math.round(subtotal * 1.25);
-        let premGross = Math.round(subtotal * 1.70);
+        // Generazione dei tre tier con cifre dinamiche reali
+        let baseGross = Math.round(calculatedSubtotal);
+        let recGross = Math.round(calculatedSubtotal * 1.35);
+        let premGross = Math.round(calculatedSubtotal * 1.75);
 
         // Stima netto (regime fiscale medio ~78%)
         let baseNet = Math.round(baseGross * 0.78);
         let recNet = Math.round(recGross * 0.78);
         let premNet = Math.round(premGross * 0.78);
 
-        // Popola i dati dei tier
+        // Popola i dati dei tier nell'HTML
         document.getElementById('tBaseName').innerText = "Essenziale";
         document.getElementById('tBaseGross').innerText = "€" + baseGross;
         document.getElementById('tBaseNet').innerText = "Netto st.: €" + baseNet;
@@ -638,19 +648,19 @@
         document.getElementById('tPremNet').innerText = "Netto st.: €" + premNet;
         document.getElementById('tPremFeatures').innerHTML = "<li>Soluzione All-Inclusive</li><li>Revisioni illimitate</li><li>Call strategica dedicata</li><li>Canale WhatsApp diretto</li>";
 
-        document.getElementById('resJustification').innerText = "Analisi completata con successo per il progetto: \"" + description + "\". I parametri elaborati incrociano il profilo \"" + level + "\" con un impegno stimato di " + hours + " ore e costi vivi di " + travelCost + "€.";
+        document.getElementById('resJustification').innerText = "Analisi completata per il settore \"" + serviceType.toUpperCase() + "\" con descrizione: \"" + description + "\". Parametri elaborati: profilo " + level + ", " + hours + " ore stimate, " + followers + " follower e " + travelCost + "€ di extra.";
         
-        document.getElementById('emailBody').innerText = "Buongiorno,\n\nIn riferimento alle specifiche concordate per il progetto \"" + description + "\", ho elaborato un'analisi dettagliata suddividendo la proposta in tre differenti livelli:\n\n1. Opzione Essenziale: €" + baseGross + "\n2. Opzione Pro (Consigliata): €" + recGross + "\n3. Opzione Completa & Priority: €" + premGross + "\n\nResto a disposizione per qualsiasi chiarimento o per procedere.\n\nUn saluto,\n[Tuo Nome]";
+        document.getElementById('emailBody').innerText = "Buongiorno,\n\nIn riferimento alle specifiche concordate per il progetto \"" + description + "\", ho elaborato un'analisi dettagliata suddividendo la proposta economica:\n\n1. Opzione Essenziale: €" + baseGross + "\n2. Opzione Pro (Consigliata): €" + recGross + "\n3. Opzione Completa & Priority: €" + premGross + "\n\nResto a disposizione per qualsiasi chiarimento.\n\nUn saluto,\n[Tuo Nome]";
 
-        // Testi obiezioni
-        document.getElementById('objDefense').innerText = "\"Comprendo la vostra esigenza di budget, tuttavia il prezzo riflette esattamente le ore di competenza e la qualità tecnica richieste per garantire un risultato professionale senza compromessi.\"";
-        document.getElementById('objDescoping').innerText = "\"Se avete la necessità stringente di rientrare in un budget inferiore, possiamo valutare di rimuovere alcune specifiche del progetto, riducendo di conseguenza l'impegno orario a €" + baseGross + ".\"";
-        document.getElementById('objTradeoff').innerText = "\"Posso applicare un piccolo margine di favore del 5% esclusivamente nel caso in cui riusciamo a definire l'accordo contrattuale e il saldo anticipato entro questa settimana.\"";
+        // Testi obiezioni dinamici
+        document.getElementById('objDefense').innerText = "\"Comprendo la vostra esigenza di budget, tuttavia il prezzo di €" + recGross + " riflette esattamente le ore di competenza e la qualità tecnica richieste per questo specifico progetto.\"";
+        document.getElementById('objDescoping').innerText = "\"Se avete la necessità di rientrare in un budget inferiore, possiamo optare per la versione Essenziale a €" + baseGross + ", riducendo di conseguenza alcune specifiche del deliverable.\"";
+        document.getElementById('objTradeoff').innerText = "\"Posso applicare un piccolo margine di favore del 5% sull'opzione Pro (€" + Math.round(recGross * 0.95) + ") esclusivamente se definiamo l'accordo e il saldo anticipato entro questa settimana.\"";
 
         document.getElementById('resultsBlock').style.display = 'block';
         document.getElementById('resultsBlock').scrollIntoView({ behavior: 'smooth' });
 
-        // Incrementa il contatore generale
+        // Incrementa il contatore generale ad ogni analisi eseguita
         currentCounter++;
     }
 
