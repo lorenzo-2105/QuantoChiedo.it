@@ -213,6 +213,14 @@
         <!-- Logistica e Trasferta -->
         <div class="section-title">Logistica & Trasferta</div>
         
+        <div class="form-group">
+            <label for="expensePayer">A chi fanno capo le spese di trasferta / pernottamento?</label>
+            <select id="expensePayer">
+                <option value="freelancer">A CARICO MIO (anticipate e incluse nel preventivo)</option>
+                <option value="client">A CARICO DEL CLIENTE (prenotate dal cliente o a piè di lista)</option>
+            </select>
+        </div>
+
         <div class="form-grid">
             <div class="form-group">
                 <label for="distance">Distanza A/R (Km)</label>
@@ -284,6 +292,7 @@
         const travelCost = document.getElementById('travelCost').value;
         const nights = document.getElementById('nights').value;
         const hotelCost = document.getElementById('hotelCost').value;
+        const expensePayer = document.getElementById('expensePayer').value;
 
         if (!description.trim()) {
             alert('Inserisci una breve descrizione del lavoro.');
@@ -305,7 +314,8 @@
                     distance, 
                     travelCost, 
                     nights, 
-                    hotelCost 
+                    hotelCost,
+                    expensePayer 
                 })
             });
 
