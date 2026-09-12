@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quanto Chiedere? | Calcolatore Tariffa & Ritenuta d'Acconto</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --text-color: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-color);
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent-color);
+            color: #0f172a;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #0284c7;
+            color: white;
+        }
+
+        .results {
+            display: none;
+            margin-top: 20px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .result-item.highlight {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            border-top: 1px dashed var(--border-color);
+            padding-top: 10px;
+        }
+
+        .email-box {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            white-space: pre-line;
+            margin-top: 15px;
+        }
+
+        /* Spazio Monetizzazione Banner AdSense */
+        .ad-space {
+            background-color: transparent;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Quanto Chiedere?</h1>
+        <p class="subtitle">Calcola la tua tariffa lorda e genera la proposta per il cliente.</p>
+    </header>
+
+    <!-- Spazio per futuro Banner Pubblicitario Superiore -->
+    <div class="ad-space">Spazio Pubblicitario / Banner AdSense</div>
+
+    <div class="card">
+        <div class="form-group">
+            <label for="netTarget">Quanto vuoi incassare pulito (€)?</label>
+            <input type="number" id="netTarget" placeholder="Es. 500" value="500">
+        </div>
+
+        <div class="form-group">
+            <label for="regime">Tipo di Collaborazione</label>
+            <select id="regime">
+                <option value="prestazione">Prestazione Occasionale (Ritenuta d'Acconto 20%)</option>
+                <option value="forfettario">Partita IVA Forfettaria (Stima Tasse 15%)</option>
+                <option value="netto_puro">Nessuna Trattenuta (Netto = Lordo)</option>
+            </select>
+        </div>
+
+        <button onclick="calculate()">Calcola Preventivo</button>
+
+        <div class="results" id="resultsBlock">
+            <div class="result-item">
+                <span>Compenso Netto desiderato:</span>
+                <span id="resNet">€ 0.00</span>
+            </div>
+            <div class="result-item">
+                <span>Trattenute / Ritenuta d'Acconto:</span>
+                <span id="resTax">€ 0.00</span>
+            </div>
+            <div class="result-item highlight">
+                <span>Prezzo Lordo da Chiedere:</span>
+                <span id="resGross">€ 0.00</span>
+            </div>
+
+            <label style="margin-top: 20px;">Testo Pronto per la Proposta (Copia & Incolla):</label>
+            <div class="email-box" id="emailText"></div>
+        </div>
+    </div>
+
+    <!-- Spazio Monetizzazione Box Affiliazione -->
+    <div class="card" style="text-align: center; background: #0f172a;">
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">Devi gestire le ritenute o aprire la Partita IVA?</p>
+        <a href="#" style="color: var(--accent-color); font-weight: bold; text-decoration: none; font-size: 0.9rem;">Prova Fiscozen / Fatture in Cloud (Link Affiliato)</a>
+    </div>
+</div>
+
+<script>
+    function calculate() {
+        const netTarget = parseFloat(document.getElementById('netTarget').value);
+        const regime = document.getElementById('regime').value;
+        
+        if (isNaN(netTarget) || netTarget <= 0) {
+            alert('Inserisci un importo valido');
+            return;
+        }
+
+        let gross = 0;
+        let tax = 0;
+
+        if (regime === 'prestazione') {
+            // Formula ritenuta d'acconto 20% sul lordo: Netto = Lordo * 0.80 -> Lordo = Netto / 0.80
+            gross = netTarget / 0.80;
+            tax = gross * 0.20;
+        } else if (regime === 'forfettario') {
+            // Stima approssimativa forfettario al 15%
+            gross = netTarget / 0.85;
+            tax = gross * 0.15;
+        } else {
+            gross = netTarget;
+            tax = 0;
+        }
+
+        document.getElementById('resNet').innerText = '€ ' + netTarget.toFixed(2);
+        document.getElementById('resTax').innerText = '€ ' + tax.toFixed(2);
+        document.getElementById('resGross').innerText = '€ ' + gross.toFixed(2);
+
+        // Generazione messaggio automatico
+        let msg = `Buongiorno,\nin merito al lavoro richiesto, il preventivo complessivo è di € ${gross.toFixed(2)} lordi.`;
+        
+        if (regime === 'prestazione') {
+            msg += `\n\nTrattandosi di prestazione occasionale, verrà applicata la ritenuta d'acconto del 20% (€ ${tax.toFixed(2)}), che verserete voi per mio conto. L'importo netto da me percepito sarà di € ${netTarget.toFixed(2)}.`;
+        }
+
+        msg += `\n\nResto a disposizione per qualsiasi chiarimento.`;
+
+        document.getElementById('emailText').innerText = msg;
+        document.getElementById('resultsBlock').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
