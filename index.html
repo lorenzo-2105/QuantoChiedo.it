@@ -27,7 +27,6 @@
         }
 
         body {
-            /* Palette FinTech: Sfondo scuro profondo con sfumature verde smeraldo e petrolio */
             background: radial-gradient(circle at 50% -20%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
                         radial-gradient(circle at 100% 100%, rgba(14, 116, 144, 0.2) 0%, var(--bg-dark) 60%);
             background-attachment: fixed;
@@ -70,12 +69,13 @@
             color: var(--text-muted);
         }
 
-        .nav-links span {
-            cursor: pointer;
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
             transition: color 0.2s;
         }
 
-        .nav-links span:hover {
+        .nav-links a:hover {
             color: var(--fin-emerald);
         }
 
@@ -190,17 +190,6 @@
             transform: translateY(-1px);
         }
 
-        .free-callout {
-            position: absolute;
-            right: -140px;
-            top: -22px;
-            font-family: 'Brush Script MT', cursive, sans-serif;
-            font-size: 1.35rem;
-            color: #34d399;
-            transform: rotate(6deg);
-            pointer-events: none;
-        }
-
         /* Pannello Parametri Avanzati */
         .config-panel {
             background: var(--card-glass);
@@ -221,7 +210,6 @@
 
         @media (max-width: 768px) {
             .config-grid { grid-template-columns: 1fr; }
-            .free-callout { display: none; }
             .hero-title { font-size: 2rem; }
         }
 
@@ -251,41 +239,6 @@
 
         .field-group input:focus, .field-group select:focus {
             border-color: var(--fin-emerald);
-        }
-
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-            background: rgba(15, 23, 42, 0.4);
-            border: 1px solid var(--border-glass);
-            padding: 18px;
-            border-radius: 16px;
-            backdrop-filter: blur(12px);
-            margin-bottom: 50px;
-            margin-top: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .features-grid { grid-template-columns: 1fr 1fr; }
-        }
-
-        .feature-item {
-            padding: 10px;
-        }
-
-        .feature-title {
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: #ffffff;
-        }
-
-        .feature-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            line-height: 1.4;
         }
 
         /* Risultati Report */
@@ -413,29 +366,6 @@
         .btn-copy:hover {
             background: rgba(255,255,255,0.15);
         }
-
-        /* Footer Brands */
-        .footer-brands {
-            text-align: center;
-            color: rgba(255,255,255,0.3);
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-top: 40px;
-        }
-
-        .brand-list {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-            opacity: 0.5;
-            font-weight: 800;
-            font-size: 0.85rem;
-            letter-spacing: normal;
-        }
     </style>
 </head>
 <body>
@@ -445,10 +375,10 @@
     <header class="navbar">
         <div class="logo">QuantoChiedo</div>
         <div class="nav-links">
-            <span>Benchmark</span>
-            <span>Tariffe Pro</span>
-            <span>Guide Fiscali</span>
-            <span>API & Tool</span>
+            <a href="#benchmark">Benchmark</a>
+            <a href="#tariffe">Tariffe Pro</a>
+            <a href="#guide">Guide Fiscali</a>
+            <a href="#api">API & Tool</a>
         </div>
         <button class="btn-header">Area Riservata</button>
     </header>
@@ -474,7 +404,6 @@
                 </select>
                 <button class="btn-search-main" onclick="calculatePricing()">Analizza</button>
             </div>
-            <div class="free-callout">Preventivo in 1 sec! ➔</div>
         </div>
 
         <!-- PANNELLO CONFIGURAZIONE -->
@@ -499,26 +428,6 @@
             </div>
         </div>
     </section>
-
-    <!-- CARATTERISTICHE -->
-    <div class="features-grid">
-        <div class="feature-item">
-            <div class="feature-title">📊 Analisi di Mercato</div>
-            <div class="feature-desc">Tariffe reali basate sulle competenze attuali.</div>
-        </div>
-        <div class="feature-item">
-            <div class="feature-title">🎯 Benchmark Seniority</div>
-            <div class="feature-desc">Adeguamento automatico per esperienza.</div>
-        </div>
-        <div class="feature-item">
-            <div class="feature-title">📄 Proposta Pronta</div>
-            <div class="feature-desc">Generazione email commerciale immediata.</div>
-        </div>
-        <div class="feature-item">
-            <div class="feature-title">💬 Gestione Obiezioni</div>
-            <div class="feature-desc">Strategie per difendere il tuo compenso.</div>
-        </div>
-    </div>
 
     <!-- SEZIONE RISULTATI -->
     <div class="results-wrapper" id="resultsBlock">
@@ -560,18 +469,6 @@
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">TESTO EMAIL PRONTO PER IL CLIENTE</label>
             <div class="email-preview-text" id="emailBody"></div>
             <button class="btn-copy" onclick="copyEmail()">📋 Copia Testo Email</button>
-        </div>
-    </div>
-
-    <!-- FOOTER BRANDS -->
-    <div class="footer-brands">
-        <div>Parlano di noi</div>
-        <div class="brand-list">
-            <span>FORBES</span>
-            <span>LA REPUBBLICA</span>
-            <span>WIRED</span>
-            <span>ANSA</span>
-            <span>CORRIERE DELLA SERA</span>
         </div>
     </div>
 </div>
