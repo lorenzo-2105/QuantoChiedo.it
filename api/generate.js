@@ -22,6 +22,7 @@ export default async function handler(req, res) {
     level, 
     followers, 
     hours, 
+    hasExpenses,
     expenses, 
     distance, 
     travelCost, 
@@ -36,6 +37,12 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'GEMINI_API_KEY non configurata.' });
   }
 
+  const expensesDetails = hasExpenses ? `
+- Spese materiali: €${expenses || 0}
+- Trasferta: ${distance || 0} km (Auto €${travelCost || 0}, Hotel €${hotelCost || 0}, Notti: ${nights || 0})
+- Gestione Spese: ${expensePayer === 'client' ? 'A CARICO CLIENTE (a piè di lista)' : 'A CARICO MIO (anticipate ed incluse nel totale)'}
+` : '- Spese vive/trasferte: Nessuna';
+
   const promptText = `
 Sei un Pricing Strategist e Commerciale esperto del MERCATO REALE ITALIANO per Freelance, Creator e PMI.
 Sulla base dei dati forniti, devi strutturare una proposta commerciale ad "Ancoraggio dei Prezzi" suddivisa in 3 PACCHETTI (Base, Consigliato, Premium) e generare 3 risposte tattiche di negoziazione per gestire le obiezioni sui prezzi.
@@ -46,9 +53,7 @@ DATI INPUT:
 - Livello: ${level}
 - Follower (se applicabile): ${followers ? followers : 'N/A'}
 - Ore lavoro stimate: ${hours}
-- Spese materiali: €${expenses}
-- Trasferta: ${distance} km (Auto €${travelCost}, Hotel €${hotelCost}, Notti: ${nights})
-- Gestione Spese: ${expensePayer === 'client' ? 'A CARICO CLIENTE (a piè di lista)' : 'A CARICO MIO (anticipate ed incluse nel totale)'}
+${expensesDetails}
 
 PARAMETRI DI MERCATO REALE ITALIANO:
 1. CONTENT CREATOR / INFLUENCER:
@@ -69,9 +74,9 @@ LOGICA DEI 3 TIER:
 
 LOGICA NEGOZIAZIONE OBIEZIONI:
 Fornisci 3 risposte pronte che il professionista può inviare se il cliente chiede uno sconto:
-1. "defense": Difesa del Valore (Spiega perché la qualità, l'affidabilità e il risultato non permettono sconti secchi).
+1. "defense": Difesa del Valore (Spiega perché la qualità e l'affidabilità non permettono sconti secchi).
 2. "descoping": Riduzione Deliverables (Propone di scendere di prezzo riducendo il numero di revisioni, formati o tempi).
-3. "tradeoff": Vantaggio Liquidità (Offre uno sconto es. 10% solo a fronte di saldo anticipato 100% o vincoli contrattuali più lunghi).
+3. "tradeoff": Vantaggio Liquidità (Offre uno sconto es. 10% solo a fronte di saldo anticipato 100%).
 
 Rispondi TASSATIVAMENTE con un oggetto JSON valido (senza blocchi \`\`\`json):
 {
@@ -107,7 +112,7 @@ Rispondi TASSATIVAMENTE con un oggetto JSON valido (senza blocchi \`\`\`json):
 `;
 
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
     
     const response = await fetch(url, {
       method: 'POST',
