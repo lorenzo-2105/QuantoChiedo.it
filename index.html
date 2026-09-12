@@ -240,7 +240,7 @@
 
         .field-group textarea {
             resize: vertical;
-            min-height: 90px;
+            min-height: 95px;
             line-height: 1.5;
         }
 
@@ -622,7 +622,7 @@
                 </div>
                 <div class="field-group">
                     <label>DESCRIZIONE APPROFONDITA DEL PROGETTO (Brief e Richieste)</label>
-                    <textarea id="description" placeholder=""></textarea>
+                    <textarea id="description" placeholder="Es. Spot per Nike a Milano centro con 2 reel e diritti ADV inclusi..."></textarea>
                 </div>
             </div>
 
@@ -654,7 +654,7 @@
                     </div>
                     <div class="field-group" style="margin-top:0;">
                         <label>SPESE A CARICO DI:</label>
-                        <select id="extraPayer">
+                        <select id="extraPayer" onchange="if(document.getElementById('resultsBlock').style.display=='block') calculatePricing();">
                             <option value="creator">A carico mio (rimborso nel totale)</option>
                             <option value="client">A carico del cliente (escluse / a parte)</option>
                         </select>
@@ -700,7 +700,7 @@
 
         <!-- SEZIONE SPIEGAZIONE ANALITICA PER IL CREATOR -->
         <div class="creator-rationale-box">
-            <div class="rationale-title">🧠 Analisi Semantica e Driver di Mercato (Perché questa cifra?)</div>
+            <div class="rationale-title">🧠 Analisi Semantica e Ragionamento Logico del Brief</div>
             <div class="rationale-content" id="rationaleText"></div>
         </div>
 
@@ -726,11 +726,9 @@
                 <div class="obj-desc" id="objDescoping"></div>
                 <button class="btn-copy" onclick="copyText('objDescoping')">Copia Risposta</button>
             </div>
-            <div class="objection-card">
-                <div class="obj-title">3. Trade-off (Sconto vs Saldo Anticipato)</div>
-                <div class="obj-desc" id="objTradeoff"></div>
-                <button class="btn-copy" onclick="copyText('objTradeoff')">Copia Risposta</button>
-            </div>
+            <div class="obj-title" style="margin-top:10px;">3. Trade-off (Sconto vs Saldo Anticipato)</div>
+            <div class="obj-desc" id="objTradeoff"></div>
+            <button class="btn-copy" onclick="copyText('objTradeoff')">Copia Risposta</button>
         </div>
     </div>
 </div>
@@ -756,12 +754,14 @@
         block.style.display = (block.style.display === 'block') ? 'none' : 'block';
     }
 
+    /* MOTORE COGNITIVO E SEMANTICO AVANZATO */
     function parseDescriptionSemantics(text) {
         const lower = text.toLowerCase();
         let multipliers = [];
         let totalMultiplierBonus = 1.0;
         let deliverablesSummary = [];
 
+        // 1. Riconoscimento quantità e tipologia contenuti
         const extractCountFor = (keywords) => {
             let pattern = new RegExp(`(?:(\\d+)\\s*(?:${keywords}))|(?:(?:un|una)\\s+(?:${keywords}))`, 'i');
             let match = text.match(pattern);
@@ -805,36 +805,40 @@
         let workloadRatio = workloadUnits > 0 ? (workloadUnits / standardReference) : 1.0;
         if (workloadRatio < 0.5) workloadRatio = 0.5;
 
-        if (lower.includes('importante') || lower.includes('grande brand') || lower.includes('brand famoso') || lower.includes('multinazionale')) {
-            totalMultiplierBonus += 0.35;
-            multipliers.push({ label: 'Brand importante / Strutturato', bonus: '+35%' });
-        } else if (lower.includes('ristorante milano') || lower.includes('locale milano') || lower.includes('milano centro')) {
-            totalMultiplierBonus += 0.25;
-            multipliers.push({ label: 'Ristorante / Locale importante a Milano', bonus: '+25%' });
-        } else if (lower.includes('piccolo') || lower.includes('piccolo ristorante') || lower.includes('locale di quartiere') || lower.includes('piccola attività')) {
-            totalMultiplierBonus -= 0.20;
-            multipliers.push({ label: 'Piccolo ristorante / Locale locale', bonus: '-20%' });
+        // 2. Rilevamento Intelligente Brand / Grandi Marchi (Cervello Umano)
+        const majorBrands = ['nike', 'adidas', 'apple', 'samsung', 'amazon', 'gucci', 'prada', 'loreal', 'cocacola', 'redbull', 'netflix', 'disney', 'mercedes', 'bmw', 'ferrari', 'Armani', 'zara', 'h&m', 'barilla', 'ferrero', 'multinazionale', 'luxury', 'brand importante', 'grande marchio', 'famoso', 'luxury brand', 'corporate'];
+        let matchedBrand = majorBrands.find(brand => lower.includes(brand));
+        
+        if (matchedBrand || lower.includes('brand importante') || lower.includes('grande brand')) {
+            totalMultiplierBonus += 0.40; // +40% per brand importanti
+            multipliers.push({ label: `Rilevato brand importante / corporate ("${matchedBrand || 'brand di rilievo'}")`, bonus: '+40%' });
         }
 
+        // 3. Rilevamento Intelligente Location e Aree Costose (Milano, Roma Centro, ecc.)
+        const expensiveLocations = ['milano', 'roma', 'centro storico', 'duomo', 'napoli', 'bologna', 'firenze', 'torino', 'studio fotografico', 'location esclusiva', 'resort', 'hotel di lusso'];
+        let matchedLocation = expensiveLocations.find(loc => lower.includes(loc));
+
+        if (matchedLocation) {
+            totalMultiplierBonus += 0.25; // +25% per location costose / Milano
+            multipliers.push({ label: `Rilevata location ad alto costo / area metropolitana ("${matchedLocation}")`, bonus: '+25%' });
+        }
+
+        // 4. Altri fattori semantici (Esclusività, ADV, Urgenza)
         if (lower.includes('esclusiva') || lower.includes('esclusività') || lower.includes('competitor')) {
             totalMultiplierBonus += 0.20;
-            multipliers.push({ label: 'Esclusività di settore', bonus: '+20%' });
+            multipliers.push({ label: 'Esclusività di settore richiesta', bonus: '+20%' });
         }
-        if (lower.includes('adv') || lower.includes('ads') || lower.includes('sponsor') || lower.includes('whitelisting') || lower.includes('dark')) {
+        if (lower.includes('adv') || lower.includes('ads') || lower.includes('sponsor') || lower.includes('whitelisting') || lower.includes('dark post')) {
             totalMultiplierBonus += 0.25;
-            multipliers.push({ label: 'Diritti ADV / Whitelisting', bonus: '+25%' });
+            multipliers.push({ label: 'Diritti di sponsorizzazione ADV / Whitelisting', bonus: '+25%' });
         }
-        if (lower.includes('copione') || lower.includes('script') || lower.includes('storyboard')) {
+        if (lower.includes('script') || lower.includes('storyboard') || lower.includes('copione')) {
             totalMultiplierBonus += 0.10;
-            multipliers.push({ label: 'Scrittura script / Storyboard', bonus: '+10%' });
+            multipliers.push({ label: 'Scrittura script e storyboard strategico', bonus: '+10%' });
         }
-        if (lower.includes('location') || lower.includes('viaggio') || lower.includes('trasferta') || lower.includes('shooting')) {
+        if (lower.includes('urgente') || lower.includes('express') || lower.includes('subito') || lower.includes('domani')) {
             totalMultiplierBonus += 0.15;
-            multipliers.push({ label: 'Produzione esterna / Shooting', bonus: '+15%' });
-        }
-        if (lower.includes('urgente') || lower.includes('express')) {
-            totalMultiplierBonus += 0.15;
-            multipliers.push({ label: 'Urgenza', bonus: '+15%' });
+            multipliers.push({ label: 'Fattore urgenza / tempistiche strette', bonus: '+15%' });
         }
 
         return {
@@ -878,7 +882,7 @@
 
                 if (payer === 'creator') {
                     extraTotalToCreator = rawExtra;
-                    extraDetailsText = `\nSpese Trasferta a carico mio (rimborso aggiunto in preventivo): ${parts.join(', ')} (Totale extra: €${Math.round(extraTotalToCreator)})`;
+                    extraDetailsText = `\nSpese Trasferta a carico mio (rimborso aggiunto nel totale): ${parts.join(', ')} (Totale extra: €${Math.round(extraTotalToCreator)})`;
                     extraEmailSection = `\n(Nota: Nel totale preventivato sono incluse le spese di trasferta vive pari a €${Math.round(extraTotalToCreator)} per ${parts.join(', ')}).`;
                 } else {
                     extraDetailsText = `\nSpese Trasferta a carico del cliente (escluse dal totale): ${parts.join(', ')}`;
@@ -889,7 +893,7 @@
 
         const semantics = parseDescriptionSemantics(description);
 
-        // Abbassamento del 10% complessivo su tutti i prezzi rispetto ai valori originali standard
+        // Prezzi ribassati del 10% rispetto allo standard iniziale
         let baseStandard = 370 * 0.90;     
         let proStandard = 500 * 0.90;      
         let completeStandard = 650 * 0.90; 
@@ -936,16 +940,16 @@
 
         let multipliersLogStr = semantics.multipliersLog.length > 0 
             ? semantics.multipliersLog.map(m => `  - ${m.label} (${m.bonus})`).join('\n') 
-            : "  - Nessuna richiesta extra complessa rilevata";
+            : "  - Nessun fattore di rilievo speciale rilevato (tariffa standard pulita)";
 
-        let rationaleString = `1. Analisi Semantica del Brief: Rilevati -> [ ${semantics.deliverablesSummary} ].
-2. Tariffe base di riferimento (ribassate del 10%): Reel Base €333 | Medio €450 | Pro €585 (Storie a €10).
-3. Peso del Contesto: Correttivo applicato tramite semantica.
-4. Audience & Ore: ${followers.toLocaleString('it-IT')} follower e ${hours}h stimate.
-5. Seniority (${level}): Correttivo x${levelFactor}.
-6. Spese Trasferta: ${extraDetailsText || 'Nessuna spesa di trasferta inserita.'}
-7. Extra dal Testo:
-${multipliersLogStr}`;
+        let rationaleString = `1. Analisi Semantica e Contestuale: Rilevati -> [ ${semantics.deliverablesSummary} ].
+2. Tariffe base di riferimento (ribassate del 10%): Reel Base €333 | Medio €450 | Pro €585.
+3. Ragionamento Intelligente sul Testo (Brand/Location):
+${multipliersLogStr}
+4. Moltiplicatore Complessivo Applicato: x${semantics.totalMultiplierBonus.toFixed(2)}
+5. Audience (${followers.toLocaleString('it-IT')} follower) & Ore (${hours}h) -> Pesi applicati.
+6. Seniority (${level}): Correttivo x${levelFactor}.
+7. Gestione Spese Trasferta: ${extraDetailsText || 'Nessuna spesa di trasferta attivata.'}`;
 
         document.getElementById('rationaleText').innerText = rationaleString;
         
@@ -974,7 +978,7 @@ Un cordiale saluto,
 [Tuo Nome]
 [Tuo Ruolo / Creator]`;
 
-        document.getElementById('objDefense').innerText = `"Comprendo il budget aziendale, tuttavia la tariffa di €${recGross} è già stata ottimizzata sui benchmark attuali per garantire la massima qualità e sostenibilità."`;
+        document.getElementById('objDefense').innerText = `"Comprendo il budget aziendale, tuttavia la tariffa di €${recGross} è già stata ottimizzata sui benchmark attuali per riflettere il valore e la complessità del progetto descritto."`;
         document.getElementById('objDescoping').innerText = `"Se avete necessità di contenere ulteriormente la spesa, possiamo valutare la formula Essenziale a €${baseGross} adattando leggermente il perimetro delle consegne."`;
         document.getElementById('objTradeoff').innerText = `"Posso applicare un piccolo agevolamento del 5% sull'opzione Pro (€${Math.round(recGross * 0.95)}) a fronte di una conferma immediata e della chiusura degli accordi entro la settimana."`;
 
