@@ -227,6 +227,7 @@
         }
 
         .field-group input, .field-group select {
+            width: 10px; /* fix width */
             width: 100%;
             background: rgba(9, 13, 22, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -390,7 +391,7 @@
 
         <div class="counter-box">
             <div class="counter-label">Preventivi & Analisi Elaborate</div>
-            <div class="counter-number">28.490.112</div>
+            <div class="counter-number" id="dynamicCounter">28.490.112</div>
         </div>
 
         <!-- BARRA INPUT PRINCIPALE -->
@@ -406,7 +407,7 @@
             </div>
         </div>
 
-        <!-- PANNELLO CONFIGURAZIONE -->
+        <!-- PANNELLO CONFIGURAZIONE AVANZATA (Con follower e trasferte) -->
         <div class="config-panel">
             <div class="config-grid">
                 <div class="field-group">
@@ -422,6 +423,18 @@
                     <input type="number" id="hours" value="12">
                 </div>
             </div>
+
+            <div class="config-grid">
+                <div class="field-group">
+                    <label>FOLLOWER / AUDIENCE (Se Creator/Social)</label>
+                    <input type="number" id="followers" value="10000" placeholder="Es. 15000">
+                </div>
+                <div class="field-group">
+                    <label>COSTO TRASFERTA / EXTRA SPESE (EUR)</label>
+                    <input type="number" id="travelCost" value="0" placeholder="Es. 50">
+                </div>
+            </div>
+
             <div class="field-group">
                 <label>DESCRIZIONE DEL PROGETTO O DELIVERABLE</label>
                 <input type="text" id="description" placeholder="Es. Restyling brand identity o pacchetto 4 Reel + copywriting...">
@@ -474,20 +487,33 @@
 </div>
 
 <script>
+    // Rende il contatore dinamico simulando un incremento automatico nel tempo
+    let currentCounter = 28490112;
+    setInterval(() => {
+        currentCounter += Math.floor(Math.random() * 3) + 1;
+        document.getElementById('dynamicCounter').innerText = currentCounter.toLocaleString('it-IT');
+    }, 4000);
+
     function calculatePricing() {
         const description = document.getElementById('description').value;
         const level = document.getElementById('level').value;
-        const hours = document.getElementById('hours').value;
+        const hours = parseFloat(document.getElementById('hours').value) || 0;
+        const followers = parseInt(document.getElementById('followers').value) || 0;
+        const travelCost = parseFloat(document.getElementById('travelCost').value) || 0;
 
         if (!description.trim()) {
             alert('Inserisci una breve descrizione del progetto.');
             return;
         }
 
-        const baseRate = hours * 38;
+        // Calcolo base che tiene conto anche dei follower e dei costi di trasferta
+        let baseRate = (hours * 38) + travelCost;
+        if (followers > 50000) {
+            baseRate += Math.round(followers * 0.005); // piccolo bonus di reach
+        }
         
         document.getElementById('tBaseName').innerText = "Essenziale";
-        document.getElementById('tBaseGross').innerText = "€" + baseRate;
+        document.getElementById('tBaseGross').innerText = "€" + Math.round(baseRate);
         document.getElementById('tBaseNet').innerText = "Netto st.: €" + Math.round(baseRate * 0.78);
         document.getElementById('tBaseFeatures').innerHTML = "<li>Consegna standard</li><li>1 round di revisioni</li><li>Supporto via email</li>";
 
@@ -501,7 +527,7 @@
         document.getElementById('tPremNet').innerText = "Netto st.: €" + Math.round(baseRate * 1.85 * 0.78);
         document.getElementById('tPremFeatures').innerHTML = "<li>Assistenza dedicata h24</li><li>Revisioni illimitate</li><li>Consulenza strategica extra</li>";
 
-        document.getElementById('resJustification').innerText = "Analisi completata con successo in base ai parametri inseriti (" + level + ", " + hours + " ore stimate). Il prezzo riflette gli standard di mercato attuali per la categoria selezionata.";
+        document.getElementById('resJustification').innerText = "Analisi completata con successo in base ai parametri inseriti (" + level + ", " + hours + " ore stimate, " + followers + " follower e " + travelCost + "€ di extra/trasferta). Il prezzo riflette gli standard di mercato attuali.";
         
         document.getElementById('emailBody').innerText = "Buongiorno,\n\nIn riferimento alle specifiche concordate per il progetto \"" + description + "\", ho elaborato la proposta economica strutturata per garantire il massimo livello qualitativo.\n\nResto a disposizione per qualsiasi chiarimento.\n\nUn saluto,\n[Tuo Nome]";
 
