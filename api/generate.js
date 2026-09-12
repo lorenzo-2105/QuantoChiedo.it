@@ -1,4 +1,5 @@
 export default async function handler(req, res) {
+  // Gestione Header CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -7,6 +8,7 @@ export default async function handler(req, res) {
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
 
+  // Preflight Request per CORS
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
@@ -16,6 +18,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Metodo non consentito' });
   }
 
+  // Estrazione dati dal Body della richiesta
   const { 
     serviceType, 
     description, 
@@ -38,7 +41,7 @@ export default async function handler(req, res) {
 
   const promptText = `
 Sei un Senior Business Advisor & Pricing Strategist per Freelance e Content Creator in Italia.
-Devi calcolare un preventivo e una stima di mercato IPER-REALISTICA, basandoti sui dati di mercato correnti e su logiche di pricing stringenti.
+Devi calcolare un preventivo e una stima di mercato IPER-REALISTICA, basandoti sui dati reali del mercato italiano medio (non su tariffe di agenzie milanesi top-tier).
 
 DATI RICEVUTI:
 - Categoria Servizio: ${serviceType}
@@ -53,26 +56,26 @@ DATI RICEVUTI:
 - Costo Hotel: €${hotelCost}
 - Chi paga le spese vive: ${expensePayer === 'client' ? 'A CARICO DEL CLIENTE (a piè di lista / dirette)' : 'A CARICO DEL FREELANCER (anticipate e incluse nel preventivo)'}
 
-REGOLE RIGIDE PER IL CALCOLO REALE:
+REGOLE RIGIDE PER IL CALCOLO REALE (MERCATO ITALIA):
 1. SE SI TRATTA DI CREATOR / INFLUENCER / SPONSORIZZAZIONI:
-   - APPLICA RIGOROSAMENTE LE SOGLIE DI MERCATO BASATE SUI FOLLOWER:
-     * Nano (1k - 10k follower): Valore sponsorizzazione medio tra 50€ e 250€ per post/reel.
-     * Micro (10k - 50k follower): Valore medio tra 200€ e 800€ per post/reel.
-     * Mid-Tier (50k - 100k follower): Valore medio tra 800€ e 2.000€ per post/reel.
-     * Macro (100k - 500k follower): Valore medio tra 2.000€ e 6.000€ per post/reel.
-     * Mega (500k+ follower): Valore medio oltre i 6.000€ fino a oltre 15.000€.
-   - NON paragonare MAI un profilo da 10k a uno da 100k. Il raggio di copertura (reach) e il CPM commerciale sono drasticamente diversi.
+   - APPLICA RIGOROSAMENTE LE SOGLIE REALI DI MERCATO PER POST/REEL:
+     * Nano (1k - 10k follower): 30€ - 100€ (molto spesso cambio merce o budget d'ingresso).
+     * Micro (10k - 50k follower): 100€ - 350€.
+     * Mid-Tier (50k - 100k follower): 350€ - 800€.
+     * Macro (100k - 500k follower): 800€ - 2.500€.
+     * Mega (500k+ follower): 2.500€ - 6.000€+.
+   - Modula in base all'engagement effettivo e alla nicchia (B2B o tech pagano di più del lifestyle).
 
 2. SE SI TRATTA DI SERVIZI FREELANCE TRADIZIONALI (Design, Sviluppo, Video, Copywriter):
-   - Junior (1-2 anni): 20€ - 35€ / ora.
-   - Mid-Level (3-5 anni): 40€ - 65€ / ora.
-   - Senior / Specialist (5+ anni): 70€ - 120€+ / ora.
+   - Junior (1-2 anni): 18€ - 28€ / ora.
+   - Mid-Level (3-5 anni): 30€ - 45€ / ora.
+   - Senior / Specialist (5+ anni): 50€ - 80€ / ora.
 
 3. GESTIONE SPESE TRASFERTA:
    - Se "A CARICO DEL CLIENTE": Non sommare il costo di hotel/viaggio al totale dell'onorario professionale, ma indica chiaramente che sono a carico suo.
-   - Se "A CARICO MIO": Ricalcola il totale includendo coperture e rimborsi allineati.
+   - Se "A CARICO MIO": Ricalcola il totale includendo le spese anticipate e aggiungi un piccolo margine per il rischio finanziario.
 
-Restituisci SOLO ed ESCLUSIVAMENTE un oggetto JSON valido (senza blocchi \`\`\`json) con questo formato:
+Restituisci SOLO ed ESCLUSIVAMENTE un oggetto JSON valido con questo formato:
 {
   "recommendedRate": "450",
   "marketRange": "400€ - 600€",
@@ -83,13 +86,17 @@ Restituisci SOLO ed ESCLUSIVAMENTE un oggetto JSON valido (senza blocchi \`\`\`j
 `;
 
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
+    // Chiamata all'API di Gemini 2.5 Flash
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
     
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: promptText }] }]
+        contents: [{ parts: [{ text: promptText }] }],
+        generationConfig: {
+          response_mime_type: "application/json"
+        }
       })
     });
 
