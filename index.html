@@ -325,7 +325,7 @@
 
         .extra-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 12px;
         }
 
@@ -637,7 +637,7 @@
                 </label>
             </div>
 
-            <!-- SCHERMATA EXTRA A SCOMPARSA -->
+            <!-- SCHERMATA EXTRA A SCOMPARSA CON SCELTA CARICO SPESE -->
             <div class="extra-fields-panel" id="extraFieldsPanel">
                 <div class="extra-grid">
                     <div class="field-group" style="margin-top:0;">
@@ -649,8 +649,15 @@
                         <input type="number" id="extraHotel" value="0" placeholder="Es. 90">
                     </div>
                     <div class="field-group" style="margin-top:0;">
-                        <label>ALTRE SPESE (Pasti, Mezzi, Extra) (€)</label>
+                        <label>ALTRE SPESE (Pasti, Mezzi) (€)</label>
                         <input type="number" id="extraMisc" value="0" placeholder="Es. 35">
+                    </div>
+                    <div class="field-group" style="margin-top:0;">
+                        <label>SPESE A CARICO DI:</label>
+                        <select id="extraPayer">
+                            <option value="creator">A carico mio (rimborso nel totale)</option>
+                            <option value="client">A carico del cliente (escluse / a parte)</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -739,6 +746,9 @@
         const panel = document.getElementById('extraFieldsPanel');
         const isChecked = document.getElementById('extraToggle').checked;
         panel.style.display = isChecked ? 'block' : 'none';
+        if (document.getElementById('resultsBlock').style.display === 'block') {
+            calculatePricing();
+        }
     }
 
     function toggleObjections() {
@@ -845,34 +855,44 @@
         const followers = (!isNaN(inputFollowers) && inputFollowers > 0) ? inputFollowers : 50000;
         const hours = (!isNaN(inputHours) && inputHours > 0) ? inputHours : 5;
 
-        // Calcolo Spese Extra se il toggle è attivo
-        let extraTotal = 0;
+        // Calcolo Spese Extra e verifica chi le paga
+        let extraTotalToCreator = 0;
         let extraDetailsText = "";
+        let extraEmailSection = "";
         const isExtraActive = document.getElementById('extraToggle').checked;
         
         if (isExtraActive) {
             const km = parseFloat(document.getElementById('extraKm').value) || 0;
             const hotel = parseFloat(document.getElementById('extraHotel').value) || 0;
             const misc = parseFloat(document.getElementById('extraMisc').value) || 0;
+            const payer = document.getElementById('extraPayer').value;
             
-            // Rimborso chilometrico stimato a 0.35€ / km
             const kmCost = km * 0.35;
-            extraTotal = kmCost + hotel + misc;
+            const rawExtra = kmCost + hotel + misc;
 
-            if (extraTotal > 0) {
+            if (rawExtra > 0) {
                 let parts = [];
                 if (km > 0) parts.push(`${km} km (stimati €${kmCost.toFixed(2)})`);
-                if (hotel > 0) parts.push(`Hotel/Pernottamento €${hotel}`);
+                if (hotel > 0) parts.push(`Hotel €${hotel}`);
                 if (misc > 0) parts.push(`Altre spese €${misc}`);
-                extraDetailsText = `\nSpese Extra Trasferta incluse: ${parts.join(', ')} (Totale extra: €${Math.round(extraTotal)})`;
+
+                if (payer === 'creator') {
+                    extraTotalToCreator = rawExtra;
+                    extraDetailsText = `\nSpese Trasferta a carico mio (rimborso aggiunto in preventivo): ${parts.join(', ')} (Totale extra: €${Math.round(extraTotalToCreator)})`;
+                    extraEmailSection = `\n(Nota: Nel totale preventivato sono incluse le spese di trasferta vive pari a €${Math.round(extraTotalToCreator)} per ${parts.join(', ')}).`;
+                } else {
+                    extraDetailsText = `\nSpese Trasferta a carico del cliente (escluse dal totale): ${parts.join(', ')}`;
+                    extraEmailSection = `\n(Nota: Le spese vive di trasferta quantificate in ${parts.join(', ')} saranno a carico dell'azienda e fatturate separatamente / a rimborso).`;
+                }
             }
         }
 
         const semantics = parseDescriptionSemantics(description);
 
-        let baseStandard = 370 * 0.95;     
-        let proStandard = 500 * 0.95;      
-        let completeStandard = 650 * 0.95; 
+        // Abbassamento del 10% complessivo su tutti i prezzi rispetto ai valori originali standard
+        let baseStandard = 370 * 0.90;     
+        let proStandard = 500 * 0.90;      
+        let completeStandard = 650 * 0.90; 
 
         let followerRatio = followers / 50000;
         let hoursRatio = hours / 5;
@@ -890,10 +910,10 @@
         calculatedPro *= levelFactor;
         calculatedComplete *= levelFactor;
 
-        // Aggiunta delle spese extra calcolate al lordo di ogni pacchetto
-        let baseGross = Math.round(calculatedBase + extraTotal);
-        let recGross = Math.round(calculatedPro + extraTotal);
-        let premGross = Math.round(calculatedComplete + extraTotal);
+        // Aggiunta delle spese extra solo se sono a carico mio
+        let baseGross = Math.round(calculatedBase + extraTotalToCreator);
+        let recGross = Math.round(calculatedPro + extraTotalToCreator);
+        let premGross = Math.round(calculatedComplete + extraTotalToCreator);
 
         let baseNet = Math.round(baseGross * 0.78);
         let recNet = Math.round(recGross * 0.78);
@@ -902,28 +922,28 @@
         document.getElementById('tBaseName').innerText = "Essenziale";
         document.getElementById('tBaseGross').innerText = "€" + baseGross;
         document.getElementById('tBaseNet').innerText = "Netto st.: €" + baseNet;
-        document.getElementById('tBaseFeatures').innerHTML = `<li>Deliverable: ${semantics.deliverablesSummary}</li><li>Audience: ${followers.toLocaleString('it-IT')} follower</li>${extraTotal > 0 ? '<li>Incluse spese extra trasferta</li>' : ''}<li>1 round revisione</li>`;
+        document.getElementById('tBaseFeatures').innerHTML = `<li>Deliverable: ${semantics.deliverablesSummary}</li><li>Audience: ${followers.toLocaleString('it-IT')} follower</li>${extraTotalToCreator > 0 ? '<li>Incluse spese trasferta</li>' : ''}<li>1 round revisione</li>`;
 
         document.getElementById('tRecName').innerText = "Pro / Consigliato";
         document.getElementById('tRecGross').innerText = "€" + recGross;
         document.getElementById('tRecNet').innerText = "Netto st.: €" + recNet;
-        document.getElementById('tRecFeatures').innerHTML = `<li>Brief analizzato: "${description ? description.substring(0, 40) + '...' : 'Standard di mercato'}"</li>${extraTotal > 0 ? '<li>Incluse spese extra trasferta</li>' : ''}<li>Fino a 2 round revisioni</li>`;
+        document.getElementById('tRecFeatures').innerHTML = `<li>Brief analizzato: "${description ? description.substring(0, 40) + '...' : 'Standard di mercato'}"</li>${extraTotalToCreator > 0 ? '<li>Incluse spese trasferta</li>' : ''}<li>Fino a 2 round revisioni</li>`;
 
         document.getElementById('tPremName').innerText = "Completo & Priority";
         document.getElementById('tPremGross').innerText = "€" + premGross;
         document.getElementById('tPremNet').innerText = "Netto st.: €" + premNet;
-        document.getElementById('tPremFeatures').innerHTML = `<li>Pacchetto completo all-inclusive</li>${extraTotal > 0 ? '<li>Incluse spese extra trasferta</li>' : ''}<li>Revisioni illimitate e priorità</li>`;
+        document.getElementById('tPremFeatures').innerHTML = `<li>Pacchetto completo all-inclusive</li>${extraTotalToCreator > 0 ? '<li>Incluse spese trasferta</li>' : ''}<li>Revisioni illimitate e priorità</li>`;
 
         let multipliersLogStr = semantics.multipliersLog.length > 0 
             ? semantics.multipliersLog.map(m => `  - ${m.label} (${m.bonus})`).join('\n') 
             : "  - Nessuna richiesta extra complessa rilevata";
 
         let rationaleString = `1. Analisi Semantica del Brief: Rilevati -> [ ${semantics.deliverablesSummary} ].
-2. Tariffe base di riferimento (50k follower, scontate del 5%): Reel Base €351.50 | Medio €475 | Pro €617.50 (Storie a €10).
+2. Tariffe base di riferimento (ribassate del 10%): Reel Base €333 | Medio €450 | Pro €585 (Storie a €10).
 3. Peso del Contesto: Correttivo applicato tramite semantica.
 4. Audience & Ore: ${followers.toLocaleString('it-IT')} follower e ${hours}h stimate.
 5. Seniority (${level}): Correttivo x${levelFactor}.
-6. Spese Trasferta Extra: €${Math.round(extraTotal)}${extraDetailsText}
+6. Spese Trasferta: ${extraDetailsText || 'Nessuna spesa di trasferta inserita.'}
 7. Extra dal Testo:
 ${multipliersLogStr}`;
 
@@ -931,7 +951,7 @@ ${multipliersLogStr}`;
         
         document.getElementById('emailBody').innerText = `Gentile Team,
 
-in merito alla proposta di collaborazione (${description ? '"' + description + '"' : 'progetto concordato'}), vi sottopongo il preventivo calibrato sui reali standard di mercato e sul valore della mia community (${followers.toLocaleString('it-IT')} follower). ${extraTotal > 0 ? 'Include inoltre il rimborso per le spese di trasferta preventivate.' : ''}
+in merito alla proposta di collaborazione (${description ? '"' + description + '"' : 'progetto concordato'}), vi sottopongo il preventivo calibrato sui reali standard di mercato e sul valore della mia community (${followers.toLocaleString('it-IT')} follower). ${extraEmailSection}
 
 Le opzioni di fornitura si dividono in:
 
@@ -954,8 +974,8 @@ Un cordiale saluto,
 [Tuo Nome]
 [Tuo Ruolo / Creator]`;
 
-        document.getElementById('objDefense').innerText = `"Comprendo il budget aziendale, tuttavia la tariffa di €${recGross} riflette i normali benchmark di mercato italiani e le spese vive di trasferta documentate."`;
-        document.getElementById('objDescoping').innerText = `"Se avete necessità di ottimizzare la spesa, possiamo valutare la formula Essenziale a €${baseGross} adattando leggermente il perimetro delle consegne."`;
+        document.getElementById('objDefense').innerText = `"Comprendo il budget aziendale, tuttavia la tariffa di €${recGross} è già stata ottimizzata sui benchmark attuali per garantire la massima qualità e sostenibilità."`;
+        document.getElementById('objDescoping').innerText = `"Se avete necessità di contenere ulteriormente la spesa, possiamo valutare la formula Essenziale a €${baseGross} adattando leggermente il perimetro delle consegne."`;
         document.getElementById('objTradeoff').innerText = `"Posso applicare un piccolo agevolamento del 5% sull'opzione Pro (€${Math.round(recGross * 0.95)}) a fronte di una conferma immediata e della chiusura degli accordi entro la settimana."`;
 
         document.getElementById('resultsBlock').style.display = 'block';
