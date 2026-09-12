@@ -10,18 +10,17 @@
     <style>
         :root {
             --bg-color: #030712;
-            --card-bg: rgba(17, 24, 39, 0.7);
+            --card-bg: rgba(13, 19, 33, 0.85);
             --card-border: rgba(255, 255, 255, 0.08);
             --accent-primary: #38bdf8;
             --accent-indigo: #818cf8;
             --accent-green: #4ade80;
             --accent-orange: #fb923c;
             --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
-            --glow-gradient: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --input-bg: rgba(11, 17, 32, 0.6);
-            --input-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(8, 12, 22, 0.7);
+            --input-border: rgba(255, 255, 255, 0.08);
             --focus-ring: #38bdf8;
         }
 
@@ -44,49 +43,47 @@
             position: relative;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(at 10% 20%, rgba(56, 189, 248, 0.07) 0px, transparent 40%),
-                radial-gradient(at 90% 80%, rgba(129, 140, 248, 0.07) 0px, transparent 40%),
-                radial-gradient(at 50% 50%, rgba(192, 132, 252, 0.04) 0px, transparent 60%);
+                radial-gradient(at 15% 15%, rgba(56, 189, 248, 0.08) 0px, transparent 45%),
+                radial-gradient(at 85% 85%, rgba(129, 140, 248, 0.08) 0px, transparent 45%),
+                radial-gradient(at 50% 50%, rgba(192, 132, 252, 0.03) 0px, transparent 60%);
         }
 
-        /* Effetto griglia futuristica di sfondo */
+        /* Stile grafico ispirato a dashboard minimaliste e pulite (tipo SaaS moderni) */
         body::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
             z-index: -1;
         }
 
         .wrapper {
-            max-width: 940px;
+            max-width: 900px;
             width: 100%;
             position: relative;
         }
 
         header {
             text-align: center;
-            margin-bottom: 45px;
+            margin-bottom: 40px;
         }
 
         .brand-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            background: rgba(56, 189, 248, 0.08);
+            gap: 8px;
+            background: rgba(56, 189, 248, 0.06);
             color: var(--accent-primary);
             border: 1px solid rgba(56, 189, 248, 0.2);
             font-size: 0.75rem;
             font-weight: 700;
             padding: 6px 16px;
-            border-radius: 30px;
+            border-radius: 99px;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-bottom: 16px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
         }
 
         .brand-badge span {
@@ -105,10 +102,10 @@
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 800;
             letter-spacing: -0.03em;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -116,30 +113,31 @@
 
         p.subtitle {
             color: var(--text-muted);
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 400;
         }
 
+        /* Container principale in stile SaaS card flottante */
         .main-card {
             background-color: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--card-border);
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px rgba(255, 255, 255, 0.02) inset;
             position: relative;
         }
 
         .section-header {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             color: var(--accent-primary);
-            margin: 30px 0 18px 0;
-            padding-bottom: 10px;
+            margin: 32px 0 16px 0;
+            padding-bottom: 8px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
@@ -151,38 +149,37 @@
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             color: #cbd5e1;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         input, select, textarea {
             width: 100%;
             background-color: var(--input-bg);
             border: 1px solid var(--input-border);
-            border-radius: 12px;
-            padding: 14px 16px;
+            border-radius: 10px;
+            padding: 12px 14px;
             color: var(--text-main);
-            font-size: 0.95rem;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.92rem;
+            transition: all 0.2s ease;
         }
 
         input:hover, select:hover, textarea:hover {
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--focus-ring);
-            background-color: rgba(11, 17, 32, 0.85);
-            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15),
-                        0 0 15px rgba(56, 189, 248, 0.1);
+            background-color: rgba(11, 17, 32, 0.9);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
         }
 
         select {
@@ -196,7 +193,7 @@
 
         textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 90px;
         }
 
         .checkbox-container {
@@ -205,44 +202,43 @@
             gap: 12px;
             cursor: pointer;
             user-select: none;
-            margin: 25px 0 15px 0;
+            margin: 22px 0 14px 0;
             background: var(--input-bg);
-            padding: 14px 18px;
-            border-radius: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
             border: 1px solid var(--input-border);
             transition: all 0.2s ease;
         }
 
         .checkbox-container:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(11, 17, 32, 0.8);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .checkbox-container input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             accent-color: var(--accent-primary);
             cursor: pointer;
             border-radius: 4px;
         }
 
         .checkbox-container span {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
-            color: #e2e8f0;
+            color: #cbd5e1;
         }
 
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 18px;
+            gap: 16px;
         }
 
         @media (max-width: 650px) {
             .grid-2 { grid-template-columns: 1fr; }
-            .main-card { padding: 24px; }
+            .main-card { padding: 20px; }
             h1 { font-size: 2.2rem; }
-            body { padding: 20px 12px; }
+            body { padding: 20px 10px; }
         }
 
         .btn-submit {
@@ -250,33 +246,19 @@
             background: var(--accent-gradient);
             color: #030712;
             border: none;
-            border-radius: 12px;
-            padding: 18px;
-            font-size: 1rem;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 0.95rem;
             font-weight: 800;
             cursor: pointer;
-            margin-top: 30px;
-            box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.3);
-            transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-submit::after {
-            content: "";
-            position: absolute;
-            top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: 0.5s;
-        }
-
-        .btn-submit:hover::after {
-            left: 100%;
+            margin-top: 26px;
+            box-shadow: 0 8px 20px -4px rgba(56, 189, 248, 0.25);
+            transition: all 0.2s ease;
         }
 
         .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -5px rgba(56, 189, 248, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 25px -4px rgba(56, 189, 248, 0.35);
             opacity: 0.95;
         }
 
@@ -287,10 +269,10 @@
         #loading {
             display: none;
             text-align: center;
-            margin: 25px 0;
+            margin: 20px 0;
             color: var(--accent-primary);
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             animation: pulse-text 1.5s infinite;
         }
 
@@ -302,22 +284,22 @@
 
         .results-container {
             display: none;
-            margin-top: 35px;
+            margin-top: 30px;
             border-top: 1px solid var(--card-border);
-            padding-top: 30px;
-            animation: fadeIn 0.5s ease-out forwards;
+            padding-top: 28px;
+            animation: fadeIn 0.4s ease-out forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .tiers-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 30px;
+            gap: 16px;
+            margin-bottom: 26px;
         }
 
         @media (max-width: 800px) {
@@ -327,74 +309,72 @@
         .tier-card {
             background-color: var(--input-bg);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 24px 20px;
+            border-radius: 14px;
+            padding: 22px 18px;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s ease;
         }
 
         .tier-card:hover {
-            transform: translateY(-4px);
             border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5);
+            transform: translateY(-2px);
         }
 
         .tier-card.recommended {
-            border-color: var(--accent-primary);
-            background: linear-gradient(180deg, rgba(56, 189, 248, 0.05) 0%, var(--input-bg) 100%);
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.12);
+            border-color: rgba(56, 189, 248, 0.4);
+            background: linear-gradient(180deg, rgba(56, 189, 248, 0.04) 0%, var(--input-bg) 100%);
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.08);
         }
 
         .tier-badge {
             position: absolute;
-            top: -12px;
-            right: 18px;
+            top: -10px;
+            right: 16px;
             background: var(--accent-gradient);
             color: #030712;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 800;
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 3px 10px;
+            border-radius: 99px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
         }
 
         .tier-title {
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: var(--text-main);
         }
 
         .tier-price-gross {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             font-weight: 800;
             color: var(--accent-primary);
             letter-spacing: -0.02em;
         }
 
         .tier-price-net {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--accent-green);
             font-weight: 600;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .tier-features {
             list-style: none;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 15px;
+            padding-top: 14px;
         }
 
         .tier-features li {
-            margin-bottom: 8px;
+            margin-bottom: 7px;
             display: flex;
             align-items: flex-start;
             gap: 8px;
@@ -411,43 +391,43 @@
         .justification-box {
             background-color: var(--input-bg);
             border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 20px;
-            font-size: 0.95rem;
+            border-radius: 12px;
+            padding: 18px;
+            font-size: 0.9rem;
             line-height: 1.6;
             color: #cbd5e1;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
 
         .email-wrapper {
             background-color: var(--input-bg);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 24px;
+            border-radius: 14px;
+            padding: 22px;
         }
 
         .email-body {
             white-space: pre-line;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--text-main);
-            line-height: 1.7;
-            margin-top: 10px;
-            background: rgba(3, 7, 18, 0.5);
-            padding: 16px;
-            border-radius: 10px;
+            line-height: 1.65;
+            margin-top: 8px;
+            background: rgba(3, 7, 18, 0.6);
+            padding: 14px;
+            border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .btn-copy {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
             color: var(--text-main);
             border: 1px solid var(--card-border);
-            padding: 10px 16px;
+            padding: 8px 14px;
             border-radius: 8px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 14px;
+            margin-top: 12px;
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -455,22 +435,21 @@
         }
 
         .btn-copy:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
         }
 
         .btn-objection-toggle {
             width: 100%;
-            background: rgba(251, 146, 60, 0.08);
+            background: rgba(251, 146, 60, 0.06);
             color: var(--accent-orange);
-            border: 1px solid rgba(251, 146, 60, 0.25);
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 0.92rem;
+            border: 1px solid rgba(251, 146, 60, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.88rem;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 18px;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
@@ -479,25 +458,24 @@
         }
 
         .btn-objection-toggle:hover {
-            background: rgba(251, 146, 60, 0.15);
-            border-color: rgba(251, 146, 60, 0.4);
+            background: rgba(251, 146, 60, 0.12);
         }
 
         .objections-wrapper {
             display: none;
-            margin-top: 15px;
-            background: rgba(3, 7, 18, 0.6);
+            margin-top: 14px;
+            background: rgba(3, 7, 18, 0.7);
             border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 16px;
         }
 
         .objection-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 16px;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 14px;
         }
 
         .objection-card:last-child {
@@ -505,18 +483,18 @@
         }
 
         .objection-title {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 800;
             color: var(--accent-orange);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .objection-text {
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -524,7 +502,7 @@
 
 <div class="wrapper">
     <header>
-        <div class="brand-badge"><span></span> IA Pricing Engine v5.1 Pro</div>
+        <div class="brand-badge"><span></span> IA Pricing Engine v5.2</div>
         <h1>QuantoChiedo.it</h1>
         <p class="subtitle">Calcolo Tariffe Reali per il Mercato Italiano & Modulo Negoziazione</p>
     </header>
@@ -577,7 +555,7 @@
         </label>
 
         <div id="expensesBlock" style="display: none;">
-            <div class="section-header">2. Spese Vivo & Trasferta</div>
+            <div class="section-header">2. Spese Vive & Trasferta</div>
 
             <div class="form-group">
                 <label for="expensePayer">A chi fanno capo le spese vive?</label>
@@ -614,12 +592,12 @@
 
         <button class="btn-submit" onclick="calculatePricing()">Genera Opzioni & Strategia Negoziazione 🚀</button>
 
-        <div id="loading">✨ Calcolo preventivo e tariffe equilibrate in corso...</div>
+        <div id="loading">✨ Analisi dei benchmark di mercato in corso...</div>
 
         <!-- RISULTATI MULTI-TIER & NEGOZIAZIONE -->
         <div class="results-container" id="resultsBlock">
             
-            <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 16px; letter-spacing: 0.05em; text-transform: uppercase;">
+            <label style="font-weight: 700; font-size: 0.8rem; color: var(--accent-primary); display: block; margin-bottom: 14px; letter-spacing: 0.08em; text-transform: uppercase;">
                 🎯 PACCHETTI REALISTICI PER IL MERCATO ITALIANO:
             </label>
 
@@ -656,16 +634,16 @@
                 </div>
             </div>
 
-            <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 8px; letter-spacing: 0.05em; text-transform: uppercase;">
+            <label style="font-weight: 700; font-size: 0.8rem; color: var(--accent-primary); display: block; margin-bottom: 8px; letter-spacing: 0.08em; text-transform: uppercase;">
                 🔍 LOGICA COMMERCIALE:
             </label>
             <div class="justification-box" id="resJustification"></div>
 
             <div class="email-wrapper">
-                <label style="font-weight: 700; font-size: 0.8rem; color: var(--text-muted); display: block; letter-spacing: 0.05em; text-transform: uppercase;">OGGETTO EMAIL:</label>
-                <input type="text" id="emailSubject" readonly style="margin: 6px 0 16px 0; font-weight: 700; color: var(--accent-primary);">
+                <label style="font-weight: 700; font-size: 0.78rem; color: var(--text-muted); display: block; letter-spacing: 0.08em; text-transform: uppercase;">OGGETTO EMAIL:</label>
+                <input type="text" id="emailSubject" readonly style="margin: 6px 0 14px 0; font-weight: 700; color: var(--accent-primary);">
 
-                <label style="font-weight: 700; font-size: 0.8rem; color: var(--text-muted); display: block; letter-spacing: 0.05em; text-transform: uppercase;">PROPOSTA EMAIL PRONTA:</label>
+                <label style="font-weight: 700; font-size: 0.78rem; color: var(--text-muted); display: block; letter-spacing: 0.08em; text-transform: uppercase;">PROPOSTA EMAIL PRONTA:</label>
                 <div class="email-body" id="emailBody"></div>
                 
                 <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
