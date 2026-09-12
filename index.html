@@ -139,6 +139,24 @@
             min-height: 90px;
         }
 
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+            margin: 20px 0 10px 0;
+            background: var(--input-bg);
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--input-border);
+        }
+
+        .checkbox-container input {
+            width: auto;
+            cursor: pointer;
+        }
+
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -186,7 +204,6 @@
             padding-top: 25px;
         }
 
-        /* Tiers Grid Display */
         .tiers-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -310,7 +327,6 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Sezione Negoziazione Obiezioni */
         .btn-objection-toggle {
             width: 100%;
             background: rgba(251, 146, 60, 0.1);
@@ -369,7 +385,7 @@
 
 <div class="wrapper">
     <header>
-        <span class="brand-badge">IA Multi-Tier Engine v4.5</span>
+        <span class="brand-badge">IA Multi-Tier Engine v4.6</span>
         <h1>QuantoChiedo.it</h1>
         <p class="subtitle">Calcolo Tariffe, Pacchetti a 3 Livelli & Modulo Negoziazione Sconti</p>
     </header>
@@ -415,39 +431,46 @@
             <input type="number" id="hours" value="8">
         </div>
 
-        <!-- SEZIONE 2 -->
-        <div class="section-header">2. Spese Vivo & Trasferta</div>
+        <!-- SEZIONE SPESE OPZIONALE -->
+        <label class="checkbox-container">
+            <input type="checkbox" id="hasExpenses" onchange="toggleExpensesBlock()">
+            <span>Ci sono spese vive o di trasferta da calcolare?</span>
+        </label>
 
-        <div class="form-group">
-            <label for="expensePayer">A chi fanno capo le spese vive?</label>
-            <select id="expensePayer">
-                <option value="freelancer">A CARICO MIO (inclusi ed anticipati nel preventivo finale)</option>
-                <option value="client">A CARICO DEL CLIENTE (a piè di lista / gestiti dal cliente)</option>
-            </select>
-        </div>
+        <div id="expensesBlock" style="display: none;">
+            <div class="section-header">2. Spese Vivo & Trasferta</div>
 
-        <div class="grid-2">
             <div class="form-group">
-                <label for="distance">Distanza Trasferta A/R (Km)</label>
-                <input type="number" id="distance" value="0">
+                <label for="expensePayer">A chi fanno capo le spese vive?</label>
+                <select id="expensePayer">
+                    <option value="freelancer">A CARICO MIO (inclusi ed anticipati nel preventivo finale)</option>
+                    <option value="client">A CARICO DEL CLIENTE (a piè di lista / gestiti dal cliente)</option>
+                </select>
             </div>
-            <div class="form-group">
-                <label for="travelCost">Costo Carburante/Mezzi (€)</label>
-                <input type="number" id="travelCost" value="0">
-            </div>
-            <div class="form-group">
-                <label for="nights">Notti di Pernottamento</label>
-                <input type="number" id="nights" value="0">
-            </div>
-            <div class="form-group">
-                <label for="hotelCost">Costo Alloggio / Hotel (€)</label>
-                <input type="number" id="hotelCost" value="0">
-            </div>
-        </div>
 
-        <div class="form-group">
-            <label for="expenses">Altre Spese Materiali / Licenze / Extra (€)</label>
-            <input type="number" id="expenses" value="0">
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="distance">Distanza Trasferta A/R (Km)</label>
+                    <input type="number" id="distance" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="travelCost">Costo Carburante/Mezzi (€)</label>
+                    <input type="number" id="travelCost" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="nights">Notti di Pernottamento</label>
+                    <input type="number" id="nights" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="hotelCost">Costo Alloggio / Hotel (€)</label>
+                    <input type="number" id="hotelCost" value="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="expenses">Altre Spese Materiali / Licenze / Extra (€)</label>
+                <input type="number" id="expenses" value="0">
+            </div>
         </div>
 
         <button class="btn-submit" onclick="calculatePricing()">Genera Preventivo & Strategie Negoziazione</button>
@@ -547,6 +570,11 @@
         followerContainer.style.display = (type === 'creator') ? 'block' : 'none';
     }
 
+    function toggleExpensesBlock() {
+        const hasExpenses = document.getElementById('hasExpenses').checked;
+        document.getElementById('expensesBlock').style.display = hasExpenses ? 'block' : 'none';
+    }
+
     function toggleObjections() {
         const block = document.getElementById('objectionsBlock');
         block.style.display = (block.style.display === 'block') ? 'none' : 'block';
@@ -558,6 +586,8 @@
         const level = document.getElementById('level').value;
         const followers = document.getElementById('followers').value;
         const hours = document.getElementById('hours').value;
+        
+        const hasExpenses = document.getElementById('hasExpenses').checked;
         const expenses = document.getElementById('expenses').value;
         const distance = document.getElementById('distance').value;
         const travelCost = document.getElementById('travelCost').value;
@@ -584,6 +614,7 @@
                     level, 
                     followers,
                     hours, 
+                    hasExpenses,
                     expenses, 
                     distance, 
                     travelCost, 
