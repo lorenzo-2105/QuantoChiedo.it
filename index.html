@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | True Semantic Brief Reader</title>
+    <title>QuantoChiedo.it | Preventivo Intelligente</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -433,7 +433,7 @@
             font-size: 0.7rem;
         }
 
-        /* Sezione Spiegazione Analitica per il Creator */
+        /* Sezione Spiegazione Semplificata ma Dettagliata */
         .creator-rationale-box {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(16, 185, 129, 0.25);
@@ -455,10 +455,24 @@
         }
 
         .rationale-content {
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             color: #e2e8f0;
             line-height: 1.6;
-            white-space: pre-line;
+        }
+
+        .rationale-content p {
+            margin-bottom: 10px;
+        }
+
+        .rationale-content ul {
+            margin-left: 18px;
+            margin-top: 6px;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+        }
+
+        .rationale-content li {
+            margin-bottom: 4px;
         }
 
         /* Email Dettagliata per il Cliente */
@@ -507,7 +521,7 @@
         .objection-box {
             display: none;
             margin-top: 14px;
-            background: rgba(7, 9, 19, 0.8);
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid var(--border-glass);
             border-radius: 12px;
             padding: 16px;
@@ -578,7 +592,7 @@
     <!-- HERO SECTION -->
     <section class="hero-section">
         <h1 class="hero-title">Quanto vale il tuo lavoro?</h1>
-        <p class="hero-subtitle">Analisi semantica contestuale del brief e tariffe di mercato professionali.</p>
+        <p class="hero-subtitle">Analisi intelligente del brief e tariffe di mercato professionali.</p>
 
         <div class="counter-box">
             <div class="counter-label">Più di 10k preventivi e analisi elaborate</div>
@@ -594,7 +608,7 @@
                     <option value="videomaker" selected>🎥 Videomaker / Fotografo / Eventi & Wedding</option>
                     <option value="consultant">📊 Consulente / Strategist / Coach</option>
                 </select>
-                <button class="btn-search-main" onclick="calculatePricing()">Analizza Brief Semantico</button>
+                <button class="btn-search-main" onclick="calculatePricing()">Analizza Preventivo</button>
             </div>
         </div>
 
@@ -611,18 +625,18 @@
                 </div>
                 <div class="field-group">
                     <label>STIMA ORE DI LAVORO O GIORNATE</label>
-                    <input type="number" id="hours" value="0" placeholder="Es. 10 (lascia 0 per calcolo semantico automatico)">
+                    <input type="number" id="hours" value="0" placeholder="Es. 10 (lascia 0 per calcolo automatico)">
                 </div>
             </div>
 
             <div class="config-grid">
                 <div class="field-group">
                     <label id="metricLabel">PARAMETRO DI RIFERIMENTO</label>
-                    <input type="number" id="followers" value="0" placeholder="Es. 50000 o lasci 0">
+                    <input type="number" id="followers" value="0" placeholder="Es. 50000 o lascia 0">
                 </div>
                 <div class="field-group">
-                    <label>DESCRIZIONE LIBERA DEL PROGETTO (Scrivi come parleresti a un collega)</label>
-                    <textarea id="description" placeholder="Es. Devo seguire tutto il giorno la cerimonia dei parenti in una villa storica sul lago, fare le riprese con i droni, seguire il ricevimento fino a sera e montare un video emozionale di 5 minuti..."></textarea>
+                    <label>DESCRIZIONE DEL PROGETTO (Racconta cosa farai)</label>
+                    <textarea id="description" placeholder="Es. Devo seguire tutto il giorno la cerimonia dei parenti in una villa sul lago, fare riprese con drone, ricevimento fino a sera e montare un video emozionale di 5 minuti..."></textarea>
                 </div>
             </div>
 
@@ -666,7 +680,7 @@
 
     <!-- SEZIONE RISULTATI REPORT -->
     <div class="results-wrapper" id="resultsBlock">
-        <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--fin-emerald);">📈 Report & Analisi Semantica Profonda</h2>
+        <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--fin-emerald);">📈 Analisi e Preventivo Consigliato</h2>
         
         <div class="results-grid">
             <div class="tier-box">
@@ -698,21 +712,21 @@
             </div>
         </div>
 
-        <!-- SEZIONE SPIEGAZIONE ANALITICA PER IL CREATOR -->
+        <!-- SEZIONE SPIEGAZIONE SEMPLIFICATA MA DETTAGLIATA -->
         <div class="creator-rationale-box">
-            <div class="rationale-title">🧠 Analisi Semantica e Ragionamento Logico del Brief</div>
+            <div class="rationale-title">💡 Come è stato calcolato questo preventivo</div>
             <div class="rationale-content" id="rationaleText"></div>
         </div>
 
         <!-- SEZIONE EMAIL DETTAGLIATA PER IL CLIENTE -->
         <div class="email-short-box">
-            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">✉️ EMAIL UMANA E NATURALE PER IL CLIENTE</label>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">✉️ EMAIL PRONTA DA INVIARE AL CLIENTE</label>
             <div class="email-preview-text" id="emailBody"></div>
-            <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Email Naturale</button>
+            <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
         </div>
 
         <button class="objection-btn" onclick="toggleObjections()" style="margin-top: 20px;">
-            💬 Gestione Obiezioni Sconto (Cosa dire se chiedono un ribasso)
+            💬 Come rispondere se il cliente chiede uno sconto
         </button>
 
         <div class="objection-box" id="objectionsBlock">
@@ -726,7 +740,7 @@
                 <div class="obj-desc" id="objDescoping"></div>
                 <button class="btn-copy" onclick="copyText('objDescoping')">Copia Risposta</button>
             </div>
-            <div class="obj-title" style="margin-top:10px;">3. Trade-off (Sconto vs Saldo Anticipato)</div>
+            <div class="obj-title" style="margin-top:10px;">3. Trade-off (Sconto vs Conferma Rapida)</div>
             <div class="obj-desc" id="objTradeoff"></div>
             <button class="btn-copy" onclick="copyText('objTradeoff')">Copia Risposta</button>
         </div>
@@ -763,7 +777,7 @@
         else if(val === 'consultant') label.innerText = "ANNI ESPERIENZA / PORTATA";
     });
 
-    /* VERO MOTORE SEMANTICO CONTESTUALE (Analisi di pattern e concetti) */
+    /* MOTORE SEMANTICO SEMPLIFICATO E PULITO */
     function performDeepSemanticAnalysis(text, profession) {
         const lower = text.toLowerCase();
         let conceptMatches = [];
@@ -771,45 +785,38 @@
         let inferredBaseValue = 600;
         let semanticSummary = "Progetto professionale standard";
 
-        // 1. Analisi semantica basata sui concetti espressi (indipendentemente dalla singola keyword secca)
-        
-        // Rilevamento concetti legati a eventi prolungati / cerimonie / nozze (anche descritti senza la parola "matrimonio")
-        const weddingConcepts = ['cerimonia', 'ricevimento', 'sposi', 'invitati', 'chiesa', 'festa di nozze', 'unione', 'marito e moglie', 'matrimonio', 'wedding'];
+        const weddingConcepts = ['cerimonia', 'ricevimento', 'sposi', 'invitati', 'chiesa', 'festa di nozze', 'unione', 'matrimonio', 'wedding'];
         let weddingHits = weddingConcepts.filter(c => lower.includes(c)).length;
 
-        // Rilevamento concetti di alta responsabilità o corporate / luxury
         const highValueConcepts = ['multinazionale', 'brand', 'campagna nazionale', 'corporate', 'lusso', 'prestigio', 'esclusivo', 'vip', 'direttore', 'ceo'];
         let highValueHits = highValueConcepts.filter(c => lower.includes(c)).length;
 
-        // Rilevamento complessità tecnica / post-produzione pesante
         const technicalComplexity = ['montaggio', 'color grading', 'drone', 'effetti', 'multicamera', 'traccia audio', 'sound design', 'trailer', 'post-produzione', 'editing complesso'];
         let techHits = technicalComplexity.filter(c => lower.includes(c)).length;
 
-        // Rilevamento urgenza o pressione temporale
         const urgencyConcepts = ['urgente', 'subito', 'entro domani', 'rapidissimo', 'scadenza stretta', 'emergenza'];
         let urgencyHits = urgencyConcepts.filter(c => lower.includes(c)).length;
 
-        // Assegnazione logica basata sulla densità dei concetti estratti dal testo
         if (profession === 'videomaker') {
             if (weddingHits >= 2 || lower.includes('matrimonio') || lower.includes('wedding')) {
-                inferredBaseValue = 1900; // Valore solido di partenza per eventi complessi full-day
-                semanticSummary = "Servizio Video/Foto Cerimonia & Full-Day Event";
+                inferredBaseValue = 1900;
+                semanticSummary = "Servizio Video e Foto per Cerimonia / Full-Day Event";
                 contextMultiplier += 0.25;
-                conceptMatches.push({ concept: "Copertura continuativa evento / cerimonie (rilevati indicatori di durata e presenza)", impact: "+25%" });
+                conceptMatches.push("Copertura continuativa di un evento/giornata intera");
             } else if (lower.includes('evento') || lower.includes('fiera') || lower.includes('congresso')) {
                 inferredBaseValue = 1300;
                 semanticSummary = "Copertura Audiovisiva Evento Aziendale";
             } else {
                 inferredBaseValue = 1200;
-                semanticSummary = "Produzione Cinematografica / Spot";
+                semanticSummary = "Produzione Spot / Video Cinematografico";
             }
         } else if (profession === 'freelance') {
             inferredBaseValue = 950;
-            semanticSummary = "Sviluppo / Strategia Digitale";
+            semanticSummary = "Sviluppo / Consulenza Digitale";
             if (lower.includes('piattaforma') || lower.includes('personalizzato') || lower.includes('database') || lower.includes('complesso')) {
                 contextMultiplier += 0.35;
-                conceptMatches.push({ concept: "Complessità strutturale dell'infrastruttura descritta", impact: "+35%" });
-                semanticSummary = "Sviluppo Architettura Software Custom";
+                conceptMatches.push("Infrastruttura tecnica avanzata o sviluppo personalizzato");
+                semanticSummary = "Sviluppo Piattaforma Software Custom";
             }
         } else if (profession === 'creator') {
             inferredBaseValue = 600;
@@ -819,31 +826,27 @@
             semanticSummary = "Percorso di Consulenza Strategica e Audit";
         }
 
-        // Impatto della complessità tecnica descritta nel testo
         if (techHits >= 2) {
             contextMultiplier += 0.30;
-            conceptMatches.push({ concept: `Elevata complessità di post-produzione e setup tecnico (${techHits} indicatori rilevati)`, impact: "+30%" });
+            conceptMatches.push(`Lavorazioni tecniche avanzate (${techHits} elementi rilevati: drone, montaggio complesso, audio, ecc.)`);
         } else if (techHits === 1) {
             contextMultiplier += 0.15;
-            conceptMatches.push({ concept: "Presenza di lavorazioni tecniche specifiche nel testo", impact: "+15%" });
+            conceptMatches.push("Presenza di lavorazioni tecniche specifiche nel brief");
         }
 
-        // Impatto di contesti corporate o di alto standing
         if (highValueHits > 0) {
             contextMultiplier += 0.40;
-            conceptMatches.push({ concept: "Contesto corporate o di alto profilo commerciale rilevato", impact: "+40%" });
+            conceptMatches.push("Contesto aziendale o brand di alto profilo");
         }
 
-        // Impatto urgenza
         if (urgencyHits > 0) {
             contextMultiplier += 0.20;
-            conceptMatches.push({ concept: "Fattore urgenza e priorità temporale estratto dal testo", impact: "+20%" });
+            conceptMatches.push("Tempistiche strette e fattore urgenza");
         }
 
-        // Analisi della lunghezza/dettaglio del testo (più il brief è argomentato, più il progetto è strutturato)
         if (text.length > 250) {
             contextMultiplier += 0.15;
-            conceptMatches.push({ concept: "Elevato grado di dettaglio e strutturazione nel brief fornito", impact: "+15%" });
+            conceptMatches.push("Brief dettagliato e strutturato con richieste specifiche");
         }
 
         return {
@@ -858,21 +861,14 @@
         const profession = document.getElementById('serviceType').value;
         const description = document.getElementById('description').value.trim();
         const level = document.getElementById('level').value;
-        
-        const inputFollowers = parseInt(document.getElementById('followers').value);
-        const inputHours = parseFloat(document.getElementById('hours').value);
-
         const levelFactor = level.includes('Junior') ? 0.85 : (level.includes('Senior') ? 1.25 : 1.0);
 
-        // Esecuzione Analisi Semantica Profonda
         const semantics = performDeepSemanticAnalysis(description, profession);
 
-        // Calcolo dei 3 tier basati sul motore semantico contestuale
         let baseCalculated = semantics.inferredBaseValue * semantics.contextMultiplier * levelFactor;
         let proCalculated = semantics.inferredBaseValue * 1.35 * semantics.contextMultiplier * levelFactor;
         let completeCalculated = semantics.inferredBaseValue * 1.85 * semantics.contextMultiplier * levelFactor;
 
-        // Gestione Spese Extra
         let extraTotalToCreator = 0;
         let extraDetailsText = "";
         let extraEmailSection = "";
@@ -889,16 +885,16 @@
 
             if (rawExtra > 0) {
                 let parts = [];
-                if (km > 0) parts.push(`${km} km (stimati €${kmCost.toFixed(2)})`);
+                if (km > 0) parts.push(`${km} km (€${kmCost.toFixed(2)})`);
                 if (hotel > 0) parts.push(`Hotel €${hotel}`);
-                if (misc > 0) parts.push(`Altre spese €${misc}`);
+                if (misc > 0) parts.push(`Varie €${misc}`);
 
                 if (payer === 'creator') {
                     extraTotalToCreator = rawExtra;
-                    extraDetailsText = `\nSpese Trasferta a carico mio (rimborso aggiunto nel totale): ${parts.join(', ')} (Totale extra: €${Math.round(extraTotalToCreator)})`;
+                    extraDetailsText = `• Spese di trasferta incluse nel totale: ${parts.join(', ')} (Totale extra: €${Math.round(extraTotalToCreator)})`;
                     extraEmailSection = `\nNel preventivo ho incluso anche una stima per le spese vive di trasferta (circa €${Math.round(extraTotalToCreator)} per ${parts.join(', ')}).`;
                 } else {
-                    extraDetailsText = `\nSpese Trasferta a carico del cliente (escluse dal totale): ${parts.join(', ')}`;
+                    extraDetailsText = `• Spese di trasferta a carico del cliente (escluse dal totale): ${parts.join(', ')}`;
                     extraEmailSection = `\n(Nota: Le spese vive di trasferta quantificate in ${parts.join(', ')} saranno da considerarsi a parte o fatturate a rimborso).`;
                 }
             }
@@ -919,56 +915,60 @@
         if(profession === 'videomaker' && (description.toLowerCase().includes('matrimonio') || description.toLowerCase().includes('cerimonia') || description.toLowerCase().includes('sposi'))) {
             pNameBase = "Event Reportage Essenziale";
             pNamePro = "Cinematic Event Pro";
-            pNamePrem = "Luxury Full-Coverage & Drone All-Inclusive";
+            pNamePrem = "Luxury Full-Coverage & Drone";
         }
 
         document.getElementById('tBaseName').innerText = pNameBase;
         document.getElementById('tBaseGross').innerText = "€" + baseGross;
         document.getElementById('tBaseNet').innerText = "Netto st.: €" + baseNet;
-        document.getElementById('tBaseFeatures').innerHTML = `<li>Servizio: ${semantics.semanticSummary}</li><li>Copertura essenziale e consegna digitale</li>${extraTotalToCreator > 0 ? '<li>Incluse spese trasferta</li>' : ''}<li>1 round revisione</li>`;
+        document.getElementById('tBaseFeatures').innerHTML = `<li>Servizio: ${semantics.semanticSummary}</li><li>Copertura essenziale</li>${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>1 round di revisione</li>`;
 
         document.getElementById('tRecName').innerText = pNamePro;
         document.getElementById('tRecGross').innerText = "€" + recGross;
         document.getElementById('tRecNet').innerText = "Netto st.: €" + recNet;
-        document.getElementById('tRecFeatures').innerHTML = `<li>Brief analizzato: "${description ? description.substring(0, 40) + '...' : 'Servizio completo'}"</li>${extraTotalToCreator > 0 ? '<li>Incluse spese trasferta</li>' : ''}<li>Post-produzione avanzata & Ottimizzazione</li>`;
+        document.getElementById('tRecFeatures').innerHTML = `<li>Servizio completo e strutturato</li>${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>Post-produzione avanzata e cura dei dettagli</li>`;
 
         document.getElementById('tPremName').innerText = pNamePrem;
         document.getElementById('tPremGross').innerText = "€" + premGross;
         document.getElementById('tPremNet').innerText = "Netto st.: €" + premNet;
-        document.getElementById('tPremFeatures').innerHTML = `<li>Soluzione di massima qualità e prestigio</li>${extraTotalToCreator > 0 ? '<li>Incluse spese trasferta</li>' : ''}<li>Copertura estesa, attrezzatura avanzata e priorità</li>`;
+        document.getElementById('tPremFeatures').innerHTML = `<li>Soluzione massima qualità e priorità</li>${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>Attrezzatura estesa e consegne rapide</li>`;
 
-        let conceptLogStr = semantics.conceptMatches.length > 0 
-            ? semantics.conceptMatches.map(m => `  - ${m.concept} (${m.impact})`).join('\n') 
-            : "  - Nessun fattore di complessità straordinaria estratto dal testo (tariffa standard calibrata)";
+        // Generazione spiegazione pulita, discorsiva e dettagliata
+        let reasonsListHtml = "";
+        if (semantics.conceptMatches.length > 0) {
+            reasonsListHtml = "<ul>" + semantics.conceptMatches.map(m => `<li>${m}</li>`).join('') + "</ul>";
+        } else {
+            reasonsListHtml = "<p>• Tariffa calibrata su uno standard professionale bilanciato in base alla categoria scelta.</p>";
+        }
 
-        let rationaleString = `1. Categoria Selezionata: [ ${profession.toUpperCase()} ] -> Valore base di partenza: €${semantics.inferredBaseValue}.
-2. Analisi Contestuale del Testo: Estratto il concetto di -> [ ${semantics.semanticSummary} ].
-3. Pattern e Concetti Rilevati nel Brief:
-${conceptLogStr}
-4. Moltiplicatore Semantico Complessivo: x${semantics.contextMultiplier.toFixed(2)}
-5. Correttivo Seniority (${level}): x${levelFactor}.
-6. Gestione Spese Trasferta: ${extraDetailsText || 'Nessuna spesa extra attivata.'}`;
+        let rationaleHtml = `
+            <p>Abbiamo analizzato il tuo brief individuando come tipologia principale: <strong>${semantics.semanticSummary}</strong>.</p>
+            <p><strong>Fattori chiave rilevati nel tuo testo:</strong></p>
+            ${reasonsListHtml}
+            <p>• <strong>Profilo Professionale:</strong> ${level} (peso economico applicato sul mercato).</p>
+            ${extraDetailsText ? `<p>${extraDetailsText}</p>` : ''}
+        `;
 
-        document.getElementById('rationaleText').innerText = rationaleString;
+        document.getElementById('rationaleText').innerHTML = rationaleHtml;
         
         let humanEmailText = `Ciao [Nome del Cliente],
 
-ti scrivo dopo aver analizzato con molta attenzione il contesto e le esigenze che mi hai descritto per ${description ? 'il progetto ("' + (description.length > 50 ? description.substring(0, 50) + '...' : description) + '")' : 'la nostra collaborazione'}. ${extraEmailSection}
+ti scrivo dopo aver analizzato con attenzione le esigenze che mi hai descritto per ${description ? 'il progetto ("' + (description.length > 50 ? description.substring(0, 50) + '...' : description) + '")' : 'la nostra collaborazione'}. ${extraEmailSection}
 
-Per strutturare il lavoro nel modo migliore, garantendoti un risultato impeccabile senza compromessi sulla qualità e sulla cura dei dettagli, ho preparato tre opzioni:
+Per strutturare il lavoro nel modo migliore, garantendoti un risultato impeccabile senza compromessi sulla qualità, ho preparato tre opzioni:
 
 1. **Opzione Base** a **€${baseGross}** (+ IVA): pensata per coprire l'essenziale con la massima pulizia tecnica.
-2. **Opzione Pro (quella che ti consiglio)** a **€${recGross}** (+ IVA): la soluzione ideale che include tutte le lavorazioni avanzate e il supporto strutturale che mi hai richiesto.
-3. **Opzione Completa / All-Inclusive** a **€${premGross}** (+ IVA): il pacchetto top con equipaggiamento esteso, massima priorità e lavorazioni extra.
+2. **Opzione Pro (consigliata)** a **€${recGross}** (+ IVA): la soluzione ideale che include tutte le lavorazioni avanzate e il supporto strutturale che mi hai richiesto.
+3. **Opzione Completa / All-Inclusive** a **€${premGross}** (+ IVA): il pacchetto top con equipaggiamento esteso e massima priorità.
 
-Fammi sapere quale opzione si sposa meglio con quello che avevi in mente, oppure organizziamo una rapida chiamata per parlarne di persona!
+Fammi sapere quale opzione si sposa meglio con quello che avevi in mente, oppure organizziamo una rapida chiamata per parlarne!
 
-Un abbraccio,
+Un saluto,
 [Tuo Nome]`;
 
-document.getElementById('emailBody').innerText = humanEmailText;
+        document.getElementById('emailBody').innerText = humanEmailText;
 
-        document.getElementById('objDefense').innerText = `"Comprendo il punto sul budget, ma la cifra di €${recGross} rispecchia esattamente il valore, le ore sul campo e i giorni di post-produzione necessari per garantire un lavoro di questo livello qualitativo."`;
+        document.getElementById('objDefense').innerText = `"Comprendo il punto sul budget, ma la cifra di €${recGross} rispecchia esattamente il valore, le ore sul campo e i giorni di lavorazione necessari per garantire un lavoro di questo livello qualitativo."`;
         document.getElementById('objDescoping').innerText = `"Se avete la necessità assoluta di rientrare in una cifra inferiore, possiamo valutare la formula Base a €${baseGross} alleggerendo leggermente il perimetro delle consegne."`;
         document.getElementById('objTradeoff').innerText = `"Posso venirti incontro applicando un piccolo agevolamento del 5% sull'opzione Pro (€${Math.round(recGross * 0.95)}) a fronte di una conferma rapida e del blocco della data in calendario."`;
 
