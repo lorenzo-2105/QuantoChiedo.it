@@ -105,8 +105,8 @@ Rispondi TASSATIVAMENTE con un oggetto JSON valido (senza blocchi \`\`\`json):
 }
 `;
 
-  // Utilizziamo il modello stabile gemini-2.5-flash
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  // Utilizziamo il modello aggiornato gemini-3.6-flash
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
 
   try {
     const response = await fetch(url, {
