@@ -242,6 +242,54 @@
             border-color: var(--fin-emerald);
         }
 
+        /* Sezione Spese Extra Dinamiche */
+        .extra-expenses-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .extra-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
+            gap: 10px;
+            margin-top: 8px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .extra-row { grid-template-columns: 1fr; }
+        }
+
+        .btn-add-extra {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--fin-emerald);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-add-extra:hover {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-remove-extra {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
         /* Risultati Report */
         .results-wrapper {
             display: none;
@@ -497,17 +545,26 @@
             <div class="config-grid">
                 <div class="field-group">
                     <label>FOLLOWER / AUDIENCE (Se Creator/Social)</label>
-                    <input type="number" id="followers" value="10000" placeholder="Es. 15000">
+                    <input type="number" id="followers" value="0" placeholder="Es. 15000">
                 </div>
                 <div class="field-group">
-                    <label>COSTO TRASFERTA / EXTRA SPESE (EUR)</label>
-                    <input type="number" id="travelCost" value="0" placeholder="Es. 50">
+                    <label>DESCRIZIONE DEL PROGETTO (Modifica il prezzo a seconda di cosa scrivi)</label>
+                    <input type="text" id="description" placeholder="Es. Sviluppo e-commerce complesso, oppure 2 reel social...">
                 </div>
             </div>
 
-            <div class="field-group">
-                <label>DESCRIZIONE DEL PROGETTO O DELIVERABLE</label>
-                <input type="text" id="description" placeholder="Es. Restyling brand identity o pacchetto 4 Reel + copywriting...">
+            <!-- SEZIONE SPESE EXTRA & PERNOTTAMENTI DINAMICA -->
+            <div class="extra-expenses-box">
+                <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald); display:block; margin-bottom:6px;">SPESE EXTRA, PERNOTTAMENTI O RIMBORSI</label>
+                <div id="expensesList">
+                    <!-- Riga iniziale vuota -->
+                    <div class="extra-row">
+                        <input type="text" class="expense-desc" placeholder="Es. Hotel 2 notti / Treno / Licenza software">
+                        <input type="number" class="expense-cost" placeholder="Importo €" value="0">
+                        <button type="button" class="btn-remove-extra" onclick="removeExpenseRow(this)">✕</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-add-extra" onclick="addExpenseRow()">+ Aggiungi altra spesa / pernottamento</button>
             </div>
         </div>
     </section>
@@ -586,6 +643,29 @@
         document.getElementById('dynamicCounter').innerText = currentCounter.toLocaleString('it-IT');
     }, 4000);
 
+    function addExpenseRow() {
+        const container = document.getElementById('expensesList');
+        const row = document.createElement('div');
+        row.className = 'extra-row';
+        row.innerHTML = `
+            <input type="text" class="expense-desc" placeholder="Es. Hotel 2 notti / Treno / Licenza software">
+            <input type="number" class="expense-cost" placeholder="Importo €" value="0">
+            <button type="button" class="btn-remove-extra" onclick="removeExpenseRow(this)">✕</button>
+        `;
+        container.appendChild(row);
+    }
+
+    function removeExpenseRow(btn) {
+        const row = btn.parentElement;
+        // Lascia almeno una riga pulita se è l'ultima rimasta
+        if (document.getElementById('expensesList').children.length > 1) {
+            row.remove();
+        } else {
+            row.querySelector('.expense-desc').value = '';
+            row.querySelector('.expense-cost').value = 0;
+        }
+    }
+
     function toggleObjections() {
         const block = document.getElementById('objectionsBlock');
         block.style.display = (block.style.display === 'block') ? 'none' : 'block';
@@ -593,74 +673,109 @@
 
     function calculatePricing() {
         const serviceType = document.getElementById('serviceType').value;
-        const description = document.getElementById('description').value;
+        const description = document.getElementById('description').value.trim();
         const level = document.getElementById('level').value;
         const hours = parseFloat(document.getElementById('hours').value) || 10;
         const followers = parseInt(document.getElementById('followers').value) || 0;
-        const travelCost = parseFloat(document.getElementById('travelCost').value) || 0;
 
-        if (!description.trim()) {
-            alert('Inserisci una breve descrizione del progetto.');
+        if (!description) {
+            alert('Inserisci una breve descrizione del progetto per consentire al sistema di analizzarla.');
             return;
         }
 
-        // 1. Tariffa base oraria dinamica in base alla categoria scelta
+        // 1. ANALISI DEL TESTO DELLA DESCRIZIONE (Modifica il prezzo in base alle parole chiave)
+        let descBonusMultiplier = 1.0;
+        const lowerDesc = description.toLowerCase();
+        
+        // Parole chiave ad alta complessità / valore
+        if (lowerDesc.includes('complesso') || lowerDesc.includes('strategia') || lowerDesc.includes('ecommerce') || lowerDesc.includes('brand') || lowerDesc.includes('piattaforma') || lowerDesc.includes('app')) {
+            descBonusMultiplier = 1.35;
+        } 
+        // Parole chiave a media complessità
+        else if (lowerDesc.includes('restyling') || lowerDesc.includes('redazione') || lowerDesc.includes('shooting') || lowerDesc.includes('video') || lowerDesc.includes('campagna')) {
+            descBonusMultiplier = 1.15;
+        }
+        // Parole chiave veloci / semplici
+        else if (lowerDesc.includes('post') || lowerDesc.includes('bozza') || lowerDesc.includes('modifica') || lowerDesc.includes('articolo') || lowerDesc.includes('reel')) {
+            descBonusMultiplier = 0.90;
+        }
+
+        // 2. Calcolo Spese Extra e Pernottamenti dinamici
+        let totalExpenses = 0;
+        let expenseDetailsText = "";
+        const descInputs = document.querySelectorAll('.expense-desc');
+        const costInputs = document.querySelectorAll('.expense-cost');
+
+        for (let i = 0; i < descInputs.length; i++) {
+            let name = descInputs[i].value.trim();
+            let cost = parseFloat(costInputs[i].value) || 0;
+            if (cost > 0) {
+                totalExpenses += cost;
+                expenseDetailsText += `- ${name ? name : 'Spesa extra'}: €${cost}\n`;
+            }
+        }
+
+        // 3. Tariffa base oraria per categoria
         let baseMultiplier = 30;
         if (serviceType === 'creator') baseMultiplier = 35;
         if (serviceType === 'videomaker') baseMultiplier = 45;
         if (serviceType === 'consultant') baseMultiplier = 55;
 
-        // 2. Modificatore basato sulla seniority
+        // 4. Modificatore seniority
         let levelFactor = 1.0;
         if (level.includes('Junior')) levelFactor = 0.8;
         if (level.includes('Senior')) levelFactor = 1.4;
 
-        // 3. Calcolo subtotale basato sui campi effettivi inseriti dall'utente
-        let calculatedSubtotal = (hours * baseMultiplier * levelFactor) + travelCost;
+        // Subtotale calcolato (Lavoro + Moltiplicatore Descrizione + Extra/Pernottamenti)
+        let workSubtotal = (hours * baseMultiplier * levelFactor) * descBonusMultiplier;
         
         if (followers > 0) {
-            calculatedSubtotal += (followers * 0.003); // Bonus audience dinamico
+            workSubtotal += (followers * 0.003); 
         }
 
-        // Generazione dei tre tier con cifre dinamiche reali
-        let baseGross = Math.round(calculatedSubtotal);
-        let recGross = Math.round(calculatedSubtotal * 1.35);
-        let premGross = Math.round(calculatedSubtotal * 1.75);
+        let calculatedSubtotal = workSubtotal + totalExpenses;
 
-        // Stima netto (regime fiscale medio ~78%)
+        // Generazione dei tre tier
+        let baseGross = Math.round(calculatedSubtotal);
+        let recGross = Math.round(calculatedSubtotal * 1.30);
+        let premGross = Math.round(calculatedSubtotal * 1.65);
+
+        // Stima netto (~78%)
         let baseNet = Math.round(baseGross * 0.78);
         let recNet = Math.round(recGross * 0.78);
         let premNet = Math.round(premGross * 0.78);
 
-        // Popola i dati dei tier nell'HTML
+        // Popolamento HTML
         document.getElementById('tBaseName').innerText = "Essenziale";
         document.getElementById('tBaseGross').innerText = "€" + baseGross;
         document.getElementById('tBaseNet').innerText = "Netto st.: €" + baseNet;
-        document.getElementById('tBaseFeatures').innerHTML = "<li>Consegna standard (" + hours + "h)</li><li>1 round di revisioni</li><li>Supporto via email</li>";
+        document.getElementById('tBaseFeatures').innerHTML = `<li>Consegna standard (${hours}h)</li><li>Analisi descrittiva applicata</li><li>1 round di revisioni</li>`;
 
         document.getElementById('tRecName').innerText = "Pro / Consigliato";
         document.getElementById('tRecGross').innerText = "€" + recGross;
         document.getElementById('tRecNet').innerText = "Netto st.: €" + recNet;
-        document.getElementById('tRecFeatures').innerHTML = "<li>Analisi strategica approfondita</li><li>Fino a 3 round di revisioni</li><li>Kit di consegna completo</li><li>Priorità nei tempi</li>";
+        document.getElementById('tRecFeatures').innerHTML = `<li>Analisi strategica approfondita</li><li>Fino a 3 round di revisioni</li><li>Kit deliverable completo</li>`;
 
         document.getElementById('tPremName').innerText = "Completo & Priority";
         document.getElementById('tPremGross').innerText = "€" + premGross;
         document.getElementById('tPremNet').innerText = "Netto st.: €" + premNet;
-        document.getElementById('tPremFeatures').innerHTML = "<li>Soluzione All-Inclusive</li><li>Revisioni illimitate</li><li>Call strategica dedicata</li><li>Canale WhatsApp diretto</li>";
+        document.getElementById('tPremFeatures').innerHTML = `<li>Soluzione All-Inclusive</li><li>Revisioni illimitate</li><li>Assistenza e call dedicate</li>`;
 
-        document.getElementById('resJustification').innerText = "Analisi completata per il settore \"" + serviceType.toUpperCase() + "\" con descrizione: \"" + description + "\". Parametri elaborati: profilo " + level + ", " + hours + " ore stimate, " + followers + " follower e " + travelCost + "€ di extra.";
+        let expenseSummaryString = totalExpenses > 0 ? ` (inclusi €${totalExpenses} di spese extra/pernottamenti)` : '';
+        document.getElementById('resJustification').innerText = `Analisi completata. Il motore semantico ha rilevato la complessità del testo "${description}" applicando un indice ponderato sul profilo ${level}, ${hours} ore stimate${expenseSummaryString}.`;
         
-        document.getElementById('emailBody').innerText = "Buongiorno,\n\nIn riferimento alle specifiche concordate per il progetto \"" + description + "\", ho elaborato un'analisi dettagliata suddividendo la proposta economica:\n\n1. Opzione Essenziale: €" + baseGross + "\n2. Opzione Pro (Consigliata): €" + recGross + "\n3. Opzione Completa & Priority: €" + premGross + "\n\nResto a disposizione per qualsiasi chiarimento.\n\nUn saluto,\n[Tuo Nome]";
+        let emailExpensesBlock = totalExpenses > 0 ? `\n\nNel preventivo sono inoltre incluse le seguenti spese vive/pernottamenti concordati:\n${expenseDetailsText}` : '';
 
-        // Testi obiezioni dinamici
-        document.getElementById('objDefense').innerText = "\"Comprendo la vostra esigenza di budget, tuttavia il prezzo di €" + recGross + " riflette esattamente le ore di competenza e la qualità tecnica richieste per questo specifico progetto.\"";
-        document.getElementById('objDescoping').innerText = "\"Se avete la necessità di rientrare in un budget inferiore, possiamo optare per la versione Essenziale a €" + baseGross + ", riducendo di conseguenza alcune specifiche del deliverable.\"";
-        document.getElementById('objTradeoff').innerText = "\"Posso applicare un piccolo margine di favore del 5% sull'opzione Pro (€" + Math.round(recGross * 0.95) + ") esclusivamente se definiamo l'accordo e il saldo anticipato entro questa settimana.\"";
+        document.getElementById('emailBody').innerText = `Buongiorno,\n\nIn riferimento alle specifiche concordate per il progetto "${description}", ho elaborato un'analisi dettagliata suddividendo la proposta economica:\n\n1. Opzione Essenziale: €${baseGross}\n2. Opzione Pro (Consigliata): €${recGross}\n3. Opzione Completa & Priority: €${premGross}${emailExpensesBlock}\n\nResto a disposizione per qualsiasi chiarimento.\n\nUn saluto,\n[Tuo Nome]`;
+
+        // Testi obiezioni
+        document.getElementById('objDefense').innerText = `"Comprendo la vostra esigenza di budget, tuttavia il prezzo di €${recGross} riflette l'analisi tecnica del progetto, l'impegno orario e le spese vive preventivate."`;
+        document.getElementById('objDescoping').innerText = `"Se avete la necessità di rientrare in un budget inferiore, possiamo optare per la versione Essenziale a €${baseGross}, ottimizzando o riducendo alcune specifiche dell'intervento."`;
+        document.getElementById('objTradeoff').innerText = `"Posso applicare un piccolo margine di favore del 5% sull'opzione Pro (€${Math.round(recGross * 0.95)}) esclusivamente se definiamo l'accordo e il saldo anticipato entro questa settimana."`;
 
         document.getElementById('resultsBlock').style.display = 'block';
         document.getElementById('resultsBlock').scrollIntoView({ behavior: 'smooth' });
 
-        // Incrementa il contatore generale ad ogni analisi eseguita
         currentCounter++;
     }
 
