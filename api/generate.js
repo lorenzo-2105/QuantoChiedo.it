@@ -37,8 +37,8 @@ export default async function handler(req, res) {
   }
 
   const promptText = `
-Sei un Pricing Strategist esperto del MERCATO REALE ITALIANO per Freelance, Creator e PMI.
-Fornisci una stima estremamente pragmatica, realistica e credibile (evita cifre gonfiate da agenzie milanesi di alto livello).
+Sei un Pricing Strategist e Commerciale esperto del MERCATO REALE ITALIANO per Freelance, Creator e PMI.
+Sulla base dei dati forniti, devi strutturare una proposta commerciale ad "Ancoraggio dei Prezzi" suddivisa in 3 PACCHETTI (Base, Consigliato, Premium) e generare 3 risposte tattiche di negoziazione per gestire le obiezioni sui prezzi.
 
 DATI INPUT:
 - Tipologia: ${serviceType}
@@ -52,7 +52,7 @@ DATI INPUT:
 
 PARAMETRI DI MERCATO REALE ITALIANO:
 1. CONTENT CREATOR / INFLUENCER:
-   - 1k-10k follower: 30€ - 80€ lordi a post/reel (molto spesso cambio merce o budget minimi).
+   - 1k-10k follower: 30€ - 80€ lordi a post/reel.
    - 10k-50k follower: 100€ - 300€ lordi a post/reel.
    - 50k-100k follower: 300€ - 700€ lordi a post/reel.
    - 100k-500k follower: 800€ - 2.500€ lordi a post/reel.
@@ -62,23 +62,52 @@ PARAMETRI DI MERCATO REALE ITALIANO:
    - Mid-Level: 30€ - 45€ / ora lordi.
    - Senior: 50€ - 80€ / ora lordi.
 
-3. CALCOLO NETTO STIMATO:
-   - Considera una pressione media (tasse + INPS / gestione separata) del ~30-35% per calcolare il NETTO REALE che rimane in tasca.
+LOGICA DEI 3 TIER:
+- BASE (Essenziale): Copre il lavoro minimo senza extra. 1 sola revisione.
+- RECOMMENDED (Valore Ideale): Il prezzo target. Include 2 revisioni, file sorgente/formati extra.
+- PREMIUM (Upsell): Prezzo alto (+40-60%). Consegna express, diritti d'uso estesi o varianti extra.
+
+LOGICA NEGOZIAZIONE OBIEZIONI:
+Fornisci 3 risposte pronte che il professionista può inviare se il cliente chiede uno sconto:
+1. "defense": Difesa del Valore (Spiega perché la qualità, l'affidabilità e il risultato non permettono sconti secchi).
+2. "descoping": Riduzione Deliverables (Propone di scendere di prezzo riducendo il numero di revisioni, formati o tempi).
+3. "tradeoff": Vantaggio Liquidità (Offre uno sconto es. 10% solo a fronte di saldo anticipato 100% o vincoli contrattuali più lunghi).
 
 Rispondi TASSATIVAMENTE con un oggetto JSON valido (senza blocchi \`\`\`json):
 {
-  "grossRate": "450",
-  "netRate": "300",
-  "marketRangeGross": "400€ - 500€ Lordi",
-  "marketRangeNet": "270€ - 340€ Netti",
-  "justification": "Spiegazione sintetica ed estremamente concreta basata sulla realtà di mercato italiana, evidenziando il distacco tra Lordo da preventivare e Netto in tasca.",
-  "emailSubject": "Preventivo e Proposta Commerciale - [Progetto]",
-  "emailBody": "Gentile [Cliente],\\n\\nin merito alla sua richiesta..."
+  "tiers": {
+    "base": {
+      "name": "Essenziale",
+      "grossRate": "300",
+      "netRate": "200",
+      "features": ["Deliverable principale", "1 Round di revisione", "Consegna standard (10-14 gg)"]
+    },
+    "recommended": {
+      "name": "Pro / Consigliato",
+      "grossRate": "450",
+      "netRate": "300",
+      "features": ["Deliverables completi", "2 Round di revisione", "File sorgente inclusi", "Supporto 14 giorni post-consegna"]
+    },
+    "premium": {
+      "name": "Full Pack & Priority",
+      "grossRate": "750",
+      "netRate": "500",
+      "features": ["Tutto il pacchetto Pro", "Consegna Prioritaria Express", "Diritti d'uso commerciali estesi", "1 Formato/Variante extra integrata"]
+    }
+  },
+  "justification": "Spiegazione sintetica della strategia di prezzo adottata nei tre pacchetti e dell'effetto ancòra per il cliente.",
+  "emailSubject": "Proposta Commerciale e Opzioni di Collaborazione - [Nome Progetto]",
+  "emailBody": "Gentile [Cliente],\\n\\nin allegato le 3 opzioni di collaborazione pensate per le vostre esigenze:\\n\\n1. Opzione Essenziale (€[Base]): ...\\n2. Opzione Consigliata (€[Rec]): ...\\n3. Opzione Premium (€[Prem]): ...\\n\\nResto a disposizione per definire la scelta migliore.",
+  "objections": {
+    "defense": "Capisco l'attenzione al budget, ma la cifra rispecchia la qualità del lavoro e l'assenza di costi nascosti. Non posso applicare sconti sul prezzo senza intaccare la cura che dedicherò al progetto.",
+    "descoping": "Se il budget attuale è limitato, possiamo ridurre l'investimento passando all'Opzione Essenziale (togliendo i file sorgente e riducendo le revisioni a 1 sola) per rientrare nella vostra cifra.",
+    "tradeoff": "Posso concedere eccezionalmente uno sconto del 10% sull'Opzione Consigliata se concordiamo il saldo anticipato del 100% all'accettazione del preventivo."
+  }
 }
 `;
 
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
     
     const response = await fetch(url, {
       method: 'POST',
