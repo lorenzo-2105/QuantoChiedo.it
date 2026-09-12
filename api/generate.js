@@ -34,7 +34,7 @@ export default async function handler(req, res) {
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
-    return res.status(500).json({ error: 'GEMINI_API_KEY non configurata.' });
+    return res.status(500).json({ error: 'GEMINI_API_KEY non configurata nei Segreti di Vercel.' });
   }
 
   const expensesDetails = hasExpenses ? `
@@ -105,29 +105,51 @@ Rispondi TASSATIVAMENTE con un oggetto JSON valido (senza blocchi \`\`\`json):
 }
 `;
 
-  try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
-    
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: promptText }] }]
-      })
-    });
+  // Utilizzo del modello ufficiale corretto: gemini-1.5-flash
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
-    const data = await response.json();
+  // Funzione con Retry automatico in caso di Rate Limit (429)
+  const fetchWithRetry = async (retries = 2, delay = 2000) => {
+    for (let i = 0; i <= retries; i++) {
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: promptText }] }]
+          })
+        });
 
-    if (!response.ok) {
-      return res.status(500).json({ error: `Errore Gemini API: ${data.error?.message}` });
+        const data = await response.json();
+
+        if (response.status === 429 && i < retries) {
+          // Attende prima di riprovare se supera il limite temporaneo
+          await new Promise(res => setTimeout(res, delay));
+          continue;
+        }
+
+        if (!response.ok) {
+          throw new Error(data.error?.message || 'Errore nella chiamata a Gemini');
+        }
+
+        return data;
+      } catch (err) {
+        if (i === retries) throw err;
+        await new Promise(res => setTimeout(res, delay));
+      }
     }
+  };
 
+  try {
+    const data = await fetchWithRetry();
     let rawText = data.candidates[0].content.parts[0].text;
     rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
 
     return res.status(200).json(JSON.parse(rawText));
 
   } catch (error) {
-    return res.status(500).json({ error: 'Errore interno: ' + error.message });
+    return res.status(429).json({ 
+      error: 'Il servizio sta ricevendo troppe richieste al secondo. Riprova tra 3 secondi.' 
+    });
   }
 }
