@@ -537,7 +537,7 @@
         <div class="search-area-wrapper">
             <div class="search-card">
                 <select id="serviceType">
-                    <option value="creator">✨ Content Creator / UGC / Influencer (Default 50k / 7h)</option>
+                    <option value="creator">✨ Content Creator / UGC / Influencer (Base 50k / 7h)</option>
                     <option value="freelance">💼 Freelancer / Developer / Copywriter</option>
                     <option value="videomaker">🎥 Videomaker / Fotografo</option>
                     <option value="consultant">📊 Consulente / Strategist</option>
@@ -713,6 +713,18 @@
         block.style.display = (block.style.display === 'block') ? 'none' : 'block';
     }
 
+    function extractQuantity(text, keyword) {
+        const regex = new RegExp(`(\\d+)\\s*(?:${keyword})`, 'i');
+        const match = text.match(regex);
+        if (match) {
+            return parseInt(match[1], 10);
+        }
+        if (new RegExp(`\\b(?:un|${keyword})\\b`, 'i').test(text)) {
+            return 1;
+        }
+        return 0;
+    }
+
     function calculatePricing() {
         const serviceType = document.getElementById('serviceType').value;
         const description = document.getElementById('description').value.trim();
@@ -725,39 +737,43 @@
             return;
         }
 
-        // --- BASI REALI RICHIESTE ---
-        // Con 50k follower e 7 ore -> Base = 300, Medio (Pro) = 500, Pro (Completo) = 650
+        // --- BASE MATEMATICA DI PARTENZA ---
         let baseStandard = 300;
         let proStandard = 500;
         let completeStandard = 650;
 
-        // Rapporto di scostamento basato sui follower rispetto al target di riferimento (50.000)
         let followerRatio = followers / 50000;
-        // Rapporto ore rispetto al target di riferimento (7 ore)
         let hoursRatio = hours / 7;
-
-        // Ponderazione complessiva dei parametri base
         let weightFactor = (followerRatio * 0.6) + (hoursRatio * 0.4);
 
         let calculatedBase = baseStandard * weightFactor;
         let calculatedPro = proStandard * weightFactor;
         let calculatedComplete = completeStandard * weightFactor;
 
-        // Analisi parole chiave nella descrizione per variare i prezzi
-        let descMultiplier = 1.0;
+        // --- ANALISI DINAMICA DEI VOLUMI NELLA DESCRIZIONE ---
         const lowerDesc = description.toLowerCase();
         
-        if (lowerDesc.includes('complesso') || lowerDesc.includes('ecommerce') || lowerDesc.includes('strategia') || lowerDesc.includes('campagna') || lowerDesc.includes('brand')) {
-            descMultiplier = 1.30;
-        } else if (lowerDesc.includes('reel') || lowerDesc.includes('storie') || lowerDesc.includes('video') || lowerDesc.includes('shooting')) {
-            descMultiplier = 1.0; // Standard coerente con l'esempio
-        } else if (lowerDesc.includes('bozza') || lowerDesc.includes('post singolo') || lowerDesc.includes('modifica')) {
-            descMultiplier = 0.80;
+        let numReels = extractQuantity(lowerDesc, 'reel|video');
+        let numStories = extractQuantity(lowerDesc, 'storia|storie');
+
+        let workloadMultiplier = 1.0;
+        if (numReels > 0 || numStories > 0) {
+            let equivalentWork = (numReels * 2.5) + (numStories * 0.25);
+            let standardReferenceWork = (1 * 2.5) + (10 * 0.25); // = 5.0 (riferimento 1 reel + 10 storie)
+            
+            workloadMultiplier = equivalentWork / standardReferenceWork;
+            if (workloadMultiplier < 0.4) workloadMultiplier = 0.4;
+        } else {
+            if (lowerDesc.includes('complesso') || lowerDesc.includes('ecommerce') || lowerDesc.includes('strategia') || lowerDesc.includes('campagna')) {
+                workloadMultiplier = 1.30;
+            } else if (lowerDesc.includes('bozza') || lowerDesc.includes('post singolo') || lowerDesc.includes('modifica')) {
+                workloadMultiplier = 0.80;
+            }
         }
 
-        calculatedBase *= descMultiplier;
-        calculatedPro *= descMultiplier;
-        calculatedComplete *= descMultiplier;
+        calculatedBase *= workloadMultiplier;
+        calculatedPro *= workloadMultiplier;
+        calculatedComplete *= workloadMultiplier;
 
         // Modificatore Seniority
         let levelFactor = 1.0;
@@ -790,7 +806,7 @@
             }
         }
 
-        // Totali finali arrotondati + eventuale aggiunta spese cliente
+        // Totali finali arrotondati
         let baseGross = Math.round(calculatedBase + totalClientExpenses);
         let recGross = Math.round(calculatedPro + totalClientExpenses);
         let premGross = Math.round(calculatedComplete + totalClientExpenses);
@@ -808,7 +824,7 @@
         document.getElementById('tRecName').innerText = "Pro / Consigliato";
         document.getElementById('tRecGross').innerText = "€" + recGross;
         document.getElementById('tRecNet').innerText = "Netto st.: €" + recNet;
-        document.getElementById('tRecFeatures').innerHTML = `<li>Pacchetto ottimizzato per "${description}"</li><li>Fino a 3 round di revisioni</li><li>Report di performance incluso</li>`;
+        document.getElementById('tRecFeatures').innerHTML = `<li>Perimetro: "${description}"</li><li>Fino a 3 round di revisioni</li><li>Report di performance incluso</li>`;
 
         document.getElementById('tPremName').innerText = "Completo & Priority";
         document.getElementById('tPremGross').innerText = "€" + premGross;
@@ -816,7 +832,7 @@
         document.getElementById('tPremFeatures').innerHTML = `<li>Soluzione All-Inclusive prioritaria</li><li>Revisioni illimitate</li><li>Supporto e call strategiche dedicate</li>`;
 
         let expenseSummaryString = totalClientExpenses > 0 ? ` (inclusi €${totalClientExpenses} di rimborsi spese cliente)` : '';
-        document.getElementById('resJustification').innerText = `Analisi completata basata su ${followers.toLocaleString('it-IT')} follower, ${hours} ore stimate e descrizione "${description}"${expenseSummaryString}.`;
+        document.getElementById('resJustification').innerText = `Analisi completata basata su ${followers.toLocaleString('it-IT')} follower, ${hours} ore stimate e perimetro "${description}"${expenseSummaryString}.`;
         
         let emailExpensesBlock = expenseDetailsText !== "" ? `\n\nDettaglio costi e spese accessorie gestite:\n${expenseDetailsText}` : '';
 
