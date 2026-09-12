@@ -777,12 +777,12 @@
         let posts = extractCountFor('post|post statici|fotografia|foto');
 
         if (reels === 0 && (lower.includes('reel') || lower.includes('video'))) reels = 1;
-        if (stories === 0 && lower.includes('stori')) stories = 5;
+        if (stories === 0 && lower.includes('stori')) stories = 1;
         if (carousels === 0 && lower.includes('carosell')) carousels = 1;
         if (tiktoks === 0 && lower.includes('tiktok')) tiktoks = 1;
 
-        let totalExplicitItems = reels + (stories / 5) + carousels + tiktoks + posts;
-        if (totalExplicitItems === 0) {
+        let totalExplicitItems = reels + carousels + tiktoks + posts;
+        if (totalExplicitItems === 0 && stories === 0) {
             if (text.trim().length > 0) {
                 reels = 1;
                 deliverablesSummary.push("Contenuto descritto nel brief");
@@ -798,10 +798,11 @@
             if (posts > 0) deliverablesSummary.push(`${posts} Post`);
         }
 
-        let workloadUnits = (reels * 2.0) + (tiktoks * 2.0) + (carousels * 1.0) + (stories * 0.2) + (posts * 0.8);
-        let standardReference = 2.0;
+        // Calcolo carico basato sui Reel (370€) e rimodulazione storie a 20€ l'una
+        let workloadUnits = (reels * 370) + (stories * 20) + (tiktoks * 370) + (carousels * 250) + (posts * 200);
+        let standardReference = 370; // 1 Reel base
         let workloadRatio = workloadUnits > 0 ? (workloadUnits / standardReference) : 1.0;
-        if (workloadRatio < 0.8) workloadRatio = 0.8;
+        if (workloadRatio < 0.5) workloadRatio = 0.5;
 
         // Rilevamento contesto brand / locale / Milano
         if (lower.includes('importante') || lower.includes('grande brand') || lower.includes('brand famoso') || lower.includes('multinazionale')) {
@@ -856,7 +857,7 @@
 
         const semantics = parseDescriptionSemantics(description);
 
-        // Tariffe base precise richieste: 370 base, 500 medio, 650 pro per 50k follower
+        // Tariffe base precise: 370 base, 500 medio, 650 pro per 50k follower (con storie ponderate a 20€)
         let baseStandard = 370;     
         let proStandard = 500;      
         let completeStandard = 650; 
@@ -922,7 +923,7 @@
             : "  - Nessuna richiesta extra complessa rilevata";
 
         let rationaleString = `1. Analisi Semantica del Brief: Rilevati -> [ ${semantics.deliverablesSummary} ].
-2. Tariffe base di riferimento (50k follower): Base €370 | Medio €500 | Pro €650.
+2. Tariffe base di riferimento (50k follower): Reel Base €370 | Medio €500 | Pro €650 (Storie calcolate a €20 l'una).
 3. Peso del Contesto (Brand importante / Locale Milano / Piccolo ristorante): Correttivo applicato tramite semantica.
 4. Audience & Ore: ${followers.toLocaleString('it-IT')} follower e ${hours}h stimate.
 5. Seniority (${level}): Correttivo x${levelFactor}.
