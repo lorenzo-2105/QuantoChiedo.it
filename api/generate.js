@@ -44,17 +44,22 @@ export default async function handler(req, res) {
 ` : '- Spese vive/trasferte: Nessuna';
 
   const promptText = `
-Sei un Commerciale e Pricing Strategist per Freelancer e Creator in Italia.
-Devi generare 3 pacchetti di prezzo ad ancoraggio ad un RANGE MEDIO ACCESSIBILE E MOLTO CONCRETO.
+Sei un Pricing Strategist esperto del MERCATO REALE ITALIANO per Freelancer, Videomaker e Content Creator / UGC.
+Il tuo compito è calcolare un preventivo DINAMICO, proporzionato e di mercato per il progetto richiesto, basando le tue metriche su benchmark reali italiani.
 
-ANCHOR TARGET DI RIFERIMENTO (Per un lavoro standard da 4-8 ore):
-- PACCHETTO BASE: ~300€ lordi (Netto st.: ~190€)
-- PACCHETTO RECOMMENDED: ~450€ lordi (Netto st.: ~280€)
-- PACCHETTO PREMIUM: ~600€ lordi (Netto st.: ~380€)
+BENCHMARK DI TARATURA DEL MERCATO ITALIANO:
+Usa come punto di riferimento di mercato questo caso tipo: 
+"Un Content Creator / Mid-Level da ~50k follower che realizza 1 Reel + 10 Storie o un lavoro di circa 5-7 ore si posiziona realisticamente nel range di ~300€ (Base) - ~450€ (Recommended) - ~600€ (Premium)".
 
-Adatta leggermente questi valori in base al numero effettivo di ore (${hours} ore) e all'esperienza (${level}), ma MANTIENI LA STRUTTURA DEL PREZZO ANCORATA ATTORNO A QUESTA SCALA (300€ - 450€ - 600€).
+REGOLE DI SCALABILITÀ E CALCOLO DINAMICO:
+1. NON USARE CIFRE FISSE RIGIDE: adatta i prezzi in modo proporzionale in base al progetto reale:
+   - Se le ore/lavorazioni richieste sono MENO del benchmark (es. solo 1-2 foto o 2 ore di editing), i prezzi scendono proporzionalmente.
+   - Se le ore/lavorazioni richieste sono PIÙ del benchmark (es. 20 ore di dev o trasferta complessa), i prezzi salgono in modo coerente.
+   - Scala in base ai follower se Creator/UGC (Nano <10k, Micro 10k-50k, Mid 50k-100k+).
+   - Includi sempre eventuali spese di trasferta o extra inserite dall'utente.
+2. Calcola sempre un netto stimato credibile (pari a circa il 60-65% del lordo, considerando le tasse italiane).
 
-DATI INPUT:
+DATI INPUT PROGETTO ATTUALE:
 - Tipologia: ${serviceType}
 - Descrizione Progetto: "${description}"
 - Livello Esperienza: ${level}
@@ -62,40 +67,40 @@ DATI INPUT:
 - Ore lavoro stimate: ${hours}
 ${expensesDetails}
 
-STRUTTURA PACCHETTI:
-1. BASE (Essenziale): Il punto d'ingresso accessibile (Attorno a 300€). 1 revisione, cose essenziali.
-2. RECOMMENDED (Pro / Consigliato): La scelta ideale (Attorno a 450€). File sorgente, 2 revisioni, supporto.
-3. PREMIUM (Completo & Priority): Soluzione all-inclusive (Attorno a 600€). Consegna veloce, licenze uff. o varianti.
+STRUTTURA DEI 3 PACCHETTI:
+1. BASE (Essenziale): Minimo indispensabile di valore. 1 revisione inclusa, tempi standard.
+2. RECOMMENDED (Consigliato): Soluzione ideale (+35-45% rispetto al Base). Include revisioni extra, file sorgenti e miglior rapporto qualità/prezzo.
+3. PREMIUM (Completo & Express): Soluzione All-Inclusive (+70-90% rispetto al Base). Include consegne rapide priority, licenze d'uso estese o varianti.
 
 Rispondi TASSATIVAMENTE con un oggetto JSON valido (senza blocchi \`\`\`json):
 {
   "tiers": {
     "base": {
       "name": "Essenziale",
-      "grossRate": "300",
-      "netRate": "190",
+      "grossRate": "valore_lordo_calcolato",
+      "netRate": "valore_netto_stimato",
       "features": ["Deliverable principale", "1 Round di revisione", "Consegna nei tempi standard"]
     },
     "recommended": {
       "name": "Pro / Consigliato",
-      "grossRate": "450",
-      "netRate": "280",
+      "grossRate": "valore_lordo_calcolato",
+      "netRate": "valore_netto_stimato",
       "features": ["Deliverable completo", "2 Round di revisione", "File sorgenti pronti", "Assistenza post-consegna"]
     },
     "premium": {
       "name": "Completo & Priority",
-      "grossRate": "600",
-      "netRate": "380",
-      "features": ["Tutto il pacchetto Pro", "Consegna Prioritaria Express", "Diritti commerciali completi", "1 Variante formato extra"]
+      "grossRate": "valore_lordo_calcolato",
+      "netRate": "valore_netto_stimato",
+      "features": ["Tutto il pacchetto Pro", "Consegna Prioritaria Express", "Diritti d'uso commerciali estesi", "1 Format/Variante extra"]
     }
   },
-  "justification": "Strategia commerciale bilanciata sull'ancora di prezzo 300€ - 450€ - 600€, perfetta per PMI e professionisti.",
+  "justification": "Analisi motivata del prezzo calcolato in base alla scala del lavoro e ai benchmark di mercato.",
   "emailSubject": "Proposta di collaborazione e preventivo - [Nome Progetto]",
-  "emailBody": "Gentile [Cliente],\\n\\necco le 3 soluzioni pensate per la realizzazione del progetto...\\n\\n1. Opzione Essenziale (€[Base]): ...\\n2. Opzione Consigliata (€[Rec]): ...\\n3. Opzione Premium (€[Prem]): ...\\n\\nResto a disposizione.",
+  "emailBody": "Gentile [Cliente],\\n\\necco le opzioni trasparenti pensate per la realizzazione del vostro progetto...\\n\\n1. Opzione Essenziale (€[Base]): ...\\n2. Opzione Consigliata (€[Rec]): ...\\n3. Opzione Premium (€[Prem]): ...\\n\\nResto a disposizione.",
   "objections": {
-    "defense": "L'opzione da 450€ è stata calcolata sulle ore effettive di lavorazione garantendo file pronti all'uso e revisioni incluse. È il miglior punto d'equilibrio per un lavoro professionale.",
-    "descoping": "Se volete rimanere sui 300€ possiamo tranquillamente optare per la versione Essenziale, mantenendo il deliverable principale e riducendo a 1 sola revisione.",
-    "tradeoff": "Possiamo concedere un 10% di sconto sulla versione Pro portandola a circa 400€ a fronte di un saldo immediato al momento della firma del preventivo."
+    "defense": "Il preventivo della versione Consigliata rispecchia il valore reale di mercato per la complessità richiesta e include tutte le lavorazioni necessarie per garantire il massimo livello qualitativo.",
+    "descoping": "Se occorre rientrare in un budget inferiore, possiamo optare per l'Opzione Essenziale riducendo le revisioni a 1 sola e limitando la fornitura ai soli file finali.",
+    "tradeoff": "Possiamo applicare uno sconto del 10% sulla versione Pro a condizione di concordare il saldo anticipato del 100% all'accettazione della proposta."
   }
 }
 `;
