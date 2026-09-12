@@ -1,463 +1,109 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Calcolatore Tariffe & Pricing IA Realistico</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #090d16;
-            --card-bg: #111827;
-            --card-border: #1f293d;
-            --accent-primary: #38bdf8;
-            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --input-bg: #0b1120;
-            --input-border: #243049;
-            --focus-ring: #38bdf8;
-        }
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 40px 20px;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(129, 140, 248, 0.08) 0px, transparent 50%);
-        }
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Metodo non consentito' });
+  }
 
-        .wrapper {
-            max-width: 800px;
-            width: 100%;
-        }
+  const { 
+    serviceType, 
+    description, 
+    level, 
+    followers, 
+    hours, 
+    expenses, 
+    distance, 
+    travelCost, 
+    nights, 
+    hotelCost, 
+    expensePayer 
+  } = req.body || {};
 
-        header {
-            text-align: center;
-            margin-bottom: 35px;
-        }
+  const apiKey = process.env.GEMINI_API_KEY;
 
-        .brand-badge {
-            display: inline-block;
-            background: rgba(56, 189, 248, 0.1);
-            color: var(--accent-primary);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 6px 14px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 12px;
-        }
+  if (!apiKey) {
+    return res.status(500).json({ error: 'GEMINI_API_KEY non configurata nelle Environment Variables.' });
+  }
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+  const promptText = `
+Sei un Pricing Strategist esperto del MERCATO REALE ITALIANO per Freelance, Content Creator e PMI.
+Fornisci una stima estremamente pragmatica, realistica e credibile (evita cifre teoriche o gonfiate da agenzie milanesi di alto livello).
 
-        p.subtitle {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
+DATI INPUT:
+- Tipologia: ${serviceType}
+- Descrizione Progetto: "${description}"
+- Livello Esperienza: ${level}
+- Follower / Audience (se applicabile): ${followers ? followers : 'N/A'}
+- Ore lavoro stimate: ${hours}
+- Spese materiali/extra: €${expenses}
+- Trasferta: ${distance} km (Auto/Mezzi €${travelCost}, Hotel €${hotelCost}, Notti: ${nights})
+- Gestione Spese: ${expensePayer === 'client' ? 'A CARICO CLIENTE (a piè di lista / gestite dal cliente)' : 'A CARICO MIO (anticipate ed incluse nel totale)'}
 
-        .main-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 18px;
-            padding: 32px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-        }
+PARAMETRI DI MERCATO REALE ITALIANO:
+1. CONTENT CREATOR / INFLUENCER:
+   - Nano (1k-10k follower): 30€ - 80€ lordi a post/reel (molto spesso cambio merce o budget minimi).
+   - Micro (10k-50k follower): 100€ - 300€ lordi a post/reel.
+   - Mid-Tier (50k-100k follower): 300€ - 700€ lordi a post/reel.
+   - Macro (100k-500k follower): 800€ - 2.500€ lordi a post/reel.
 
-        .section-header {
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--accent-primary);
-            margin: 25px 0 15px 0;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--card-border);
-        }
+2. FREELANCE DIGITALI (Design, Dev, Video, Copy):
+   - Junior (1-2 anni): 15€ - 25€ / ora lordi.
+   - Mid-Level (3-5 anni): 30€ - 45€ / ora lordi.
+   - Senior (5+ anni): 50€ - 80€ / ora lordi.
 
-        .section-header:first-of-type {
-            margin-top: 0;
-        }
+3. CALCOLO NETTO STIMATO:
+   - Considera una pressione media (tasse + INPS / gestione separata) del ~30-35% per calcolare il NETTO REALE che rimane in tasca.
 
-        .form-group {
-            margin-bottom: 18px;
-        }
+Rispondi TASSATIVAMENTE con un oggetto JSON valido (senza blocchi \`\`\`json):
+{
+  "grossRate": "450",
+  "netRate": "300",
+  "marketRangeGross": "400€ - 500€ Lordi",
+  "marketRangeNet": "270€ - 340€ Netti",
+  "justification": "Spiegazione sintetica ed estremamente concreta basata sulla realtà di mercato italiana, evidenziando il distacco tra Lordo da preventivare e Netto in tasca.",
+  "emailSubject": "Preventivo e Proposta Commerciale - [Progetto]",
+  "emailBody": "Gentile [Cliente],\\n\\nin merito alla sua richiesta..."
+}
+`;
 
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #cbd5e1;
-            margin-bottom: 8px;
-        }
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: promptText }] }]
+      })
+    });
 
-        input, select, textarea {
-            width: 100%;
-            background-color: var(--input-bg);
-            border: 1px solid var(--input-border);
-            border-radius: 10px;
-            padding: 12px 14px;
-            color: var(--text-main);
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-        }
+    const data = await response.json();
 
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--focus-ring);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 90px;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        @media (max-width: 600px) {
-            .grid-2 { grid-template-columns: 1fr; }
-            .main-card { padding: 20px; }
-            h1 { font-size: 2rem; }
-        }
-
-        .btn-submit {
-            width: 100%;
-            background: var(--accent-gradient);
-            color: #090d16;
-            border: none;
-            border-radius: 10px;
-            padding: 16px;
-            font-size: 1rem;
-            font-weight: 800;
-            cursor: pointer;
-            margin-top: 25px;
-            transition: transform 0.15s ease, opacity 0.2s;
-        }
-
-        .btn-submit:hover {
-            opacity: 0.95;
-            transform: translateY(-1px);
-        }
-
-        #loading {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-            color: var(--accent-primary);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        /* Results Display */
-        .results-container {
-            display: none;
-            margin-top: 30px;
-            border-top: 1px solid var(--card-border);
-            padding-top: 25px;
-        }
-
-        .metric-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .metric-card {
-            background-color: var(--input-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-        }
-
-        .metric-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .metric-value {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--accent-primary);
-        }
-
-        .justification-box {
-            background-color: var(--input-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 16px;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: #cbd5e1;
-            margin-bottom: 20px;
-        }
-
-        .email-wrapper {
-            background-color: var(--input-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 20px;
-        }
-
-        .email-body {
-            white-space: pre-line;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            line-height: 1.6;
-            margin-top: 10px;
-        }
-
-        .btn-copy {
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--text-main);
-            border: 1px solid var(--card-border);
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 12px;
-            display: inline-block;
-        }
-
-        .btn-copy:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-    </style>
-</head>
-<body>
-
-<div class="wrapper">
-    <header>
-        <span class="brand-badge">IA Benchmark Engine 3.6</span>
-        <h1>QuantoChiedo.it</h1>
-        <p class="subtitle">Calcola tariffe e preventivi iper-realistici basati sui veri benchmark italiani</p>
-    </header>
-
-    <div class="main-card">
-        
-        <!-- SEZIONE 1 -->
-        <div class="section-header">1. Profilo e Tipologia Servizio</div>
-        
-        <div class="grid-2">
-            <div class="form-group">
-                <label for="serviceType">Tipo di Professionalità</label>
-                <select id="serviceType" onchange="toggleFollowerField()">
-                    <option value="freelance">Freelancer (Design, Dev, Copywriter, ecc.)</option>
-                    <option value="creator">Content Creator / Influencer / UGC</option>
-                    <option value="videomaker">Videomaker / Fotografo</option>
-                    <option value="consultant">Consulente / Strategist</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="level">Livello di Esperienza / Anzianità</label>
-                <select id="level">
-                    <option value="Junior (1-2 anni)">Junior (1-2 anni)</option>
-                    <option value="Mid-Level (3-5 anni)" selected>Intermedio (3-5 anni)</option>
-                    <option value="Senior / Specialist (5+ anni)">Senior / Specialist (5+ anni)</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Campo Dinamico Follower -->
-        <div class="form-group" id="followerContainer" style="display: none;">
-            <label for="followers">Numero di Follower / Audience Totale</label>
-            <input type="number" id="followers" placeholder="Es. 15000 (Iserisci ad es. 10000 o 100000 per calcolo preciso)">
-        </div>
-
-        <div class="form-group">
-            <label for="description">Descrizione Dettagliata del Lavoro</label>
-            <textarea id="description" placeholder="Es. Realizzazione 1 Reel + 3 Stories per sponsorizzazione brand, oppure Sviluppo sito e-commerce in WooCommerce con 20 prodotti."></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="hours">Ore Stimate di Produzione / Lavoro</label>
-            <input type="number" id="hours" value="8">
-        </div>
-
-        <!-- SEZIONE 2 -->
-        <div class="section-header">2. Logistica & Spese di Trasferta</div>
-
-        <div class="form-group">
-            <label for="expensePayer">A chi fanno capo le spese vive e di trasferta?</label>
-            <select id="expensePayer">
-                <option value="freelancer">A CARICO MIO (inclusi ed anticipati nel preventivo finale)</option>
-                <option value="client">A CARICO DEL CLIENTE (a piè di lista / gestiti dal cliente)</option>
-            </select>
-        </div>
-
-        <div class="grid-2">
-            <div class="form-group">
-                <label for="distance">Distanza A/R (Km)</label>
-                <input type="number" id="distance" value="0">
-            </div>
-            <div class="form-group">
-                <label for="travelCost">Costo Viaggio / Carburante (€)</label>
-                <input type="number" id="travelCost" value="0">
-            </div>
-            <div class="form-group">
-                <label for="nights">Notti di Pernottamento</label>
-                <input type="number" id="nights" value="0">
-            </div>
-            <div class="form-group">
-                <label for="hotelCost">Costo Alloggio / Hotel (€)</label>
-                <input type="number" id="hotelCost" value="0">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="expenses">Altre Spese Materiali / Licenze / Extra (€)</label>
-            <input type="number" id="expenses" value="0">
-        </div>
-
-        <button class="btn-submit" onclick="calculatePricing()">Genera Stima Realistica & Preventivo IA</button>
-
-        <div id="loading">✨ Elaborazione algoritmo di pricing e stima di mercato in corso...</div>
-
-        <!-- RISULTATI -->
-        <div class="results-container" id="resultsBlock">
-            
-            <div class="metric-cards">
-                <div class="metric-card">
-                    <div class="metric-label">Forchetta di Mercato</div>
-                    <div class="metric-value" id="resRange">-</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Prezzo Consigliato</div>
-                    <div class="metric-value" id="resRate">-</div>
-                </div>
-            </div>
-
-            <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 6px;">
-                🔍 ANALISI & BENCHMARK UTILIZZATO:
-            </label>
-            <div class="justification-box" id="resJustification"></div>
-
-            <div class="email-wrapper">
-                <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">OGGETTO EMAIL:</label>
-                <input type="text" id="emailSubject" readonly style="margin: 6px 0 15px 0; font-weight: 700; color: var(--accent-primary);">
-
-                <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">PROPOSTA COMMERCIALE PRONTA:</label>
-                <div class="email-body" id="emailBody"></div>
-                
-                <button class="btn-copy" onclick="copyEmail()">📋 Copia Testo Email</button>
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
-<script>
-    function toggleFollowerField() {
-        const type = document.getElementById('serviceType').value;
-        const followerContainer = document.getElementById('followerContainer');
-        if (type === 'creator') {
-            followerContainer.style.display = 'block';
-        } else {
-            followerContainer.style.display = 'none';
-        }
+    if (!response.ok) {
+      return res.status(500).json({ error: `Errore Gemini API (${response.status}): ${data.error?.message || 'Errore di sistema'}` });
     }
 
-    async function calculatePricing() {
-        const serviceType = document.getElementById('serviceType').value;
-        const description = document.getElementById('description').value;
-        const level = document.getElementById('level').value;
-        const followers = document.getElementById('followers').value;
-        const hours = document.getElementById('hours').value;
-        const expenses = document.getElementById('expenses').value;
-        const distance = document.getElementById('distance').value;
-        const travelCost = document.getElementById('travelCost').value;
-        const nights = document.getElementById('nights').value;
-        const hotelCost = document.getElementById('hotelCost').value;
-        const expensePayer = document.getElementById('expensePayer').value;
-
-        if (!description.trim()) {
-            alert('Inserisci la descrizione del progetto o della collaborazione.');
-            return;
-        }
-
-        document.getElementById('loading').style.display = 'block';
-        document.getElementById('resultsBlock').style.display = 'none';
-
-        try {
-            const response = await fetch('/api/generate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    serviceType,
-                    description, 
-                    level, 
-                    followers,
-                    hours, 
-                    expenses, 
-                    distance, 
-                    travelCost, 
-                    nights, 
-                    hotelCost,
-                    expensePayer 
-                })
-            });
-
-            const data = await response.json();
-
-            if (data.error) {
-                alert('Errore: ' + data.error);
-            } else {
-                document.getElementById('resRange').innerText = data.marketRange;
-                document.getElementById('resRate').innerText = '€' + data.recommendedRate;
-                document.getElementById('resJustification').innerText = data.justification;
-                document.getElementById('emailSubject').value = data.emailSubject;
-                document.getElementById('emailBody').innerText = data.emailBody;
-                document.getElementById('resultsBlock').style.display = 'block';
-            }
-        } catch (err) {
-            alert('Errore di connessione al server.');
-        } finally {
-            document.getElementById('loading').style.display = 'none';
-        }
+    if (!data.candidates || !data.candidates[0]?.content?.parts[0]?.text) {
+      return res.status(500).json({ error: 'Risposta non valida dall\'IA.' });
     }
 
-    function copyEmail() {
-        const bodyText = document.getElementById('emailBody').innerText;
-        navigator.clipboard.writeText(bodyText);
-        alert('Testo email copiato negli appunti!');
-    }
-</script>
+    let rawText = data.candidates[0].content.parts[0].text;
+    rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
 
-</body>
-</html>
+    return res.status(200).json(JSON.parse(rawText));
+
+  } catch (error) {
+    return res.status(500).json({ error: 'Errore interno del server: ' + error.message });
+  }
+}
