@@ -1,47 +1,82 @@
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Metodo non consentito' });
   }
 
-  const { description, level, hours, expenses } = req.body;
+  const { description, level, hours, expenses, distance, travelCost, nights, hotelCost } = req.body || {};
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
-    return res.status(500).json({ error: 'API Key non configurata su Vercel' });
+    return res.status(500).json({ error: 'GEMINI_API_KEY non trovata nelle Environment Variables di Vercel.' });
   }
 
-  const prompt = `
-Sei un consulente aziendale e pricing strategist senior per freelance.
-Analizza questa richiesta di lavoro:
+  const promptText = `
+Sei un consulente ed esperto di pricing per freelance in Italia.
+Analizza questo lavoro tenendo conto anche di trasferta, logistica e pernottamenti:
 - Descrizione progetto: "${description}"
-- Livello del professionista: ${level} (Junior / Mid-Level / Senior)
-- Ore stimate: ${hours}
-- Spese vive/materiali: €${expenses}
+- Livello esperienziale: ${level}
+- Ore di lavoro stimate: ${hours}
+- Spese materiali/extra: €${expenses}
+- Distanza trasferta: ${distance} km
+- Costo totale trasporto/chilometrico: €${travelCost}
+- Notti di pernottamento: ${nights}
+- Costo totale pernottamento/hotel: €${hotelCost}
 
-Fornisci una risposta esclusivamente in formato JSON con la seguente struttura esatta:
+Rispondi SOLO ed ESCLUSIVAMENTE con un oggetto JSON valido (senza formattazione Markdown, senza racchiuderlo in \`\`\`json) seguendo questa struttura:
 {
-  "recommendedRate": "tariffa oraria consigliata in € (solo numero)",
-  "marketRange": "forchetta di prezzo di mercato (es. 300€ - 500€)",
-  "justification": "spiegazione di 2 frasi sul perché di questo prezzo in base al livello e al mercato",
-  "emailSubject": "Oggetto professionale ed efficace per l'e-mail",
-  "emailBody": "Testo dell'e-mail di proposta commerciale formale, persuasiva, orientata al valore e strutturata con: Saluto formale, riepilogo della comprensione del problema del cliente, proposta di soluzione, dettaglio dei costi (compenso professionale e rimborso spese scorporati), call to action per fissare una breve call conoscitiva. Non usare marcatori markdown nell'email."
+  "recommendedRate": "35",
+  "marketRange": "300€ - 500€",
+  "justification": "Spiegazione breve in due frasi della stima, includendo la logistica.",
+  "emailSubject": "Preventivo per la realizzazione del progetto",
+  "emailBody": "Gentile Cliente,\\n\\nIn merito alla sua richiesta..."
 }
+
+Istruzioni per l'e-mail:
+Genera una proposta commerciale formale e altamente professionale. Se sono presenti spese di trasferta o pernottamento, trasparenza totale: scorpora in modo dettagliato nell'e-mail il compenso professionale, i costi di trasporto/rimborso chilometrico e le spese di alloggio.
 `;
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    
+    const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { responseMimeType: "application/json" }
+        contents: [{ parts: [{ text: promptText }] }]
       })
     });
 
     const data = await response.json();
-    const resultText = data.candidates[0].content.parts[0].text;
-    return res.status(200).json(JSON.parse(resultText));
+
+    if (!response.ok) {
+      return res.status(500).json({ 
+        error: `Errore Google Gemini API (${response.status}): ${data.error?.message || 'Chiave non valida o quota superata'}` 
+      });
+    }
+
+    if (!data.candidates || !data.candidates[0]?.content?.parts[0]?.text) {
+      return res.status(500).json({ error: 'Risposta non valida da parte dell\'IA.' });
+    }
+
+    let rawText = data.candidates[0].content.parts[0].text;
+    rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+
+    return res.status(200).json(JSON.parse(rawText));
+
   } catch (error) {
-    return res.status(500).json({ error: 'Errore durante la generazione con l\'IA' });
+    return res.status(500).json({ error: 'Errore interno del server: ' + error.message });
   }
 }
