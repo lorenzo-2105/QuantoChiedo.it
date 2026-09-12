@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Smart Pricing & Financial Analytics</title>
+    <title>QuantoChiedo.it | Analytics & Pricing Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --fin-emerald: #10b981;
-            --fin-emerald-hover: #059669;
-            --bg-dark: #090d16;
-            --card-glass: rgba(15, 23, 42, 0.7);
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --text-main: #f8fafc;
+            --bg-base: #070913;
+            --card-bg: #0e1324;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #06b6d4;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --text-main: #ffffff;
             --text-muted: #94a3b8;
+            --input-bg: #131b31;
+            --input-border: rgba(255, 255, 255, 0.12);
         }
 
         * {
@@ -27,232 +33,206 @@
         }
 
         body {
-            background: radial-gradient(circle at 50% -20%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 100% 100%, rgba(14, 116, 144, 0.2) 0%, var(--bg-dark) 60%);
-            background-attachment: fixed;
+            background-color: var(--bg-base);
             color: var(--text-main);
             min-height: 100vh;
-            padding: 24px 16px 60px 16px;
+            padding: 40px 16px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            align-items: flex-start;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
         }
 
-        .main-container {
+        .main-wrapper {
             max-width: 900px;
             width: 100%;
         }
 
-        /* Navbar */
-        .navbar {
+        /* Header Pop & Colorful ispirato a tool di analytics */
+        .analytics-header {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(6, 182, 212, 0.15));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px 30px;
+            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .logo {
+        .brand-box h1 {
+            font-size: 1.6rem;
             font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: -0.03em;
-            background: linear-gradient(135deg, #34d399, #38bdf8);
+            background: linear-gradient(135deg, #38bdf8, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 24px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--fin-emerald);
-        }
-
-        .btn-header {
-            background: rgba(255, 255, 255, 0.06);
-            color: var(--text-main);
-            font-weight: 700;
-            font-size: 0.85rem;
-            padding: 8px 18px;
-            border-radius: 20px;
-            border: 1px solid var(--border-glass);
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-header:hover {
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        /* Hero Section */
-        .hero-section {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .hero-title {
-            font-size: 2.8rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-bottom: 12px;
-            color: #ffffff;
-        }
-
-        .hero-subtitle {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            font-weight: 500;
-        }
-
-        .counter-box {
-            margin-bottom: 25px;
-        }
-
-        .counter-label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-muted);
             margin-bottom: 4px;
         }
 
-        .counter-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--fin-emerald);
-            letter-spacing: -0.02em;
-            text-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+        .brand-box p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
-        /* Search Bar Area */
-        .search-area-wrapper {
-            position: relative;
-            max-width: 650px;
-            margin: 0 auto 30px auto;
-        }
-
-        .search-card {
-            background: var(--card-glass);
-            backdrop-filter: blur(12px);
-            padding: 8px 8px 8px 20px;
-            border-radius: 40px;
+        .live-tag {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            gap: 6px;
         }
 
-        .search-card select {
-            border: none;
-            background: transparent;
-            font-size: 0.95rem;
-            color: var(--text-main);
-            outline: none;
-            width: 100%;
-            padding: 8px;
-            cursor: pointer;
+        .live-tag span {
+            width: 8px;
+            height: 8px;
+            background-color: #34d399;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #34d399;
         }
 
-        .search-card select option {
-            background: #0f172a;
-            color: white;
-        }
-
-        .btn-search-main {
-            background: var(--fin-emerald);
-            color: #060812;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 30px;
-            font-weight: 800;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-search-main:hover {
-            background: var(--fin-emerald-hover);
-            transform: translateY(-1px);
-        }
-
-        /* Pannello Parametri Avanzati */
-        .config-panel {
-            background: var(--card-glass);
-            border: 1px solid var(--border-glass);
-            padding: 24px;
+        /* Card Principale stile Report */
+        .report-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 20px;
-            margin-top: 20px;
-            text-align: left;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            padding: 32px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
         }
 
-        .config-grid {
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
 
-        @media (max-width: 768px) {
-            .config-grid { grid-template-columns: 1fr; }
-            .hero-title { font-size: 2rem; }
+        @media (max-width: 700px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .analytics-header { flex-direction: column; align-items: flex-start; gap: 12px; }
         }
 
-        .field-group {
-            margin-top: 14px;
+        .input-group {
+            margin-bottom: 16px;
         }
 
-        .field-group label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-weight: 700;
+        label {
             display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
             margin-bottom: 6px;
-            letter-spacing: 0.05em;
         }
 
-        .field-group input, .field-group select {
-            width: 10px; /* fix width */
+        input, select, textarea {
             width: 100%;
-            background: rgba(9, 13, 22, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 11px 14px;
-            border-radius: 10px;
-            color: white;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: var(--text-main);
             font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
             outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
         }
 
-        .field-group input:focus, .field-group select:focus {
-            border-color: var(--fin-emerald);
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5l-4-4h8l-4 4z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            cursor: pointer;
         }
 
-        /* Risultati Report */
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--input-bg);
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--input-border);
+            cursor: pointer;
+            user-select: none;
+            margin-top: 10px;
+        }
+
+        .custom-checkbox input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-cyan);
+            cursor: pointer;
+        }
+
+        .custom-checkbox span {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .btn-generate {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 24px;
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-generate:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        #loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* Sezione Risultati in stile Metric Dashboard */
         .results-wrapper {
             display: none;
-            background: rgba(15, 23, 42, 0.92);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 30px;
-            backdrop-filter: blur(20px);
+            margin-top: 24px;
             animation: fadeIn 0.4s ease-out forwards;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
         }
 
         @keyframes fadeIn {
@@ -260,285 +240,478 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .results-grid {
+        .metrics-cards-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 16px;
             margin-bottom: 24px;
         }
 
-        @media (max-width: 768px) {
-            .results-grid { grid-template-columns: 1fr; }
+        @media (max-width: 800px) {
+            .metrics-cards-grid { grid-template-columns: 1fr; }
         }
 
-        .tier-box {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-glass);
-            border-radius: 14px;
-            padding: 20px;
+        .metric-box {
+            background-color: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 22px;
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            position: relative;
         }
 
-        .tier-box.highlight {
-            border-color: var(--fin-emerald);
-            background: rgba(16, 185, 129, 0.06);
+        .metric-box.featured {
+            border-color: var(--accent-cyan);
+            background: linear-gradient(180deg, rgba(6, 182, 212, 0.08) 0%, var(--input-bg) 100%);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
         }
 
-        .badge-pop {
+        .badge-tag {
             position: absolute;
             top: -10px;
             right: 16px;
-            background: var(--fin-emerald);
-            color: #060812;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: #fff;
             font-size: 0.6rem;
             font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 10px;
+            padding: 4px 10px;
+            border-radius: 20px;
             text-transform: uppercase;
         }
 
-        .tier-name {
-            font-size: 0.9rem;
+        .box-title {
+            font-size: 0.95rem;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
+            color: var(--text-main);
         }
 
-        .tier-price {
+        .box-gross {
             font-size: 1.8rem;
             font-weight: 800;
-            color: var(--fin-emerald);
-            margin-bottom: 4px;
+            color: var(--accent-cyan);
+            letter-spacing: -0.02em;
         }
 
-        .tier-net {
+        .box-net {
             font-size: 0.78rem;
             color: #34d399;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
-        .tier-list {
+        .box-features {
             list-style: none;
             font-size: 0.8rem;
             color: var(--text-muted);
-            border-top: 1px solid rgba(255,255,255,0.06);
-            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 12px;
         }
 
-        .tier-list li {
+        .box-features li {
             margin-bottom: 6px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
         }
 
-        .email-box-area {
-            background: rgba(0,0,0,0.35);
-            border-radius: 12px;
+        .box-features li::before {
+            content: "✦";
+            color: var(--accent-cyan);
+            font-size: 0.7rem;
+        }
+
+        .analytics-insight {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
             padding: 20px;
-            margin-top: 20px;
-            border: 1px solid var(--border-glass);
+            margin-bottom: 24px;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: #cbd5e1;
         }
 
-        .email-preview-text {
+        .email-section {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 22px;
+        }
+
+        .email-text-preview {
             white-space: pre-line;
             font-size: 0.85rem;
-            background: rgba(0,0,0,0.5);
-            padding: 14px;
-            border-radius: 8px;
-            color: #e2e8f0;
-            margin-top: 8px;
+            color: var(--text-main);
             line-height: 1.6;
+            background: rgba(7, 9, 19, 0.7);
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 8px;
         }
 
         .btn-copy {
-            background: rgba(255,255,255,0.08);
-            color: white;
-            border: 1px solid var(--border-glass);
-            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 8px 14px;
             border-radius: 8px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
             cursor: pointer;
             margin-top: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             transition: background 0.2s;
         }
 
         .btn-copy:hover {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .objection-btn {
+            width: 100%;
+            background: rgba(245, 158, 11, 0.08);
+            color: var(--accent-orange);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .objection-btn:hover {
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        .objection-box {
+            display: none;
+            margin-top: 14px;
+            background: rgba(7, 9, 19, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .objection-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .objection-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .obj-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .obj-desc {
+            font-size: 0.82rem;
+            color: var(--text-main);
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
 
-<div class="main-container">
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="logo">QuantoChiedo</div>
-        <div class="nav-links">
-            <a href="#benchmark">Benchmark</a>
-            <a href="#tariffe">Tariffe Pro</a>
-            <a href="#guide">Guide Fiscali</a>
-            <a href="#api">API & Tool</a>
+<div class="main-wrapper">
+    <!-- HEADER -->
+    <header class="analytics-header">
+        <div class="brand-box">
+            <h1>QuantoChiedo.it</h1>
+            <p>Advanced Pricing & Market Analytics Engine</p>
         </div>
-        <button class="btn-header">Area Riservata</button>
+        <div class="live-tag">
+            <span></span> Live Benchmark Engine
+        </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <section class="hero-section">
-        <h1 class="hero-title">Quanto vale il tuo lavoro?</h1>
-        <p class="hero-subtitle">Tariffe trasparenti e calcolate sui reali standard di mercato.</p>
-
-        <div class="counter-box">
-            <div class="counter-label">Preventivi & Analisi Elaborate</div>
-            <div class="counter-number" id="dynamicCounter">28.490.112</div>
-        </div>
-
-        <!-- BARRA INPUT PRINCIPALE -->
-        <div class="search-area-wrapper">
-            <div class="search-card">
-                <select id="serviceType">
-                    <option value="freelance">💼 Freelancer / Developer / Copywriter</option>
-                    <option value="creator">✨ Content Creator / UGC / Influencer</option>
-                    <option value="videomaker">🎥 Videomaker / Fotografo</option>
-                    <option value="consultant">📊 Consulente / Strategist</option>
-                </select>
-                <button class="btn-search-main" onclick="calculatePricing()">Analizza</button>
-            </div>
-        </div>
-
-        <!-- PANNELLO CONFIGURAZIONE AVANZATA (Con follower e trasferte) -->
-        <div class="config-panel">
-            <div class="config-grid">
-                <div class="field-group">
-                    <label>SENIORITY PROFESSIONALE</label>
-                    <select id="level">
-                        <option value="Junior (1-2 anni)">Junior (1-2 anni)</option>
-                        <option value="Mid-Level (3-5 anni)" selected>Mid-Level (3-5 anni)</option>
-                        <option value="Senior / Specialist (5+ anni)">Senior / Specialist (5+ anni)</option>
-                    </select>
-                </div>
-                <div class="field-group">
-                    <label>STIMA ORE DI LAVORO</label>
-                    <input type="number" id="hours" value="12">
-                </div>
-            </div>
-
-            <div class="config-grid">
-                <div class="field-group">
-                    <label>FOLLOWER / AUDIENCE (Se Creator/Social)</label>
-                    <input type="number" id="followers" value="10000" placeholder="Es. 15000">
-                </div>
-                <div class="field-group">
-                    <label>COSTO TRASFERTA / EXTRA SPESE (EUR)</label>
-                    <input type="number" id="travelCost" value="0" placeholder="Es. 50">
-                </div>
-            </div>
-
-            <div class="field-group">
-                <label>DESCRIZIONE DEL PROGETTO O DELIVERABLE</label>
-                <input type="text" id="description" placeholder="Es. Restyling brand identity o pacchetto 4 Reel + copywriting...">
-            </div>
-        </div>
-    </section>
-
-    <!-- SEZIONE RISULTATI -->
-    <div class="results-wrapper" id="resultsBlock">
-        <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--fin-emerald);">📈 Report & Pacchetti Consigliati</h2>
+    <!-- FORM CARD -->
+    <div class="report-card">
+        <div class="section-title">📊 1. Configurazione Parametri</div>
         
-        <div class="results-grid">
-            <div class="tier-box">
-                <div>
-                    <div class="tier-name" id="tBaseName">Essenziale</div>
-                    <div class="tier-price" id="tBaseGross">€0</div>
-                    <div class="tier-net" id="tBaseNet">Netto st.: €0</div>
-                    <ul class="tier-list" id="tBaseFeatures"></ul>
-                </div>
+        <div class="form-grid">
+            <div class="input-group">
+                <label for="serviceType">Categoria Professionale</label>
+                <select id="serviceType" onchange="toggleFollowerField()">
+                    <option value="freelance">Freelancer (Design, Dev, Copywriter)</option>
+                    <option value="creator">Content Creator / UGC / Influencer</option>
+                    <option value="videomaker">Videomaker / Fotografo</option>
+                    <option value="consultant">Consulente / Strategist</option>
+                </select>
             </div>
 
-            <div class="tier-box highlight">
-                <span class="badge-pop">Consigliato</span>
-                <div>
-                    <div class="tier-name" id="tRecName">Pro / Standard</div>
-                    <div class="tier-price" id="tRecGross">€0</div>
-                    <div class="tier-net" id="tRecNet">Netto st.: €0</div>
-                    <ul class="tier-list" id="tRecFeatures"></ul>
-                </div>
-            </div>
-
-            <div class="tier-box">
-                <div>
-                    <div class="tier-name" id="tPremName">Completo & Priority</div>
-                    <div class="tier-price" id="tPremGross">€0</div>
-                    <div class="tier-net" id="tPremNet">Netto st.: €0</div>
-                    <ul class="tier-list" id="tPremFeatures"></ul>
-                </div>
+            <div class="input-group">
+                <label for="level">Seniority / Livello</label>
+                <select id="level">
+                    <option value="Junior (1-2 anni)">Junior (1-2 anni)</option>
+                    <option value="Mid-Level (3-5 anni)" selected>Mid-Level (3-5 anni)</option>
+                    <option value="Senior / Specialist (5+ anni)">Senior / Specialist (5+ anni)</option>
+                </select>
             </div>
         </div>
 
-        <div id="resJustification" style="font-size: 0.85rem; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 14px; border-radius: 10px; margin-bottom: 20px; line-height: 1.5;"></div>
+        <div class="input-group" id="followerContainer" style="display: none; margin-top: 16px;">
+            <label for="followers">Community / Follower Totali</label>
+            <input type="number" id="followers" placeholder="Es. 25000">
+        </div>
 
-        <div class="email-box-area">
-            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">TESTO EMAIL PRONTO PER IL CLIENTE</label>
-            <div class="email-preview-text" id="emailBody"></div>
-            <button class="btn-copy" onclick="copyEmail()">📋 Copia Testo Email</button>
+        <div class="input-group" style="margin-top: 16px;">
+            <label for="description">Specifiche del Progetto / Deliverable</label>
+            <textarea id="description" placeholder="Es. Creazione brand identity completa + 3 grafiche social."></textarea>
+        </div>
+
+        <div class="input-group" style="margin-top: 16px;">
+            <label for="hours">Ore Stimate di Lavoro</label>
+            <input type="number" id="hours" value="10">
+        </div>
+
+        <label class="custom-checkbox">
+            <input type="checkbox" id="hasExpenses" onchange="toggleExpensesBlock()">
+            <span>Includi spese di trasferta o extra vivi nel preventivo</span>
+        </label>
+
+        <div id="expensesBlock" style="display: none; margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 20px;">
+            <div class="section-title" style="margin-bottom: 14px;">🚗 2. Gestione Trasferte & Costi Vivi</div>
+
+            <div class="input-group">
+                <label for="expensePayer">Regime Spese</label>
+                <select id="expensePayer">
+                    <option value="freelancer">A CARICO MIO (anticipate e incluse nel totale)</option>
+                    <option value="client">A CARICO DEL CLIENTE (a piè di lista)</option>
+                </select>
+            </div>
+
+            <div class="form-grid" style="margin-top: 16px;">
+                <div class="input-group">
+                    <label for="distance">Distanza A/R (Km)</label>
+                    <input type="number" id="distance" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="travelCost">Costo Spostamento (€)</label>
+                    <input type="number" id="travelCost" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="nights">Notti Hotel</label>
+                    <input type="number" id="nights" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="hotelCost">Costo Alloggio (€)</label>
+                    <input type="number" id="hotelCost" value="0">
+                </div>
+            </div>
+
+            <div class="input-group" style="margin-top: 16px;">
+                <label for="expenses">Altre Spese Materiali / Licenze (€)</label>
+                <input type="number" id="expenses" value="0">
+            </div>
+        </div>
+
+        <button class="btn-generate" onclick="calculatePricing()">Genera Analisi & Pacchetti di Prezzo 🚀</button>
+
+        <div id="loading">✨ Elaborazione benchmark e calcolo tariffe in corso...</div>
+    </div>
+
+    <!-- RISULTATI REPORT -->
+    <div class="results-wrapper" id="resultsBlock">
+        <div class="report-card">
+            <div class="section-title">📈 Report & Proposta Commerciale</div>
+
+            <div class="metrics-cards-grid">
+                <!-- BASE -->
+                <div class="metric-box">
+                    <div>
+                        <div class="box-title" id="tBaseName">Essenziale</div>
+                        <div class="box-gross" id="tBaseGross">€0</div>
+                        <div class="box-net" id="tBaseNet">Netto st.: €0</div>
+                        <ul class="box-features" id="tBaseFeatures"></ul>
+                    </div>
+                </div>
+
+                <!-- RECOMMENDED -->
+                <div class="metric-box featured">
+                    <span class="badge-tag">Scelta Consigliata</span>
+                    <div>
+                        <div class="box-title" id="tRecName">Pro / Consigliato</div>
+                        <div class="box-gross" id="tRecGross">€0</div>
+                        <div class="box-net" id="tRecNet">Netto st.: €0</div>
+                        <ul class="box-features" id="tRecFeatures"></ul>
+                    </div>
+                </div>
+
+                <!-- PREMIUM -->
+                <div class="metric-box">
+                    <div>
+                        <div class="box-title" id="tPremName">Completo & Priority</div>
+                        <div class="box-gross" id="tPremGross">€0</div>
+                        <div class="box-net" id="tPremNet">Netto st.: €0</div>
+                        <ul class="box-features" id="tPremFeatures"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analytics-insight" id="resJustification"></div>
+
+            <div class="email-section">
+                <label>OGGETTO EMAIL PROPOSTA</label>
+                <input type="text" id="emailSubject" readonly style="margin: 6px 0 14px 0; font-weight: 700; color: var(--accent-cyan);">
+
+                <label>TESTO EMAIL PRONTO</label>
+                <div class="email-text-preview" id="emailBody"></div>
+                
+                <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
+
+                <button class="objection-btn" onclick="toggleObjections()">
+                    💬 Gestione Obiezioni Sconto (Cosa dire se chiedono un ribasso)
+                </button>
+
+                <div class="objection-box" id="objectionsBlock">
+                    <div class="objection-card">
+                        <div class="obj-title">1. Difesa del Valore (Nessun Sconto)</div>
+                        <div class="obj-desc" id="objDefense"></div>
+                        <button class="btn-copy" onclick="copyText('objDefense')" style="margin-top:8px;">Copia Risposta</button>
+                    </div>
+                    <div class="objection-card">
+                        <div class="obj-title">2. Descoping (Riduzione Attività)</div>
+                        <div class="obj-desc" id="objDescoping"></div>
+                        <button class="btn-copy" onclick="copyText('objDescoping')" style="margin-top:8px;">Copia Risposta</button>
+                    </div>
+                    <div class="objection-card">
+                        <div class="obj-title">3. Trade-off (Sconto vs Saldo Anticipato)</div>
+                        <div class="obj-desc" id="objTradeoff"></div>
+                        <button class="btn-copy" onclick="copyText('objTradeoff')" style="margin-top:8px;">Copia Risposta</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 
 <script>
-    // Rende il contatore dinamico simulando un incremento automatico nel tempo
-    let currentCounter = 28490112;
-    setInterval(() => {
-        currentCounter += Math.floor(Math.random() * 3) + 1;
-        document.getElementById('dynamicCounter').innerText = currentCounter.toLocaleString('it-IT');
-    }, 4000);
+    function toggleFollowerField() {
+        const type = document.getElementById('serviceType').value;
+        document.getElementById('followerContainer').style.display = (type === 'creator') ? 'block' : 'none';
+    }
 
-    function calculatePricing() {
+    function toggleExpensesBlock() {
+        const hasExpenses = document.getElementById('hasExpenses').checked;
+        document.getElementById('expensesBlock').style.display = hasExpenses ? 'block' : 'none';
+    }
+
+    function toggleObjections() {
+        const block = document.getElementById('objectionsBlock');
+        block.style.display = (block.style.display === 'block') ? 'none' : 'block';
+    }
+
+    async function calculatePricing() {
+        const serviceType = document.getElementById('serviceType').value;
         const description = document.getElementById('description').value;
         const level = document.getElementById('level').value;
-        const hours = parseFloat(document.getElementById('hours').value) || 0;
-        const followers = parseInt(document.getElementById('followers').value) || 0;
-        const travelCost = parseFloat(document.getElementById('travelCost').value) || 0;
+        const followers = document.getElementById('followers').value;
+        const hours = document.getElementById('hours').value;
+        
+        const hasExpenses = document.getElementById('hasExpenses').checked;
+        const expenses = document.getElementById('expenses').value;
+        const distance = document.getElementById('distance').value;
+        const travelCost = document.getElementById('travelCost').value;
+        const nights = document.getElementById('nights').value;
+        const hotelCost = document.getElementById('hotelCost').value;
+        const expensePayer = document.getElementById('expensePayer').value;
 
         if (!description.trim()) {
-            alert('Inserisci una breve descrizione del progetto.');
+            alert('Inserisci la descrizione del progetto.');
             return;
         }
 
-        // Calcolo base che tiene conto anche dei follower e dei costi di trasferta
-        let baseRate = (hours * 38) + travelCost;
-        if (followers > 50000) {
-            baseRate += Math.round(followers * 0.005); // piccolo bonus di reach
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('resultsBlock').style.display = 'none';
+        document.getElementById('objectionsBlock').style.display = 'none';
+
+        try {
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    serviceType, description, level, followers, hours, 
+                    hasExpenses, expenses, distance, travelCost, nights, hotelCost, expensePayer 
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                alert('Errore: ' + data.error);
+            } else {
+                document.getElementById('tBaseName').innerText = data.tiers.base.name;
+                document.getElementById('tBaseGross').innerText = '€' + data.tiers.base.grossRate;
+                document.getElementById('tBaseNet').innerText = 'Netto st.: €' + data.tiers.base.netRate;
+                renderFeatures('tBaseFeatures', data.tiers.base.features);
+
+                document.getElementById('tRecName').innerText = data.tiers.recommended.name;
+                document.getElementById('tRecGross').innerText = '€' + data.tiers.recommended.grossRate;
+                document.getElementById('tRecNet').innerText = 'Netto st.: €' + data.tiers.recommended.netRate;
+                renderFeatures('tRecFeatures', data.tiers.recommended.features);
+
+                document.getElementById('tPremName').innerText = data.tiers.premium.name;
+                document.getElementById('tPremGross').innerText = '€' + data.tiers.premium.grossRate;
+                document.getElementById('tPremNet').innerText = 'Netto st.: €' + data.tiers.premium.netRate;
+                renderFeatures('tPremFeatures', data.tiers.premium.features);
+
+                document.getElementById('resJustification').innerText = data.justification;
+                document.getElementById('emailSubject').value = data.emailSubject;
+                document.getElementById('emailBody').innerText = data.emailBody;
+
+                if (data.objections) {
+                    document.getElementById('objDefense').innerText = data.objections.defense;
+                    document.getElementById('objDescoping').innerText = data.objections.descoping;
+                    document.getElementById('objTradeoff').innerText = data.objections.tradeoff;
+                }
+
+                document.getElementById('resultsBlock').style.display = 'block';
+            }
+        } catch (err) {
+            alert('Errore di comunicazione con il server.');
+        } finally {
+            document.getElementById('loading').style.display = 'none';
         }
-        
-        document.getElementById('tBaseName').innerText = "Essenziale";
-        document.getElementById('tBaseGross').innerText = "€" + Math.round(baseRate);
-        document.getElementById('tBaseNet').innerText = "Netto st.: €" + Math.round(baseRate * 0.78);
-        document.getElementById('tBaseFeatures').innerHTML = "<li>Consegna standard</li><li>1 round di revisioni</li><li>Supporto via email</li>";
-
-        document.getElementById('tRecName').innerText = "Pro / Consigliato";
-        document.getElementById('tRecGross').innerText = "€" + Math.round(baseRate * 1.35);
-        document.getElementById('tRecNet').innerText = "Netto st.: €" + Math.round(baseRate * 1.35 * 0.78);
-        document.getElementById('tRecFeatures').innerHTML = "<li>Priorità nei tempi</li><li>3 round di revisioni</li><li>Call di allineamento inclusa</li>";
-
-        document.getElementById('tPremName').innerText = "Completo & Priority";
-        document.getElementById('tPremGross').innerText = "€" + Math.round(baseRate * 1.85);
-        document.getElementById('tPremNet').innerText = "Netto st.: €" + Math.round(baseRate * 1.85 * 0.78);
-        document.getElementById('tPremFeatures').innerHTML = "<li>Assistenza dedicata h24</li><li>Revisioni illimitate</li><li>Consulenza strategica extra</li>";
-
-        document.getElementById('resJustification').innerText = "Analisi completata con successo in base ai parametri inseriti (" + level + ", " + hours + " ore stimate, " + followers + " follower e " + travelCost + "€ di extra/trasferta). Il prezzo riflette gli standard di mercato attuali.";
-        
-        document.getElementById('emailBody').innerText = "Buongiorno,\n\nIn riferimento alle specifiche concordate per il progetto \"" + description + "\", ho elaborato la proposta economica strutturata per garantire il massimo livello qualitativo.\n\nResto a disposizione per qualsiasi chiarimento.\n\nUn saluto,\n[Tuo Nome]";
-
-        document.getElementById('resultsBlock').style.display = 'block';
-        document.getElementById('resultsBlock').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function copyEmail() {
-        const text = document.getElementById('emailBody').innerText;
+    function renderFeatures(containerId, features) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        if (features && Array.isArray(features)) {
+            features.forEach(ft => {
+                const li = document.createElement('li');
+                li.innerText = ft;
+                container.appendChild(li);
+            });
+        }
+    }
+
+    function copyText(elementId) {
+        const text = document.getElementById(elementId).innerText;
         navigator.clipboard.writeText(text);
-        alert('Testo email copiato negli appunti!');
+        alert('Testo copiato negli appunti!');
     }
 </script>
 
