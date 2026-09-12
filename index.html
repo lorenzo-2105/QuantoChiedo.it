@@ -3,289 +3,401 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | AI Pricing & Preventivi Freelance</title>
+    <title>QuantoChiedo.it | Calcolatore Tariffe & Pricing IA Realistico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-color: #38bdf8;
-            --accent-hover: #0284c7;
-            --text-color: #f8fafc;
-            --text-secondary: #94a3b8;
-            --border-color: #334155;
+            --bg-color: #090d16;
+            --card-bg: #111827;
+            --card-border: #1f293d;
+            --accent-primary: #38bdf8;
+            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: #0b1120;
+            --input-border: #243049;
+            --focus-ring: #38bdf8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(129, 140, 248, 0.08) 0px, transparent 50%);
         }
 
-        .container {
-            max-width: 750px;
+        .wrapper {
+            max-width: 800px;
             width: 100%;
-            margin-top: 20px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 35px;
+        }
+
+        .brand-badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-primary);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
         }
 
         h1 {
-            color: var(--accent-color);
-            font-size: 2.2rem;
-            margin-bottom: 6px;
-        }
-
-        .badge {
-            background-color: #0284c7;
-            color: white;
-            font-size: 0.75rem;
-            padding: 3px 8px;
-            border-radius: 12px;
-            vertical-align: middle;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p.subtitle {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-        }
-
-        .section-title {
-            color: var(--accent-color);
+            color: var(--text-muted);
             font-size: 1rem;
-            font-weight: bold;
-            margin: 20px 0 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
+        }
+
+        .main-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 32px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-header {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-primary);
+            margin: 25px 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-header:first-of-type {
+            margin-top: 0;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
             font-size: 0.85rem;
-            color: var(--text-color);
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 8px;
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 10px 12px;
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: var(--text-color);
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: var(--text-main);
             font-size: 0.95rem;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            resize: vertical;
-            height: 80px;
+            transition: all 0.2s ease;
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: var(--accent-color);
+            border-color: var(--focus-ring);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
         }
 
-        .form-grid {
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 16px;
         }
 
-        @media (max-width: 550px) {
-            .form-grid { grid-template-columns: 1fr; }
+        @media (max-width: 600px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .main-card { padding: 20px; }
+            h1 { font-size: 2rem; }
         }
 
-        button {
+        .btn-submit {
             width: 100%;
-            padding: 14px;
-            background-color: var(--accent-color);
-            color: #0f172a;
+            background: var(--accent-gradient);
+            color: #090d16;
             border: none;
-            border-radius: 6px;
-            font-weight: 700;
+            border-radius: 10px;
+            padding: 16px;
             font-size: 1rem;
+            font-weight: 800;
             cursor: pointer;
-            margin-top: 15px;
-            transition: background 0.2s;
+            margin-top: 25px;
+            transition: transform 0.15s ease, opacity 0.2s;
         }
 
-        button:hover {
-            background-color: var(--accent-hover);
-            color: white;
-        }
-
-        .results {
-            display: none;
-            margin-top: 20px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-
-        .ai-box {
-            background-color: #0f172a;
-            border: 1px solid var(--accent-color);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .ai-title {
-            color: var(--accent-color);
-            font-weight: bold;
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-        }
-
-        .email-box {
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            color: var(--text-color);
-            white-space: pre-line;
-            margin-top: 8px;
-            line-height: 1.5;
+        .btn-submit:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
         }
 
         #loading {
             display: none;
             text-align: center;
-            color: var(--accent-color);
-            font-weight: bold;
-            margin: 15px 0;
+            margin: 20px 0;
+            color: var(--accent-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Results Display */
+        .results-container {
+            display: none;
+            margin-top: 30px;
+            border-top: 1px solid var(--card-border);
+            padding-top: 25px;
+        }
+
+        .metric-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background-color: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+        }
+
+        .justification-box {
+            background-color: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .email-wrapper {
+            background-color: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .email-body {
+            white-space: pre-line;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            display: inline-block;
+        }
+
+        .btn-copy:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="wrapper">
     <header>
-        <h1>QuantoChiedo.it <span class="badge">IA Inside</span></h1>
-        <p class="subtitle">Calcola la tariffa ideale di mercato e genera proposte commerciali ad alto tasso di conversione</p>
+        <span class="brand-badge">IA Benchmark Engine 3.6</span>
+        <h1>QuantoChiedo.it</h1>
+        <p class="subtitle">Calcola tariffe e preventivi iper-realistici basati sui veri benchmark italiani</p>
     </header>
 
-    <div class="card">
-        <!-- Dettagli Progetto -->
-        <div class="form-group">
-            <label for="description">Descrivi il Lavoro Richiesto dal Cliente</label>
-            <textarea id="description" placeholder="Es. Shooting fotografico ed eventi di 2 giorni a Milano con post-produzione inclusa."></textarea>
-        </div>
-
-        <div class="form-grid">
+    <div class="main-card">
+        
+        <!-- SEZIONE 1 -->
+        <div class="section-header">1. Profilo e Tipologia Servizio</div>
+        
+        <div class="grid-2">
             <div class="form-group">
-                <label for="level">Il Tuo Livello di Esperienza</label>
-                <select id="level">
-                    <option value="Junior">Junior (1-2 anni / Primi clienti)</option>
-                    <option value="Mid-Level" selected>Intermedio (2-5 anni di esperienza)</option>
-                    <option value="Senior">Senior / Specialist (5+ anni o nicchia alta)</option>
+                <label for="serviceType">Tipo di Professionalità</label>
+                <select id="serviceType" onchange="toggleFollowerField()">
+                    <option value="freelance">Freelancer (Design, Dev, Copywriter, ecc.)</option>
+                    <option value="creator">Content Creator / Influencer / UGC</option>
+                    <option value="videomaker">Videomaker / Fotografo</option>
+                    <option value="consultant">Consulente / Strategist</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="hours">Ore Stimate di Lavoro</label>
-                <input type="number" id="hours" value="10" placeholder="Es. 10">
+                <label for="level">Livello di Esperienza / Anzianità</label>
+                <select id="level">
+                    <option value="Junior (1-2 anni)">Junior (1-2 anni)</option>
+                    <option value="Mid-Level (3-5 anni)" selected>Intermedio (3-5 anni)</option>
+                    <option value="Senior / Specialist (5+ anni)">Senior / Specialist (5+ anni)</option>
+                </select>
             </div>
         </div>
 
-        <!-- Logistica e Trasferta -->
-        <div class="section-title">Logistica & Trasferta</div>
-        
+        <!-- Campo Dinamico Follower -->
+        <div class="form-group" id="followerContainer" style="display: none;">
+            <label for="followers">Numero di Follower / Audience Totale</label>
+            <input type="number" id="followers" placeholder="Es. 15000 (Iserisci ad es. 10000 o 100000 per calcolo preciso)">
+        </div>
+
         <div class="form-group">
-            <label for="expensePayer">A chi fanno capo le spese di trasferta / pernottamento?</label>
+            <label for="description">Descrizione Dettagliata del Lavoro</label>
+            <textarea id="description" placeholder="Es. Realizzazione 1 Reel + 3 Stories per sponsorizzazione brand, oppure Sviluppo sito e-commerce in WooCommerce con 20 prodotti."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="hours">Ore Stimate di Produzione / Lavoro</label>
+            <input type="number" id="hours" value="8">
+        </div>
+
+        <!-- SEZIONE 2 -->
+        <div class="section-header">2. Logistica & Spese di Trasferta</div>
+
+        <div class="form-group">
+            <label for="expensePayer">A chi fanno capo le spese vive e di trasferta?</label>
             <select id="expensePayer">
-                <option value="freelancer">A CARICO MIO (anticipate e incluse nel preventivo)</option>
-                <option value="client">A CARICO DEL CLIENTE (prenotate dal cliente o a piè di lista)</option>
+                <option value="freelancer">A CARICO MIO (inclusi ed anticipati nel preventivo finale)</option>
+                <option value="client">A CARICO DEL CLIENTE (a piè di lista / gestiti dal cliente)</option>
             </select>
         </div>
 
-        <div class="form-grid">
+        <div class="grid-2">
             <div class="form-group">
                 <label for="distance">Distanza A/R (Km)</label>
-                <input type="number" id="distance" value="0" placeholder="Es. 150">
+                <input type="number" id="distance" value="0">
             </div>
-
             <div class="form-group">
-                <label for="travelCost">Costo Trasporto / Carburante (€)</label>
-                <input type="number" id="travelCost" value="0" placeholder="Es. 45">
+                <label for="travelCost">Costo Viaggio / Carburante (€)</label>
+                <input type="number" id="travelCost" value="0">
             </div>
-
             <div class="form-group">
                 <label for="nights">Notti di Pernottamento</label>
-                <input type="number" id="nights" value="0" placeholder="Es. 1">
+                <input type="number" id="nights" value="0">
             </div>
-
             <div class="form-group">
-                <label for="hotelCost">Costo Hotel / Alloggio (€)</label>
-                <input type="number" id="hotelCost" value="0" placeholder="Es. 90">
+                <label for="hotelCost">Costo Alloggio / Hotel (€)</label>
+                <input type="number" id="hotelCost" value="0">
             </div>
         </div>
 
-        <!-- Spese Extra -->
-        <div class="section-title">Altre Spese & Fisco</div>
-
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="expenses">Spese Materiali / Acquisti Extra (€)</label>
-                <input type="number" id="expenses" value="0" placeholder="Es. 30">
-            </div>
-
-            <div class="form-group">
-                <label for="regime">Regime Fiscale</label>
-                <select id="regime">
-                    <option value="prestazione">Prestazione Occasionale (Ritenuta 20%)</option>
-                    <option value="forfettario">Partita IVA Forfettaria</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label for="expenses">Altre Spese Materiali / Licenze / Extra (€)</label>
+            <input type="number" id="expenses" value="0">
         </div>
 
-        <button onclick="calculateWithAI()">Analizza e Genera Preventivo IA</button>
+        <button class="btn-submit" onclick="calculatePricing()">Genera Stima Realistica & Preventivo IA</button>
 
-        <div id="loading">✨ L'IA sta analizzando i costi, la logistica e scrivendo l'e-mail...</div>
+        <div id="loading">✨ Elaborazione algoritmo di pricing e stima di mercato in corso...</div>
 
-        <div class="results" id="resultsBlock">
-            <div class="ai-box">
-                <div class="ai-title">💡 Analisi di Mercato e Logistica dell'IA</div>
-                <p style="font-size: 0.9rem; margin: 4px 0;"><strong>Forchetta Media di Mercato:</strong> <span id="resRange">-</span></p>
-                <p style="font-size: 0.9rem; margin: 4px 0;"><strong>Tariffa Oraria Consigliata:</strong> <span id="resRate">-</span></p>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px;" id="resJustification"></p>
+        <!-- RISULTATI -->
+        <div class="results-container" id="resultsBlock">
+            
+            <div class="metric-cards">
+                <div class="metric-card">
+                    <div class="metric-label">Forchetta di Mercato</div>
+                    <div class="metric-value" id="resRange">-</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Prezzo Consigliato</div>
+                    <div class="metric-value" id="resRate">-</div>
+                </div>
             </div>
 
-            <label style="font-weight: bold; display: block; margin-top: 15px;">Oggetto Email Consigliato:</label>
-            <input type="text" id="emailSubject" readonly style="margin-top: 5px; font-weight: bold; color: var(--accent-color);">
+            <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 6px;">
+                🔍 ANALISI & BENCHMARK UTILIZZATO:
+            </label>
+            <div class="justification-box" id="resJustification"></div>
 
-            <label style="font-weight: bold; display: block; margin-top: 15px;">Proposta Commerciale Professionale (Pronta da inviare):</label>
-            <div class="email-box" id="emailBody"></div>
+            <div class="email-wrapper">
+                <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">OGGETTO EMAIL:</label>
+                <input type="text" id="emailSubject" readonly style="margin: 6px 0 15px 0; font-weight: 700; color: var(--accent-primary);">
+
+                <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">PROPOSTA COMMERCIALE PRONTA:</label>
+                <div class="email-body" id="emailBody"></div>
+                
+                <button class="btn-copy" onclick="copyEmail()">📋 Copia Testo Email</button>
+            </div>
+
         </div>
+
     </div>
 </div>
 
 <script>
-    async function calculateWithAI() {
+    function toggleFollowerField() {
+        const type = document.getElementById('serviceType').value;
+        const followerContainer = document.getElementById('followerContainer');
+        if (type === 'creator') {
+            followerContainer.style.display = 'block';
+        } else {
+            followerContainer.style.display = 'none';
+        }
+    }
+
+    async function calculatePricing() {
+        const serviceType = document.getElementById('serviceType').value;
         const description = document.getElementById('description').value;
         const level = document.getElementById('level').value;
+        const followers = document.getElementById('followers').value;
         const hours = document.getElementById('hours').value;
         const expenses = document.getElementById('expenses').value;
         const distance = document.getElementById('distance').value;
@@ -295,7 +407,7 @@
         const expensePayer = document.getElementById('expensePayer').value;
 
         if (!description.trim()) {
-            alert('Inserisci una breve descrizione del lavoro.');
+            alert('Inserisci la descrizione del progetto o della collaborazione.');
             return;
         }
 
@@ -307,8 +419,10 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
+                    serviceType,
                     description, 
                     level, 
+                    followers,
                     hours, 
                     expenses, 
                     distance, 
@@ -325,17 +439,23 @@
                 alert('Errore: ' + data.error);
             } else {
                 document.getElementById('resRange').innerText = data.marketRange;
-                document.getElementById('resRate').innerText = '€' + data.recommendedRate + '/ora';
+                document.getElementById('resRate').innerText = '€' + data.recommendedRate;
                 document.getElementById('resJustification').innerText = data.justification;
                 document.getElementById('emailSubject').value = data.emailSubject;
                 document.getElementById('emailBody').innerText = data.emailBody;
                 document.getElementById('resultsBlock').style.display = 'block';
             }
         } catch (err) {
-            alert('Si è verificato un errore di connessione.');
+            alert('Errore di connessione al server.');
         } finally {
             document.getElementById('loading').style.display = 'none';
         }
+    }
+
+    function copyEmail() {
+        const bodyText = document.getElementById('emailBody').innerText;
+        navigator.clipboard.writeText(bodyText);
+        alert('Testo email copiato negli appunti!');
     }
 </script>
 
