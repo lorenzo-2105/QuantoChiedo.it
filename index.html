@@ -569,8 +569,8 @@
                     <input type="number" id="followers" value="0" placeholder="Es. 50000">
                 </div>
                 <div class="field-group">
-                    <label>DESCRIZIONE (Es. 1 reel, 5 storie e 2 caroselli...)</label>
-                    <input type="text" id="description" value="" placeholder="Es. 1 reel, 5 storie e 2 caroselli">
+                    <label>DESCRIZIONE (Es. 1 reel, 10 storie e caroselli...)</label>
+                    <input type="text" id="description" value="" placeholder="Es. 1 reel, 10 storie, 2 caroselli">
                 </div>
             </div>
 
@@ -634,7 +634,7 @@
         <div id="resJustification" style="font-size: 0.85rem; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 14px; border-radius: 10px; margin-bottom: 20px; line-height: 1.5;"></div>
 
         <div class="email-box-area">
-            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">TESTO EMAIL PRONTO PER IL CLIENTE</label>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">TESTO EMAIL PRONTO PER IL CLIENTE (CON DESCRIZIONE DETTAGLIATA)</label>
             <div class="email-preview-text" id="emailBody"></div>
             <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
 
@@ -729,7 +729,6 @@
         const description = document.getElementById('description').value.trim();
         const level = document.getElementById('level').value;
         
-        // Se i campi sono a 0 o vuoti, usiamo i valori di default di riferimento (50k follower e 7 ore)
         const inputFollowers = parseInt(document.getElementById('followers').value);
         const inputHours = parseFloat(document.getElementById('hours').value);
 
@@ -737,11 +736,11 @@
         const hours = (!isNaN(inputHours) && inputHours > 0) ? inputHours : 7;
 
         if (!description) {
-            alert('Inserisci una breve descrizione del progetto (es. 1 reel, 5 storie, 2 caroselli...).');
+            alert('Inserisci una breve descrizione del progetto (es. 1 reel, 10 storie, caroselli...).');
             return;
         }
 
-        // --- BASE MATEMATICA RICHIESTA ---
+        // --- TARIFFE BASE ESatte RICHIESTE ---
         let baseStandard = 400;
         let proStandard = 500;
         let completeStandard = 650;
@@ -764,14 +763,14 @@
         let workloadMultiplier = 1.0;
         if (numReels > 0 || numStories > 0 || numCarousels > 0) {
             let equivalentWork = (numReels * 2.5) + (numCarousels * 1.5) + (numStories * 0.25);
-            let standardReferenceWork = (1 * 2.5) + (10 * 0.25); 
+            let standardReferenceWork = (1 * 2.5) + (10 * 0.25); // Riferimento 1 reel e 10 storie
             
             workloadMultiplier = equivalentWork / standardReferenceWork;
             if (workloadMultiplier < 0.4) workloadMultiplier = 0.4;
         } else {
-            if (lowerDesc.includes('complesso') || lowerDesc.includes('ecommerce') || lowerDesc.includes('strategia') || lowerDesc.includes('campagna')) {
+            if (lowerDesc.includes('complesso') || lowerDesc.includes('ecommerce') || lowerDesc.includes('strategia')) {
                 workloadMultiplier = 1.30;
-            } else if (lowerDesc.includes('bozza') || lowerDesc.includes('post singolo') || lowerDesc.includes('modifica')) {
+            } else if (lowerDesc.includes('bozza') || lowerDesc.includes('post singolo')) {
                 workloadMultiplier = 0.80;
             }
         }
@@ -841,7 +840,8 @@
         
         let emailExpensesBlock = expenseDetailsText !== "" ? `\n\nDettaglio costi e spese accessorie gestite:\n${expenseDetailsText}` : '';
 
-        document.getElementById('emailBody').innerText = `Buongiorno,\n\nIn riferimento alle specifiche concordate per il progetto "${description}" (${followers.toLocaleString('it-IT')} follower, impegno stimato di ${hours} ore), ho elaborato un'analisi dettagliata suddividendo la proposta economica:\n\n1. Opzione Essenziale: €${baseGross}\n2. Opzione Pro (Consigliata): €${recGross}\n3. Opzione Completa & Priority: €${premGross}${emailExpensesBlock}\n\nResto a disposizione per qualsiasi chiarimento.\n\nUn saluto,\n[Tuo Nome]`;
+        // Testo Email con Descrizione Dettagliata
+        document.getElementById('emailBody').innerText = `Buongiorno,\n\nIn riferimento agli accordi preliminari e alle specifiche tecniche per la campagna sui social media, ho elaborato un preventivo strutturato focalizzato sulla qualità e sul raggiungimento dei vostri obiettivi di comunicazione.\n\nPROGETTO E PERIMETRO DELLE ATTIVITÀ:\n- Deliverable richiesti: ${description}\n- Audience di riferimento / Copertura stimata: ${followers.toLocaleString('it-IT')} follower attivi\n- Impegno tecnico e creativo stimato: ${hours} ore di lavoro specializzato (ideazione, scrittura script, produzione, montaggio, ottimizzazione e copywriting)\n\nPROPOSTA ECONOMICA SUDDIVISA PER PACCHETTI:\n\n1. Opzione Essenziale: €${baseGross}\n   - Include la produzione dei contenuti concordati con standard qualitativi professionali, 1 round di revisioni e la consegna nei tempi stabiliti.\n\n2. Opzione Pro (Consigliata): €${recGross}\n   - Soluzione ottimale che include l'intero perimetro, fino a 3 round di revisioni mirate, cura sartoriale del format e report di performance finale.\n\n3. Opzione Completa & Priority: €${premGross}\n   - Pacchetto All-Inclusive prioritario con revisioni illimitate, supporto strategico dedicato e sessioni di consulenza approfondite.${emailExpensesBlock}\n\nResto a completa disposizione per definire insieme l'opzione più adatta alle vostre esigenze e procedere con la pianificazione.\n\nUn cordiale saluto,\n[Tuo Nome]`;
 
         document.getElementById('objDefense').innerText = `"Comprendo la vostra esigenza di budget, tuttavia il prezzo di €${recGross} riflette l'impegno tecnico, la visibilità dell'audience (${followers.toLocaleString('it-IT')} follower) e le ore pianificate."`;
         document.getElementById('objDescoping').innerText = `"Se avete la necessità di rientrare in un budget inferiore, possiamo optare per la versione Essenziale a €${baseGross}, riducendo o ottimizzando il perimetro delle attività."`;
