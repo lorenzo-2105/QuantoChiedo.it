@@ -9,17 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #090d16;
-            --card-bg: #111827;
-            --card-border: #1f293d;
+            --bg-color: #030712;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
             --accent-primary: #38bdf8;
+            --accent-indigo: #818cf8;
             --accent-green: #4ade80;
             --accent-orange: #fb923c;
-            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+            --glow-gradient: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --input-bg: #0b1120;
-            --input-border: #243049;
+            --input-bg: rgba(11, 17, 32, 0.6);
+            --input-border: rgba(255, 255, 255, 0.1);
             --focus-ring: #38bdf8;
         }
 
@@ -28,6 +30,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
@@ -37,41 +40,75 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 40px 20px;
+            padding: 60px 20px;
+            position: relative;
+            overflow-x: hidden;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(129, 140, 248, 0.08) 0px, transparent 50%);
+                radial-gradient(at 10% 20%, rgba(56, 189, 248, 0.07) 0px, transparent 40%),
+                radial-gradient(at 90% 80%, rgba(129, 140, 248, 0.07) 0px, transparent 40%),
+                radial-gradient(at 50% 50%, rgba(192, 132, 252, 0.04) 0px, transparent 60%);
+        }
+
+        /* Effetto griglia futuristica di sfondo */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
         }
 
         .wrapper {
-            max-width: 900px;
+            max-width: 940px;
             width: 100%;
+            position: relative;
         }
 
         header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 45px;
         }
 
         .brand-badge {
-            display: inline-block;
-            background: rgba(56, 189, 248, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(56, 189, 248, 0.08);
             color: var(--accent-primary);
-            border: 1px solid rgba(56, 189, 248, 0.25);
+            border: 1px solid rgba(56, 189, 248, 0.2);
             font-size: 0.75rem;
             font-weight: 700;
-            padding: 6px 14px;
-            border-radius: 20px;
+            padding: 6px 16px;
+            border-radius: 30px;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 12px;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+        }
+
+        .brand-badge span {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -79,26 +116,34 @@
 
         p.subtitle {
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 1.05rem;
+            font-weight: 400;
         }
 
         .main-card {
             background-color: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            border-radius: 18px;
-            padding: 32px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
         }
 
         .section-header {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             color: var(--accent-primary);
-            margin: 25px 0 15px 0;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--card-border);
+            margin: 30px 0 18px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .section-header:first-of-type {
@@ -106,7 +151,7 @@
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         label {
@@ -121,245 +166,338 @@
             width: 100%;
             background-color: var(--input-bg);
             border: 1px solid var(--input-border);
-            border-radius: 10px;
-            padding: 12px 14px;
+            border-radius: 12px;
+            padding: 14px 16px;
             color: var(--text-main);
             font-size: 0.95rem;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input:hover, select:hover, textarea:hover {
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--focus-ring);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+            background-color: rgba(11, 17, 32, 0.85);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15),
+                        0 0 15px rgba(56, 189, 248, 0.1);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5l-4-4h8l-4 4z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+            cursor: pointer;
         }
 
         textarea {
             resize: vertical;
-            min-height: 90px;
+            min-height: 100px;
         }
 
         .checkbox-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             cursor: pointer;
             user-select: none;
-            margin: 20px 0 10px 0;
+            margin: 25px 0 15px 0;
             background: var(--input-bg);
-            padding: 12px 16px;
-            border-radius: 10px;
+            padding: 14px 18px;
+            border-radius: 12px;
             border: 1px solid var(--input-border);
+            transition: all 0.2s ease;
         }
 
-        .checkbox-container input {
-            width: auto;
+        .checkbox-container:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(11, 17, 32, 0.8);
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent-primary);
             cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .checkbox-container span {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #e2e8f0;
         }
 
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            gap: 18px;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 650px) {
             .grid-2 { grid-template-columns: 1fr; }
-            .main-card { padding: 20px; }
-            h1 { font-size: 2rem; }
+            .main-card { padding: 24px; }
+            h1 { font-size: 2.2rem; }
+            body { padding: 20px 12px; }
         }
 
         .btn-submit {
             width: 100%;
             background: var(--accent-gradient);
-            color: #090d16;
+            color: #030712;
             border: none;
-            border-radius: 10px;
-            padding: 16px;
+            border-radius: 12px;
+            padding: 18px;
             font-size: 1rem;
             font-weight: 800;
             cursor: pointer;
-            margin-top: 25px;
-            transition: transform 0.15s ease, opacity 0.2s;
+            margin-top: 30px;
+            box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.3);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::after {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-submit:hover::after {
+            left: 100%;
         }
 
         .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(56, 189, 248, 0.4);
             opacity: 0.95;
-            transform: translateY(-1px);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
         }
 
         #loading {
             display: none;
             text-align: center;
-            margin: 20px 0;
+            margin: 25px 0;
             color: var(--accent-primary);
             font-weight: 600;
             font-size: 0.95rem;
+            animation: pulse-text 1.5s infinite;
+        }
+
+        @keyframes pulse-text {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
         }
 
         .results-container {
             display: none;
-            margin-top: 30px;
+            margin-top: 35px;
             border-top: 1px solid var(--card-border);
-            padding-top: 25px;
+            padding-top: 30px;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .tiers-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 25px;
+            gap: 18px;
+            margin-bottom: 30px;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 800px) {
             .tiers-grid { grid-template-columns: 1fr; }
         }
 
         .tier-card {
             background-color: var(--input-bg);
             border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 24px 20px;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tier-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5);
         }
 
         .tier-card.recommended {
             border-color: var(--accent-primary);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+            background: linear-gradient(180deg, rgba(56, 189, 248, 0.05) 0%, var(--input-bg) 100%);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.12);
         }
 
         .tier-badge {
             position: absolute;
             top: -12px;
-            right: 15px;
-            background: var(--accent-primary);
-            color: #090d16;
+            right: 18px;
+            background: var(--accent-gradient);
+            color: #030712;
             font-size: 0.65rem;
             font-weight: 800;
-            padding: 3px 10px;
-            border-radius: 10px;
+            padding: 4px 12px;
+            border-radius: 20px;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
         }
 
         .tier-title {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             margin-bottom: 8px;
             color: var(--text-main);
         }
 
         .tier-price-gross {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 800;
             color: var(--accent-primary);
+            letter-spacing: -0.02em;
         }
 
         .tier-price-net {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--accent-green);
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         .tier-features {
             list-style: none;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             margin-bottom: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
         }
 
         .tier-features li {
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             display: flex;
-            align-items: center;
-            gap: 6px;
+            align-items: flex-start;
+            gap: 8px;
+            line-height: 1.4;
         }
 
         .tier-features li::before {
             content: "✓";
             color: var(--accent-primary);
-            font-weight: bold;
+            font-weight: 800;
+            flex-shrink: 0;
         }
 
         .justification-box {
             background-color: var(--input-bg);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 16px;
-            font-size: 0.9rem;
+            border-radius: 14px;
+            padding: 20px;
+            font-size: 0.95rem;
             line-height: 1.6;
             color: #cbd5e1;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .email-wrapper {
             background-color: var(--input-bg);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 24px;
         }
 
         .email-body {
             white-space: pre-line;
             font-size: 0.9rem;
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.7;
             margin-top: 10px;
+            background: rgba(3, 7, 18, 0.5);
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .btn-copy {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
             color: var(--text-main);
             border: 1px solid var(--card-border);
-            padding: 8px 14px;
-            border-radius: 6px;
+            padding: 10px 16px;
+            border-radius: 8px;
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 12px;
-            display: inline-block;
+            margin-top: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
         }
 
         .btn-copy:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
         }
 
         .btn-objection-toggle {
             width: 100%;
-            background: rgba(251, 146, 60, 0.1);
+            background: rgba(251, 146, 60, 0.08);
             color: var(--accent-orange);
-            border: 1px solid rgba(251, 146, 60, 0.3);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.9rem;
+            border: 1px solid rgba(251, 146, 60, 0.25);
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 0.92rem;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 20px;
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn-objection-toggle:hover {
-            background: rgba(251, 146, 60, 0.2);
+            background: rgba(251, 146, 60, 0.15);
+            border-color: rgba(251, 146, 60, 0.4);
         }
 
         .objections-wrapper {
             display: none;
             margin-top: 15px;
-            background: var(--input-bg);
+            background: rgba(3, 7, 18, 0.6);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 14px;
+            padding: 20px;
         }
 
         .objection-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
         }
 
         .objection-card:last-child {
@@ -371,13 +509,14 @@
             font-weight: 800;
             color: var(--accent-orange);
             text-transform: uppercase;
-            margin-bottom: 6px;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
         }
 
         .objection-text {
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             color: var(--text-main);
-            line-height: 1.5;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -385,7 +524,7 @@
 
 <div class="wrapper">
     <header>
-        <span class="brand-badge">IA Multi-Tier Engine v5.1</span>
+        <div class="brand-badge"><span></span> IA Pricing Engine v5.1 Pro</div>
         <h1>QuantoChiedo.it</h1>
         <p class="subtitle">Calcolo Tariffe Reali per il Mercato Italiano & Modulo Negoziazione</p>
     </header>
@@ -473,14 +612,14 @@
             </div>
         </div>
 
-        <button class="btn-submit" onclick="calculatePricing()">Genera Opzioni & Strategia Negoziazione</button>
+        <button class="btn-submit" onclick="calculatePricing()">Genera Opzioni & Strategia Negoziazione 🚀</button>
 
         <div id="loading">✨ Calcolo preventivo e tariffe equilibrate in corso...</div>
 
         <!-- RISULTATI MULTI-TIER & NEGOZIAZIONE -->
         <div class="results-container" id="resultsBlock">
             
-            <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 12px;">
+            <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 16px; letter-spacing: 0.05em; text-transform: uppercase;">
                 🎯 PACCHETTI REALISTICI PER IL MERCATO ITALIANO:
             </label>
 
@@ -490,7 +629,7 @@
                     <div>
                         <div class="tier-title" id="tBaseName">Essenziale</div>
                         <div class="tier-price-gross" id="tBaseGross">€0</div>
-                        <div class="tier-price-net" id="tBaseNet">Netto: €0</div>
+                        <div class="tier-price-net" id="tBaseNet">Netto st.: €0</div>
                         <ul class="tier-features" id="tBaseFeatures"></ul>
                     </div>
                 </div>
@@ -501,7 +640,7 @@
                     <div>
                         <div class="tier-title" id="tRecName">Pro / Consigliato</div>
                         <div class="tier-price-gross" id="tRecGross">€0</div>
-                        <div class="tier-price-net" id="tRecNet">Netto: €0</div>
+                        <div class="tier-price-net" id="tRecNet">Netto st.: €0</div>
                         <ul class="tier-features" id="tRecFeatures"></ul>
                     </div>
                 </div>
@@ -511,22 +650,22 @@
                     <div>
                         <div class="tier-title" id="tPremName">Completo & Priority</div>
                         <div class="tier-price-gross" id="tPremGross">€0</div>
-                        <div class="tier-price-net" id="tPremNet">Netto: €0</div>
+                        <div class="tier-price-net" id="tPremNet">Netto st.: €0</div>
                         <ul class="tier-features" id="tPremFeatures"></ul>
                     </div>
                 </div>
             </div>
 
-            <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 6px;">
+            <label style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary); display: block; margin-bottom: 8px; letter-spacing: 0.05em; text-transform: uppercase;">
                 🔍 LOGICA COMMERCIALE:
             </label>
             <div class="justification-box" id="resJustification"></div>
 
             <div class="email-wrapper">
-                <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">OGGETTO EMAIL:</label>
-                <input type="text" id="emailSubject" readonly style="margin: 6px 0 15px 0; font-weight: 700; color: var(--accent-primary);">
+                <label style="font-weight: 700; font-size: 0.8rem; color: var(--text-muted); display: block; letter-spacing: 0.05em; text-transform: uppercase;">OGGETTO EMAIL:</label>
+                <input type="text" id="emailSubject" readonly style="margin: 6px 0 16px 0; font-weight: 700; color: var(--accent-primary);">
 
-                <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); display: block;">PROPOSTA EMAIL PRONTA:</label>
+                <label style="font-weight: 700; font-size: 0.8rem; color: var(--text-muted); display: block; letter-spacing: 0.05em; text-transform: uppercase;">PROPOSTA EMAIL PRONTA:</label>
                 <div class="email-body" id="emailBody"></div>
                 
                 <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
