@@ -3,26 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Calcolatore Tariffe Reali & Negoziazione</title>
+    <title>QuantoChiedo.it | Analytics & Pricing Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #070b14;
-            --panel-bg: #0d1527;
-            --panel-border: rgba(255, 255, 255, 0.07);
-            --panel-border-hover: rgba(56, 189, 248, 0.3);
-            --accent-primary: #38bdf8;
-            --accent-indigo: #818cf8;
-            --accent-green: #4ade80;
-            --accent-orange: #fb923c;
-            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-            --text-main: #f8fafc;
+            --bg-base: #070913;
+            --card-bg: #0e1324;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #06b6d4;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --text-main: #ffffff;
             --text-muted: #94a3b8;
-            --input-bg: #09101d;
-            --input-border: rgba(255, 255, 255, 0.1);
-            --focus-ring: #38bdf8;
+            --input-bg: #131b31;
+            --input-border: rgba(255, 255, 255, 0.12);
         }
 
         * {
@@ -34,139 +33,106 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-base);
             color: var(--text-main);
             min-height: 100vh;
+            padding: 40px 16px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 50px 16px;
-            position: relative;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.04) 0%, transparent 60%);
+                radial-gradient(circle at 10% 10%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
         }
 
-        .wrapper {
-            max-width: 960px;
+        .main-wrapper {
+            max-width: 900px;
             width: 100%;
         }
 
-        /* Topbar stile dashboard */
-        .dashboard-header {
+        /* Header Pop & Colorful ispirato a tool di analytics */
+        .analytics-header {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(6, 182, 212, 0.15));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px 30px;
+            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            padding: 16px 24px;
-            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--accent-gradient);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .brand-box h1 {
+            font-size: 1.6rem;
             font-weight: 800;
-            color: #070b14;
-            font-size: 1.1rem;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
-        }
-
-        .logo-text h1 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            background: var(--accent-gradient);
+            background: linear-gradient(135deg, #38bdf8, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
         }
 
-        .logo-text p {
-            font-size: 0.75rem;
+        .brand-box p {
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
-        .status-badge {
-            background: rgba(74, 222, 128, 0.1);
-            color: var(--accent-green);
-            border: 1px solid rgba(74, 222, 128, 0.2);
-            font-size: 0.72rem;
+        .live-tag {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
             font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 20px;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .status-badge span {
-            width: 6px;
-            height: 6px;
-            background-color: var(--accent-green);
+        .live-tag span {
+            width: 8px;
+            height: 8px;
+            background-color: #34d399;
             border-radius: 50%;
-            box-shadow: 0 0 6px var(--accent-green);
+            box-shadow: 0 0 8px #34d399;
         }
 
-        /* Layout a griglia di sezioni (stile dashboard analitica) */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-        }
-
-        .panel-card {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            transition: border-color 0.2s ease;
-        }
-
-        .panel-card:hover {
-            border-color: var(--panel-border-hover);
-        }
-
-        .panel-title {
-            font-size: 0.82rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--accent-primary);
+        /* Card Principale stile Report */
+        .report-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
             margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .form-grid-2 {
+        .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
 
         @media (max-width: 700px) {
-            .form-grid-2 { grid-template-columns: 1fr; }
-            .dashboard-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+            .form-grid { grid-template-columns: 1fr; }
+            .analytics-header { flex-direction: column; align-items: flex-start; gap: 12px; }
         }
 
-        .form-group {
+        .input-group {
             margin-bottom: 16px;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
         }
 
         label {
@@ -181,8 +147,8 @@
             width: 100%;
             background-color: var(--input-bg);
             border: 1px solid var(--input-border);
-            border-radius: 10px;
-            padding: 12px 14px;
+            border-radius: 12px;
+            padding: 12px 16px;
             color: var(--text-main);
             font-size: 0.9rem;
             transition: all 0.2s ease;
@@ -190,15 +156,15 @@
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: var(--focus-ring);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
         }
 
         select {
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5l-4-4h8l-4 4z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 14px center;
+            background-position: right 16px center;
             cursor: pointer;
         }
 
@@ -207,75 +173,74 @@
             min-height: 80px;
         }
 
-        .checkbox-row {
+        .custom-checkbox {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 12px;
+            background: var(--input-bg);
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--input-border);
             cursor: pointer;
             user-select: none;
-            background: var(--input-bg);
-            padding: 12px 16px;
-            border-radius: 10px;
-            border: 1px solid var(--input-border);
+            margin-top: 10px;
         }
 
-        .checkbox-row input {
+        .custom-checkbox input {
             width: 18px;
             height: 18px;
-            accent-color: var(--accent-primary);
+            accent-color: var(--accent-cyan);
             cursor: pointer;
         }
 
-        .checkbox-row span {
+        .custom-checkbox span {
             font-size: 0.85rem;
             font-weight: 600;
-            color: var(--text-main);
         }
 
-        .btn-action {
+        .btn-generate {
             width: 100%;
-            background: var(--accent-gradient);
-            color: #070b14;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: #ffffff;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 16px;
             font-size: 0.95rem;
             font-weight: 800;
             cursor: pointer;
             margin-top: 24px;
-            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
             transition: all 0.2s ease;
         }
 
-        .btn-action:hover {
-            opacity: 0.92;
-            transform: translateY(-1px);
-            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.3);
+        .btn-generate:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4);
         }
 
         #loading {
             display: none;
             text-align: center;
             margin: 20px 0;
-            color: var(--accent-primary);
+            color: var(--accent-cyan);
             font-weight: 600;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
         }
 
-        /* Sezione Risultati in stile Analitico */
-        .results-section {
+        /* Sezione Risultati in stile Metric Dashboard */
+        .results-wrapper {
             display: none;
             margin-top: 24px;
             animation: fadeIn 0.4s ease-out forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .metrics-grid {
+        .metrics-cards-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 16px;
@@ -283,114 +248,115 @@
         }
 
         @media (max-width: 800px) {
-            .metrics-grid { grid-template-columns: 1fr; }
+            .metrics-cards-grid { grid-template-columns: 1fr; }
         }
 
-        .metric-card {
+        .metric-box {
             background-color: var(--input-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 12px;
-            padding: 20px;
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 22px;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        .metric-card.highlight {
-            border-color: rgba(56, 189, 248, 0.4);
-            background: linear-gradient(180deg, rgba(56, 189, 248, 0.05) 0%, var(--input-bg) 100%);
+        .metric-box.featured {
+            border-color: var(--accent-cyan);
+            background: linear-gradient(180deg, rgba(6, 182, 212, 0.08) 0%, var(--input-bg) 100%);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
         }
 
-        .metric-tag {
+        .badge-tag {
             position: absolute;
             top: -10px;
-            right: 14px;
-            background: var(--accent-gradient);
-            color: #070b14;
+            right: 16px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: #fff;
             font-size: 0.6rem;
             font-weight: 800;
-            padding: 3px 10px;
+            padding: 4px 10px;
             border-radius: 20px;
             text-transform: uppercase;
         }
 
-        .metric-title {
-            font-size: 0.9rem;
+        .box-title {
+            font-size: 0.95rem;
             font-weight: 700;
-            color: var(--text-main);
             margin-bottom: 8px;
+            color: var(--text-main);
         }
 
-        .metric-value {
+        .box-gross {
             font-size: 1.8rem;
             font-weight: 800;
-            color: var(--accent-primary);
+            color: var(--accent-cyan);
             letter-spacing: -0.02em;
         }
 
-        .metric-net {
+        .box-net {
             font-size: 0.78rem;
-            color: var(--accent-green);
+            color: #34d399;
             font-weight: 600;
             margin-bottom: 14px;
         }
 
-        .metric-features {
+        .box-features {
             list-style: none;
             font-size: 0.8rem;
             color: var(--text-muted);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             padding-top: 12px;
         }
 
-        .metric-features li {
+        .box-features li {
             margin-bottom: 6px;
             display: flex;
             align-items: flex-start;
             gap: 6px;
         }
 
-        .metric-features li::before {
-            content: "•";
-            color: var(--accent-primary);
-            font-weight: 800;
+        .box-features li::before {
+            content: "✦";
+            color: var(--accent-cyan);
+            font-size: 0.7rem;
         }
 
-        .analytics-box {
+        .analytics-insight {
             background: var(--input-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
             padding: 20px;
             margin-bottom: 24px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             line-height: 1.6;
             color: #cbd5e1;
         }
 
-        .output-box {
+        .email-section {
             background: var(--input-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 12px;
-            padding: 20px;
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 22px;
         }
 
-        .email-preview {
+        .email-text-preview {
             white-space: pre-line;
             font-size: 0.85rem;
             color: var(--text-main);
             line-height: 1.6;
-            background: rgba(5, 8, 15, 0.6);
+            background: rgba(7, 9, 19, 0.7);
             padding: 14px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
             margin-top: 8px;
         }
 
-        .btn-utility {
-            background: rgba(255, 255, 255, 0.05);
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.06);
             color: var(--text-main);
-            border: 1px solid var(--panel-border);
+            border: 1px solid var(--card-border);
             padding: 8px 14px;
             border-radius: 8px;
             font-size: 0.78rem;
@@ -400,54 +366,53 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-utility:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .objections-toggle {
-            width: 100%;
-            background: rgba(251, 146, 60, 0.05);
-            color: var(--accent-orange);
-            border: 1px solid rgba(251, 146, 60, 0.2);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
             transition: background 0.2s;
         }
 
-        .objections-toggle:hover {
-            background: rgba(251, 146, 60, 0.1);
+        .btn-copy:hover {
+            background: rgba(255, 255, 255, 0.12);
         }
 
-        .objections-container {
+        .objection-btn {
+            width: 100%;
+            background: rgba(245, 158, 11, 0.08);
+            color: var(--accent-orange);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .objection-btn:hover {
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        .objection-box {
             display: none;
             margin-top: 14px;
-            background: rgba(5, 8, 15, 0.5);
-            border: 1px solid var(--panel-border);
-            border-radius: 10px;
+            background: rgba(7, 9, 19, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
             padding: 16px;
         }
 
-        .objection-item {
+        .objection-card {
             background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--panel-border);
-            border-radius: 8px;
-            padding: 12px;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 14px;
             margin-bottom: 12px;
         }
 
-        .objection-item:last-child {
+        .objection-card:last-child {
             margin-bottom: 0;
         }
 
@@ -468,181 +433,176 @@
 </head>
 <body>
 
-<div class="wrapper">
-    <!-- TOPBAR DASHBOARD -->
-    <header class="dashboard-header">
-        <div class="logo-area">
-            <div class="logo-icon">€</div>
-            <div class="logo-text">
-                <h1>QuantoChiedo.it</h1>
-                <p>Analytics & Pricing Engine v6.0</p>
-            </div>
+<div class="main-wrapper">
+    <!-- HEADER -->
+    <header class="analytics-header">
+        <div class="brand-box">
+            <h1>QuantoChiedo.it</h1>
+            <p>Advanced Pricing & Market Analytics Engine</p>
         </div>
-        <div class="status-badge">
-            <span></span> Live Benchmarks Market
+        <div class="live-tag">
+            <span></span> Live Benchmark Engine
         </div>
     </header>
 
-    <div class="dashboard-grid">
-        <!-- FORM CARD -->
-        <div class="panel-card">
-            <div class="panel-title">1. Parametri del Progetto</div>
-            
-            <div class="form-grid-2">
-                <div class="form-group">
-                    <label for="serviceType">Categoria Professionale</label>
-                    <select id="serviceType" onchange="toggleFollowerField()">
-                        <option value="freelance">Freelancer (Design, Dev, Copywriter)</option>
-                        <option value="creator">Content Creator / UGC / Influencer</option>
-                        <option value="videomaker">Videomaker / Fotografo</option>
-                        <option value="consultant">Consulente / Strategist</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="level">Seniority / Esperienza</label>
-                    <select id="level">
-                        <option value="Junior (1-2 anni)">Junior (1-2 anni)</option>
-                        <option value="Mid-Level (3-5 anni)" selected>Mid-Level (3-5 anni)</option>
-                        <option value="Senior / Specialist (5+ anni)">Senior / Specialist (5+ anni)</option>
-                    </select>
-                </div>
+    <!-- FORM CARD -->
+    <div class="report-card">
+        <div class="section-title">📊 1. Configurazione Parametri</div>
+        
+        <div class="form-grid">
+            <div class="input-group">
+                <label for="serviceType">Categoria Professionale</label>
+                <select id="serviceType" onchange="toggleFollowerField()">
+                    <option value="freelance">Freelancer (Design, Dev, Copywriter)</option>
+                    <option value="creator">Content Creator / UGC / Influencer</option>
+                    <option value="videomaker">Videomaker / Fotografo</option>
+                    <option value="consultant">Consulente / Strategist</option>
+                </select>
             </div>
 
-            <div class="form-group" id="followerContainer" style="display: none; margin-top: 16px;">
-                <label for="followers">Community / Follower Totali</label>
-                <input type="number" id="followers" placeholder="Es. 15000">
+            <div class="input-group">
+                <label for="level">Seniority / Livello</label>
+                <select id="level">
+                    <option value="Junior (1-2 anni)">Junior (1-2 anni)</option>
+                    <option value="Mid-Level (3-5 anni)" selected>Mid-Level (3-5 anni)</option>
+                    <option value="Senior / Specialist (5+ anni)">Senior / Specialist (5+ anni)</option>
+                </select>
             </div>
-
-            <div class="form-group" style="margin-top: 16px;">
-                <label for="description">Deliverable & Specifiche Lavoro</label>
-                <textarea id="description" placeholder="Es. Realizzazione pacchetto 3 Reel Instagram + editing e copy."></textarea>
-            </div>
-
-            <div class="form-group" style="margin-top: 16px;">
-                <label for="hours">Stima Ore di Lavoro</label>
-                <input type="number" id="hours" value="8">
-            </div>
-
-            <label class="checkbox-row">
-                <input type="checkbox" id="hasExpenses" onchange="toggleExpensesBlock()">
-                <span>Includi spese di trasferta o extra vivi</span>
-            </label>
-
-            <div id="expensesBlock" style="display: none; margin-top: 20px; border-top: 1px solid var(--panel-border); padding-top: 20px;">
-                <div class="panel-title" style="margin-bottom: 14px;">2. Gestione Costi Trasferta</div>
-
-                <div class="form-group">
-                    <label for="expensePayer">Regime Spese</label>
-                    <select id="expensePayer">
-                        <option value="freelancer">A CARICO MIO (anticipate e incluse nel preventivo)</option>
-                        <option value="client">A CARICO DEL CLIENTE (a piè di lista)</option>
-                    </select>
-                </div>
-
-                <div class="form-grid-2" style="margin-top: 16px;">
-                    <div class="form-group">
-                        <label for="distance">Distanza A/R (Km)</label>
-                        <input type="number" id="distance" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="travelCost">Costo Spostamento (€)</label>
-                        <input type="number" id="travelCost" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="nights">Notti Hotel</label>
-                        <input type="number" id="nights" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="hotelCost">Costo Alloggio (€)</label>
-                        <input type="number" id="hotelCost" value="0">
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-top: 16px;">
-                    <label for="expenses">Altre Spese/Licenze Extra (€)</label>
-                    <input type="number" id="expenses" value="0">
-                </div>
-            </div>
-
-            <button class="btn-action" onclick="calculatePricing()">Calcola Benchmark & Genera Pacchetti 📊</button>
-
-            <div id="loading">⚡ Elaborazione dei dati di mercato in corso...</div>
         </div>
 
-        <!-- RESULTS PANEL -->
-        <div class="results-section" id="resultsBlock">
-            <div class="panel-card">
-                <div class="panel-title">📈 Benchmark & Strategia Preventivo</div>
+        <div class="input-group" id="followerContainer" style="display: none; margin-top: 16px;">
+            <label for="followers">Community / Follower Totali</label>
+            <input type="number" id="followers" placeholder="Es. 25000">
+        </div>
 
-                <div class="metrics-grid">
-                    <!-- BASE -->
-                    <div class="metric-card">
-                        <div>
-                            <div class="metric-title" id="tBaseName">Essenziale</div>
-                            <div class="metric-value" id="tBaseGross">€0</div>
-                            <div class="metric-net" id="tBaseNet">Netto st.: €0</div>
-                            <ul class="metric-features" id="tBaseFeatures"></ul>
-                        </div>
-                    </div>
+        <div class="input-group" style="margin-top: 16px;">
+            <label for="description">Specifiche del Progetto / Deliverable</label>
+            <textarea id="description" placeholder="Es. Creazione brand identity completa + 3 grafiche social."></textarea>
+        </div>
 
-                    <!-- RECOMMENDED -->
-                    <div class="metric-card highlight">
-                        <span class="metric-tag">Top Choice</span>
-                        <div>
-                            <div class="metric-title" id="tRecName">Pro / Consigliato</div>
-                            <div class="metric-value" id="tRecGross">€0</div>
-                            <div class="metric-net" id="tRecNet">Netto st.: €0</div>
-                            <ul class="metric-features" id="tRecFeatures"></ul>
-                        </div>
-                    </div>
+        <div class="input-group" style="margin-top: 16px;">
+            <label for="hours">Ore Stimate di Lavoro</label>
+            <input type="number" id="hours" value="10">
+        </div>
 
-                    <!-- PREMIUM -->
-                    <div class="metric-card">
-                        <div>
-                            <div class="metric-title" id="tPremName">Completo & Priority</div>
-                            <div class="metric-value" id="tPremGross">€0</div>
-                            <div class="metric-net" id="tPremNet">Netto st.: €0</div>
-                            <ul class="metric-features" id="tPremFeatures"></ul>
-                        </div>
-                    </div>
-                </div>
+        <label class="custom-checkbox">
+            <input type="checkbox" id="hasExpenses" onchange="toggleExpensesBlock()">
+            <span>Includi spese di trasferta o extra vivi nel preventivo</span>
+        </label>
 
-                <div class="analytics-box" id="resJustification"></div>
+        <div id="expensesBlock" style="display: none; margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 20px;">
+            <div class="section-title" style="margin-bottom: 14px;">🚗 2. Gestione Trasferte & Costi Vivi</div>
 
-                <div class="output-box">
-                    <label>OGGETTO EMAIL PROPOSTA</label>
-                    <input type="text" id="emailSubject" readonly style="margin: 6px 0 14px 0; font-weight: 700; color: var(--accent-primary);">
-
-                    <label>TESTO EMAIL PRONTO</label>
-                    <div class="email-preview" id="emailBody"></div>
-                    
-                    <button class="btn-utility" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
-
-                    <button class="objections-toggle" onclick="toggleObjections()">
-                        💬 Gestione Obiezioni Sconto Cliente
-                    </button>
-
-                    <div class="objections-container" id="objectionsBlock">
-                        <div class="objection-item">
-                            <div class="obj-title">1. Difesa del Valore</div>
-                            <div class="obj-desc" id="objDefense"></div>
-                            <button class="btn-utility" onclick="copyText('objDefense')" style="margin-top:8px;">Copia</button>
-                        </div>
-                        <div class="objection-item">
-                            <div class="obj-title">2. Descoping (Riduzione Attività)</div>
-                            <div class="obj-desc" id="objDescoping"></div>
-                            <button class="btn-utility" onclick="copyText('objDescoping')" style="margin-top:8px;">Copia</button>
-                        </div>
-                        <div class="objection-item">
-                            <div class="obj-title">3. Trade-off (Sconto vs Anticipo)</div>
-                            <div class="obj-desc" id="objTradeoff"></div>
-                            <button class="btn-utility" onclick="copyText('objTradeoff')" style="margin-top:8px;">Copia</button>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="input-group">
+                <label for="expensePayer">Regime Spese</label>
+                <select id="expensePayer">
+                    <option value="freelancer">A CARICO MIO (anticipate e incluse nel totale)</option>
+                    <option value="client">A CARICO DEL CLIENTE (a piè di lista)</option>
+                </select>
             </div>
+
+            <div class="form-grid" style="margin-top: 16px;">
+                <div class="input-group">
+                    <label for="distance">Distanza A/R (Km)</label>
+                    <input type="number" id="distance" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="travelCost">Costo Spostamento (€)</label>
+                    <input type="number" id="travelCost" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="nights">Notti Hotel</label>
+                    <input type="number" id="nights" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="hotelCost">Costo Alloggio (€)</label>
+                    <input type="number" id="hotelCost" value="0">
+                </div>
+            </div>
+
+            <div class="input-group" style="margin-top: 16px;">
+                <label for="expenses">Altre Spese Materiali / Licenze (€)</label>
+                <input type="number" id="expenses" value="0">
+            </div>
+        </div>
+
+        <button class="btn-generate" onclick="calculatePricing()">Genera Analisi & Pacchetti di Prezzo 🚀</button>
+
+        <div id="loading">✨ Elaborazione benchmark e calcolo tariffe in corso...</div>
+    </div>
+
+    <!-- RISULTATI REPORT -->
+    <div class="results-wrapper" id="resultsBlock">
+        <div class="report-card">
+            <div class="section-title">📈 Report & Proposta Commerciale</div>
+
+            <div class="metrics-cards-grid">
+                <!-- BASE -->
+                <div class="metric-box">
+                    <div>
+                        <div class="box-title" id="tBaseName">Essenziale</div>
+                        <div class="box-gross" id="tBaseGross">€0</div>
+                        <div class="box-net" id="tBaseNet">Netto st.: €0</div>
+                        <ul class="box-features" id="tBaseFeatures"></ul>
+                    </div>
+                </div>
+
+                <!-- RECOMMENDED -->
+                <div class="metric-box featured">
+                    <span class="badge-tag">Scelta Consigliata</span>
+                    <div>
+                        <div class="box-title" id="tRecName">Pro / Consigliato</div>
+                        <div class="box-gross" id="tRecGross">€0</div>
+                        <div class="box-net" id="tRecNet">Netto st.: €0</div>
+                        <ul class="box-features" id="tRecFeatures"></ul>
+                    </div>
+                </div>
+
+                <!-- PREMIUM -->
+                <div class="metric-box">
+                    <div>
+                        <div class="box-title" id="tPremName">Completo & Priority</div>
+                        <div class="box-gross" id="tPremGross">€0</div>
+                        <div class="box-net" id="tPremNet">Netto st.: €0</div>
+                        <ul class="box-features" id="tPremFeatures"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analytics-insight" id="resJustification"></div>
+
+            <div class="email-section">
+                <label>OGGETTO EMAIL PROPOSTA</label>
+                <input type="text" id="emailSubject" readonly style="margin: 6px 0 14px 0; font-weight: 700; color: var(--accent-cyan);">
+
+                <label>TESTO EMAIL PRONTO</label>
+                <div class="email-text-preview" id="emailBody"></div>
+                
+                <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
+
+                <button class="objection-btn" onclick="toggleObjections()">
+                    💬 Gestione Obiezioni Sconto (Cosa dire se chiedono un ribasso)
+                </button>
+
+                <div class="objection-box" id="objectionsBlock">
+                    <div class="objection-card">
+                        <div class="obj-title">1. Difesa del Valore (Nessun Sconto)</div>
+                        <div class="obj-desc" id="objDefense"></div>
+                        <button class="btn-copy" onclick="copyText('objDefense')" style="margin-top:8px;">Copia Risposta</button>
+                    </div>
+                    <div class="objection-card">
+                        <div class="obj-title">2. Descoping (Riduzione Attività)</div>
+                        <div class="obj-desc" id="objDescoping"></div>
+                        <button class="btn-copy" onclick="copyText('objDescoping')" style="margin-top:8px;">Copia Risposta</button>
+                    </div>
+                    <div class="objection-card">
+                        <div class="obj-title">3. Trade-off (Sconto vs Saldo Anticipato)</div>
+                        <div class="obj-desc" id="objTradeoff"></div>
+                        <button class="btn-copy" onclick="copyText('objTradeoff')" style="margin-top:8px;">Copia Risposta</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
