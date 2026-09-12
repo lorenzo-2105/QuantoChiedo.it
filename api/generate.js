@@ -33,52 +33,57 @@ export default async function handler(req, res) {
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
-    return res.status(500).json({ error: 'GEMINI_API_KEY non configurata nelle Environment Variables.' });
+    return res.status(500).json({ error: 'GEMINI_API_KEY non trovata nelle Environment Variables.' });
   }
 
   const promptText = `
-Sei un Pricing Strategist esperto del MERCATO REALE ITALIANO per Freelance, Content Creator e PMI.
-Fornisci una stima estremamente pragmatica, realistica e credibile (evita cifre teoriche o gonfiate da agenzie milanesi di alto livello).
+Sei un Senior Business Advisor & Pricing Strategist per Freelance e Content Creator in Italia.
+Devi calcolare un preventivo e una stima di mercato IPER-REALISTICA, basandoti sui dati di mercato correnti e su logiche di pricing stringenti.
 
-DATI INPUT:
-- Tipologia: ${serviceType}
-- Descrizione Progetto: "${description}"
-- Livello Esperienza: ${level}
-- Follower / Audience (se applicabile): ${followers ? followers : 'N/A'}
-- Ore lavoro stimate: ${hours}
-- Spese materiali/extra: €${expenses}
-- Trasferta: ${distance} km (Auto/Mezzi €${travelCost}, Hotel €${hotelCost}, Notti: ${nights})
-- Gestione Spese: ${expensePayer === 'client' ? 'A CARICO CLIENTE (a piè di lista / gestite dal cliente)' : 'A CARICO MIO (anticipate ed incluse nel totale)'}
+DATI RICEVUTI:
+- Categoria Servizio: ${serviceType}
+- Descrizione Dettagliata: "${description}"
+- Livello Esperienza / Anzianità: ${level}
+- Numero di Follower / Seguitissimo (se applicabile): ${followers ? followers : 'Non specificato / Non applicabile'}
+- Ore di Lavoro Stimate (produzione + post): ${hours}
+- Spese Materiali / Acquisti: €${expenses}
+- Distanza Trasferta A/R: ${distance} km
+- Costo Trasporto/Carburante: €${travelCost}
+- Notti Pernottamento: ${nights}
+- Costo Hotel: €${hotelCost}
+- Chi paga le spese vive: ${expensePayer === 'client' ? 'A CARICO DEL CLIENTE (a piè di lista / dirette)' : 'A CARICO DEL FREELANCER (anticipate e incluse nel preventivo)'}
 
-PARAMETRI DI MERCATO REALE ITALIANO:
-1. CONTENT CREATOR / INFLUENCER:
-   - Nano (1k-10k follower): 30€ - 80€ lordi a post/reel (molto spesso cambio merce o budget minimi).
-   - Micro (10k-50k follower): 100€ - 300€ lordi a post/reel.
-   - Mid-Tier (50k-100k follower): 300€ - 700€ lordi a post/reel.
-   - Macro (100k-500k follower): 800€ - 2.500€ lordi a post/reel.
+REGOLE RIGIDE PER IL CALCOLO REALE:
+1. SE SI TRATTA DI CREATOR / INFLUENCER / SPONSORIZZAZIONI:
+   - APPLICA RIGOROSAMENTE LE SOGLIE DI MERCATO BASATE SUI FOLLOWER:
+     * Nano (1k - 10k follower): Valore sponsorizzazione medio tra 50€ e 250€ per post/reel.
+     * Micro (10k - 50k follower): Valore medio tra 200€ e 800€ per post/reel.
+     * Mid-Tier (50k - 100k follower): Valore medio tra 800€ e 2.000€ per post/reel.
+     * Macro (100k - 500k follower): Valore medio tra 2.000€ e 6.000€ per post/reel.
+     * Mega (500k+ follower): Valore medio oltre i 6.000€ fino a oltre 15.000€.
+   - NON paragonare MAI un profilo da 10k a uno da 100k. Il raggio di copertura (reach) e il CPM commerciale sono drasticamente diversi.
 
-2. FREELANCE DIGITALI (Design, Dev, Video, Copy):
-   - Junior (1-2 anni): 15€ - 25€ / ora lordi.
-   - Mid-Level (3-5 anni): 30€ - 45€ / ora lordi.
-   - Senior (5+ anni): 50€ - 80€ / ora lordi.
+2. SE SI TRATTA DI SERVIZI FREELANCE TRADIZIONALI (Design, Sviluppo, Video, Copywriter):
+   - Junior (1-2 anni): 20€ - 35€ / ora.
+   - Mid-Level (3-5 anni): 40€ - 65€ / ora.
+   - Senior / Specialist (5+ anni): 70€ - 120€+ / ora.
 
-3. CALCOLO NETTO STIMATO:
-   - Considera una pressione media (tasse + INPS / gestione separata) del ~30-35% per calcolare il NETTO REALE che rimane in tasca.
+3. GESTIONE SPESE TRASFERTA:
+   - Se "A CARICO DEL CLIENTE": Non sommare il costo di hotel/viaggio al totale dell'onorario professionale, ma indica chiaramente che sono a carico suo.
+   - Se "A CARICO MIO": Ricalcola il totale includendo coperture e rimborsi allineati.
 
-Rispondi TASSATIVAMENTE con un oggetto JSON valido (senza blocchi \`\`\`json):
+Restituisci SOLO ed ESCLUSIVAMENTE un oggetto JSON valido (senza blocchi \`\`\`json) con questo formato:
 {
-  "grossRate": "450",
-  "netRate": "300",
-  "marketRangeGross": "400€ - 500€ Lordi",
-  "marketRangeNet": "270€ - 340€ Netti",
-  "justification": "Spiegazione sintetica ed estremamente concreta basata sulla realtà di mercato italiana, evidenziando il distacco tra Lordo da preventivare e Netto in tasca.",
-  "emailSubject": "Preventivo e Proposta Commerciale - [Progetto]",
-  "emailBody": "Gentile [Cliente],\\n\\nin merito alla sua richiesta..."
+  "recommendedRate": "450",
+  "marketRange": "400€ - 600€",
+  "justification": "Spiegazione analitica e professionale di come è stato calcolato il prezzo basandosi sulle metriche di audience, ore e costi accessori.",
+  "emailSubject": "Proposta Commerciale e Preventivo per [Progetto]",
+  "emailBody": "Gentile [Nome Cliente],\\n\\nin allegato..."
 }
 `;
 
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
     
     const response = await fetch(url, {
       method: 'POST',
@@ -91,7 +96,9 @@ Rispondi TASSATIVAMENTE con un oggetto JSON valido (senza blocchi \`\`\`json):
     const data = await response.json();
 
     if (!response.ok) {
-      return res.status(500).json({ error: `Errore Gemini API (${response.status}): ${data.error?.message || 'Errore di sistema'}` });
+      return res.status(500).json({ 
+        error: `Errore API Google (${response.status}): ${data.error?.message || 'Errore di sistema'}` 
+      });
     }
 
     if (!data.candidates || !data.candidates[0]?.content?.parts[0]?.text) {
