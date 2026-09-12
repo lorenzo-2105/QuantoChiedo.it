@@ -3,377 +3,341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Piattaforma Ufficiale Calcolo Tariffe & Preventivi</title>
+    <title>QuantoChiedo.it | Analytics & Pricing Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #f8fafc;
-            --bg-card: #ffffff;
-            --border-color: #e2e8f0;
-            --border-focus: #2563eb;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --primary-light: #eff6ff;
-            --success: #16a34a;
-            --success-light: #f0fdf4;
-            --warning-bg: #fffbeb;
-            --warning-border: #fef3c7;
-            --warning-text: #b45309;
+            --bg-deep: #060812;
+            --card-bg: #0f152a;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --cyan-glow: #06b6d4;
+            --purple-glow: #8b5cf6;
+            --pink-glow: #ec4899;
+            --emerald: #10b981;
+            --amber: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: #131b36;
+            --input-border: rgba(255, 255, 255, 0.12);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: var(--bg-body);
+            background-color: var(--bg-deep);
             color: var(--text-main);
             min-height: 100vh;
+            padding: 40px 16px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0 16px 60px 16px;
+            justify-content: center;
+            align-items: flex-start;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.12) 0%, transparent 45%);
         }
 
-        /* Navbar Istituzionale / SaaS reale */
-        .navbar {
+        .dashboard-wrapper {
+            max-width: 920px;
             width: 100%;
-            max-width: 1000px;
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            padding: 16px 24px;
+        }
+
+        /* Top Bar in pieno stile tool analytics */
+        .analytics-topbar {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(6, 182, 212, 0.18));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 24px 30px;
+            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            border-radius: 0 0 12px 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
         }
 
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .brand-info h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #38bdf8, #e879f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
         }
 
-        .brand-logo {
-            width: 32px;
-            height: 32px;
-            background: var(--primary);
-            color: #fff;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .brand-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: -0.01em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
+        .brand-info p {
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
-        .nav-links span {
-            cursor: pointer;
-            transition: color 0.15s;
-        }
-
-        .nav-links span:hover {
-            color: var(--primary);
-        }
-
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-        }
-
-        /* Card Principali Professionali */
-        .card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 32px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .card-title {
-            font-size: 1rem;
+        .badge-live {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-live span {
+            width: 8px;
+            height: 8px;
+            background-color: #34d399;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #34d399;
+        }
+
+        /* Card Contenitore */
+        .analytics-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--cyan-glow);
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .security-badge {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--success);
-            background: var(--success-light);
-            padding: 4px 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(22, 163, 74, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .form-grid {
+        .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 16px;
         }
 
         @media (max-width: 768px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .analytics-topbar { flex-direction: column; align-items: flex-start; gap: 12px; }
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group.full {
-            grid-column: span 2;
-        }
-
-        @media (max-width: 768px) {
-            .form-group.full { grid-column: span 1; }
+        .field-group {
+            margin-bottom: 16px;
         }
 
         label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 8px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
         }
 
         input, select, textarea {
             width: 100%;
-            background-color: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 11px 14px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 12px;
+            padding: 12px 16px;
             color: var(--text-main);
             font-size: 0.9rem;
-            transition: all 0.15s ease;
+            transition: all 0.2s ease;
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: var(--border-focus);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            border-color: var(--cyan-glow);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
         }
 
         select {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5l-4-4h8l-4 4z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5l-4-4h8l-4 4z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 14px center;
+            background-position: right 16px center;
             cursor: pointer;
         }
 
         textarea {
             resize: vertical;
-            min-height: 90px;
+            min-height: 80px;
         }
 
-        .checkbox-container {
+        .checkbox-card {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 12px;
+            background: var(--input-bg);
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--input-border);
             cursor: pointer;
             user-select: none;
-            padding: 12px;
-            background: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            margin-top: 10px;
         }
 
-        .checkbox-container input {
-            width: 16px;
-            height: 16px;
-            accent-color: var(--primary);
+        .checkbox-card input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--cyan-glow);
             cursor: pointer;
         }
 
-        .checkbox-container span {
+        .checkbox-card span {
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        .btn-primary {
+        .btn-action {
             width: 100%;
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--cyan-glow), var(--purple-glow));
             color: #ffffff;
             border: none;
-            border-radius: 8px;
-            padding: 14px;
+            border-radius: 12px;
+            padding: 16px;
             font-size: 0.95rem;
-            font-weight: 600;
+            font-weight: 800;
             cursor: pointer;
             margin-top: 24px;
-            transition: background-color 0.15s ease;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
+            transition: all 0.2s ease;
         }
 
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
+        .btn-action:hover {
+            opacity: 0.92;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4);
         }
 
         #loading {
             display: none;
             text-align: center;
             margin: 20px 0;
-            color: var(--primary);
-            font-weight: 500;
+            color: var(--cyan-glow);
+            font-weight: 600;
             font-size: 0.88rem;
         }
 
-        /* Risultati strutturati professionali */
+        /* Sezione Risultati con grafiche e metriche colorate */
         .results-section {
             display: none;
             margin-top: 24px;
-            animation: fadeIn 0.3s ease-out forwards;
+            animation: fadeIn 0.4s ease-out forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .tier-grid {
+        .metrics-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 16px;
             margin-bottom: 24px;
         }
 
-        @media (max-width: 768px) {
-            .tier-grid { grid-template-columns: 1fr; }
+        @media (max-width: 800px) {
+            .metrics-grid { grid-template-columns: 1fr; }
         }
 
-        .tier-card {
-            background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 20px;
+        .metric-card {
+            background-color: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 22px;
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            position: relative;
         }
 
-        .tier-card.highlight {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 1px var(--primary);
-            background: var(--primary-light);
+        .metric-card.pop-highlight {
+            border-color: var(--cyan-glow);
+            background: linear-gradient(180deg, rgba(6, 182, 212, 0.1) 0%, var(--input-bg) 100%);
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
         }
 
-        .popular-tag {
+        .pop-badge {
             position: absolute;
             top: -10px;
             right: 16px;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--cyan-glow), var(--purple-glow));
             color: #fff;
-            font-size: 0.65rem;
-            font-weight: 700;
+            font-size: 0.6rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
             text-transform: uppercase;
-            padding: 3px 8px;
-            border-radius: 4px;
         }
 
-        .tier-title {
-            font-size: 0.9rem;
+        .metric-title {
+            font-size: 0.95rem;
             font-weight: 700;
-            color: var(--text-main);
             margin-bottom: 8px;
+            color: var(--text-main);
         }
 
-        .tier-price {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--primary);
+        .metric-gross {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--cyan-glow);
             letter-spacing: -0.02em;
         }
 
-        .tier-net {
+        .metric-net {
             font-size: 0.78rem;
-            color: var(--success);
+            color: #34d399;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
-        .tier-features {
+        .metric-features {
             list-style: none;
             font-size: 0.8rem;
             color: var(--text-muted);
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             padding-top: 12px;
         }
 
-        .tier-features li {
+        .metric-features li {
             margin-bottom: 6px;
             display: flex;
             align-items: flex-start;
             gap: 6px;
         }
 
-        .tier-features li::before {
-            content: "✓";
-            color: var(--primary);
-            font-weight: 700;
+        .metric-features li::before {
+            content: "✦";
+            color: var(--cyan-glow);
+            font-size: 0.7rem;
         }
 
-        .market-insight {
-            background: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 16px;
+        .analytics-insight {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 24px;
             font-size: 0.88rem;
             line-height: 1.6;
-            color: var(--text-muted);
-            margin-bottom: 24px;
+            color: #cbd5e1;
         }
 
-        .proposal-box {
-            background: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
+        .email-card {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 22px;
         }
 
         .email-preview {
@@ -381,19 +345,19 @@
             font-size: 0.85rem;
             color: var(--text-main);
             line-height: 1.6;
-            background: #ffffff;
+            background: rgba(6, 8, 18, 0.7);
             padding: 14px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            margin-top: 6px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 8px;
         }
 
-        .btn-secondary {
-            background: #ffffff;
+        .btn-utility {
+            background: rgba(255, 255, 255, 0.06);
             color: var(--text-main);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--card-border);
             padding: 8px 14px;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 0.78rem;
             font-weight: 600;
             cursor: pointer;
@@ -401,96 +365,91 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: background 0.15s;
+            transition: background 0.2s;
         }
 
-        .btn-secondary:hover {
-            background: #f1f5f9;
+        .btn-utility:hover {
+            background: rgba(255, 255, 255, 0.12);
         }
 
-        .objection-toggle {
+        .objections-toggle {
             width: 100%;
-            background: var(--warning-bg);
-            color: var(--warning-text);
-            border: 1px solid var(--warning-border);
+            background: rgba(245, 158, 11, 0.08);
+            color: var(--amber);
+            border: 1px solid rgba(245, 158, 11, 0.3);
             padding: 12px;
-            border-radius: 6px;
+            border-radius: 10px;
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            margin-top: 16px;
+            margin-top: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
+            transition: background 0.2s;
         }
 
-        .objection-container {
+        .objections-toggle:hover {
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        .objections-container {
             display: none;
-            margin-top: 12px;
-            background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 14px;
+            margin-top: 14px;
+            background: rgba(6, 8, 18, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
         }
 
         .objection-item {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
         }
 
         .objection-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
             margin-bottom: 0;
         }
 
         .obj-title {
             font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--warning-text);
+            font-weight: 800;
+            color: var(--amber);
             text-transform: uppercase;
             margin-bottom: 4px;
         }
 
         .obj-desc {
             font-size: 0.82rem;
-            color: var(--text-muted);
+            color: var(--text-main);
             line-height: 1.5;
         }
     </style>
 </head>
 <body>
 
-<!-- NAVBAR ISTITUZIONALE -->
-<header class="navbar">
-    <div class="nav-brand">
-        <div class="brand-logo">€</div>
-        <div class="brand-name">QuantoChiedo.it</div>
-    </div>
-    <div class="nav-links">
-        <span>Dashboard</span>
-        <span>Benchmark Mercato</span>
-        <span>Guide Fiscali</span>
-        <span>Supporto</span>
-    </div>
-</header>
-
-<div class="container">
-    <!-- FORM PRINCIPALE -->
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title">
-                <span>📋 Parametri Preventivo & Benchmark</span>
-            </div>
-            <div class="security-badge">
-                <span>🔒</span> Connessione Sicura SSL & Algoritmo V6
-            </div>
+<div class="dashboard-wrapper">
+    <!-- TOPBAR ANALYTICS -->
+    <header class="analytics-topbar">
+        <div class="brand-info">
+            <h1>QuantoChiedo.it</h1>
+            <p>Advanced Pricing & Market Analytics Engine</p>
         </div>
+        <div class="badge-live">
+            <span></span> Live Benchmark Engine
+        </div>
+    </header>
 
-        <div class="form-grid">
-            <div class="form-group">
+    <!-- FORM CARD -->
+    <div class="analytics-card">
+        <div class="section-header">📊 1. Configurazione Parametri & Benchmark</div>
+        
+        <div class="grid-2">
+            <div class="field-group">
                 <label for="serviceType">Categoria Professionale</label>
                 <select id="serviceType" onchange="toggleFollowerField()">
                     <option value="freelance">Freelancer (Design, Dev, Copywriter)</option>
@@ -500,153 +459,145 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="level">Seniority / Anzionalità</label>
+            <div class="field-group">
+                <label for="level">Seniority / Livello</label>
                 <select id="level">
                     <option value="Junior (1-2 anni)">Junior (1-2 anni)</option>
                     <option value="Mid-Level (3-5 anni)" selected>Mid-Level (3-5 anni)</option>
                     <option value="Senior / Specialist (5+ anni)">Senior / Specialist (5+ anni)</option>
                 </select>
             </div>
-
-            <div class="form-group full" id="followerContainer" style="display: none;">
-                <label for="followers">Community / Follower Totali</label>
-                <input type="number" id="followers" placeholder="Es. 15000">
-            </div>
-
-            <div class="form-group full">
-                <label for="description">Deliverable & Specifiche del Lavoro</label>
-                <textarea id="description" placeholder="Es. Realizzazione pacchetto 3 Reel Instagram + editing, copy e ottimizzazione SEO."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="hours">Stima Ore di Lavoro</label>
-                <input type="number" id="hours" value="10">
-            </div>
-
-            <div class="form-group full">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="hasExpenses" onchange="toggleExpensesBlock()">
-                    <span>Includi costi di trasferta o spese vive (hotel, spostamenti, licenze)</span>
-                </label>
-            </div>
         </div>
 
-        <!-- BLOCCO SPESE TRASFERTA -->
-        <div id="expensesBlock" style="display: none; margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 20px;">
-            <div style="font-size: 0.9rem; font-weight: 700; margin-bottom: 16px; color: var(--text-main);">Gestione Spese Extra & Trasferta</div>
-            
-            <div class="form-grid">
-                <div class="form-group full">
-                    <label for="expensePayer">Regime di Rimborso</label>
-                    <select id="expensePayer">
-                        <option value="freelancer">A CARICO MIO (anticipate e incluse nel preventivo)</option>
-                        <option value="client">A CARICO DEL CLIENTE (a piè di lista)</option>
-                    </select>
-                </div>
-                <div class="form-group">
+        <div class="field-group" id="followerContainer" style="display: none; margin-top: 16px;">
+            <label for="followers">Community / Follower Totali</label>
+            <input type="number" id="followers" placeholder="Es. 25000">
+        </div>
+
+        <div class="field-group" style="margin-top: 16px;">
+            <label for="description">Specifiche del Progetto / Deliverable</label>
+            <textarea id="description" placeholder="Es. Creazione brand identity completa + 3 grafiche social."></textarea>
+        </div>
+
+        <div class="field-group" style="margin-top: 16px;">
+            <label for="hours">Ore Stimate di Lavoro</label>
+            <input type="number" id="hours" value="10">
+        </div>
+
+        <label class="checkbox-card">
+            <input type="checkbox" id="hasExpenses" onchange="toggleExpensesBlock()">
+            <span>Includi spese di trasferta o extra vivi nel preventivo</span>
+        </label>
+
+        <div id="expensesBlock" style="display: none; margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 20px;">
+            <div class="section-header" style="margin-bottom: 14px;">🚗 2. Gestione Trasferte & Costi Vivi</div>
+
+            <div class="field-group">
+                <label for="expensePayer">Regime Spese</label>
+                <select id="expensePayer">
+                    <option value="freelancer">A CARICO MIO (anticipate e incluse nel totale)</option>
+                    <option value="client">A CARICO DEL CLIENTE (a piè di lista)</option>
+                </select>
+            </div>
+
+            <div class="grid-2" style="margin-top: 16px;">
+                <div class="field-group">
                     <label for="distance">Distanza A/R (Km)</label>
                     <input type="number" id="distance" value="0">
                 </div>
-                <div class="form-group">
+                <div class="field-group">
                     <label for="travelCost">Costo Spostamento (€)</label>
                     <input type="number" id="travelCost" value="0">
                 </div>
-                <div class="form-group">
+                <div class="field-group">
                     <label for="nights">Notti Hotel</label>
                     <input type="number" id="nights" value="0">
                 </div>
-                <div class="form-group">
+                <div class="field-group">
                     <label for="hotelCost">Costo Alloggio (€)</label>
                     <input type="number" id="hotelCost" value="0">
                 </div>
-                <div class="form-group full">
-                    <label for="expenses">Altre Spese Materiali / Licenze (€)</label>
-                    <input type="number" id="expenses" value="0">
-                </div>
+            </div>
+
+            <div class="field-group" style="margin-top: 16px;">
+                <label for="expenses">Altre Spese Materiali / Licenze (€)</label>
+                <input type="number" id="expenses" value="0">
             </div>
         </div>
 
-        <button class="btn-primary" onclick="calculatePricing()">Calcola Tariffa di Mercato & Genera Preventivo 📊</button>
+        <button class="btn-action" onclick="calculatePricing()">Genera Analisi & Pacchetti di Prezzo 🚀</button>
 
-        <div id="loading">Elaborazione dati e benchmark in corso...</div>
+        <div id="loading">✨ Elaborazione benchmark e calcolo tariffe in corso...</div>
     </div>
 
-    <!-- RISULTATI -->
+    <!-- RISULTATI REPORT -->
     <div class="results-section" id="resultsBlock">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                    <span>📈 Analisi e Pacchetti Consigliati</span>
-                </div>
-                <div class="security-badge">
-                    <span>✓</span> Stima Fiscale Validata
-                </div>
-            </div>
+        <div class="analytics-card">
+            <div class="section-header">📈 Report & Proposta Commerciale</div>
 
-            <div class="tier-grid">
+            <div class="metrics-grid">
                 <!-- BASE -->
-                <div class="tier-card">
+                <div class="metric-card">
                     <div>
-                        <div class="tier-title" id="tBaseName">Essenziale</div>
-                        <div class="tier-price" id="tBaseGross">€0</div>
-                        <div class="tier-net" id="tBaseNet">Netto st.: €0</div>
-                        <ul class="tier-features" id="tBaseFeatures"></ul>
+                        <div class="metric-title" id="tBaseName">Essenziale</div>
+                        <div class="metric-gross" id="tBaseGross">€0</div>
+                        <div class="metric-net" id="tBaseNet">Netto st.: €0</div>
+                        <ul class="metric-features" id="tBaseFeatures"></ul>
                     </div>
                 </div>
 
                 <!-- RECOMMENDED -->
-                <div class="tier-card highlight">
-                    <span class="popular-tag">Consigliato</span>
+                <div class="metric-card pop-highlight">
+                    <span class="pop-badge">Scelta Consigliata</span>
                     <div>
-                        <div class="tier-title" id="tRecName">Pro / Standard</div>
-                        <div class="tier-price" id="tRecGross">€0</div>
-                        <div class="tier-net" id="tRecNet">Netto st.: €0</div>
-                        <ul class="tier-features" id="tRecFeatures"></ul>
+                        <div class="metric-title" id="tRecName">Pro / Consigliato</div>
+                        <div class="metric-gross" id="tRecGross">€0</div>
+                        <div class="metric-net" id="tRecNet">Netto st.: €0</div>
+                        <ul class="metric-features" id="tRecFeatures"></ul>
                     </div>
                 </div>
 
                 <!-- PREMIUM -->
-                <div class="tier-card">
+                <div class="metric-card">
                     <div>
-                        <div class="tier-title" id="tPremName">Completo & Priority</div>
-                        <div class="tier-price" id="tPremGross">€0</div>
-                        <div class="tier-net" id="tPremNet">Netto st.: €0</div>
-                        <ul class="tier-features" id="tPremFeatures"></ul>
+                        <div class="metric-title" id="tPremName">Completo & Priority</div>
+                        <div class="metric-gross" id="tPremGross">€0</div>
+                        <div class="metric-net" id="tPremNet">Netto st.: €0</div>
+                        <ul class="metric-features" id="tPremFeatures"></ul>
                     </div>
                 </div>
             </div>
 
-            <div class="market-insight" id="resJustification"></div>
+            <div class="analytics-insight" id="resJustification"></div>
 
-            <div class="proposal-box">
+            <div class="email-card">
                 <label>OGGETTO EMAIL PROPOSTA</label>
-                <input type="text" id="emailSubject" readonly style="margin: 6px 0 14px 0; font-weight: 600;">
+                <input type="text" id="emailSubject" readonly style="margin: 6px 0 14px 0; font-weight: 700; color: var(--cyan-glow);">
 
-                <label>TESTO EMAIL PRONTO PER L'INVIO</label>
+                <label>TESTO EMAIL PRONTO</label>
                 <div class="email-preview" id="emailBody"></div>
                 
-                <button class="btn-secondary" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
+                <button class="btn-utility" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
 
-                <button class="objection-toggle" onclick="toggleObjections()">
-                    💬 Strategia di Negoziazione (Cosa dire se chiedono lo sconto)
+                <button class="objections-toggle" onclick="toggleObjections()">
+                    💬 Gestione Obiezioni Sconto (Cosa dire se chiedono un ribasso)
                 </button>
 
-                <div class="objection-container" id="objectionsBlock">
+                <div class="objections-container" id="objectionsBlock">
                     <div class="objection-item">
                         <div class="obj-title">1. Difesa del Valore (Nessun Sconto)</div>
                         <div class="obj-desc" id="objDefense"></div>
-                        <button class="btn-secondary" onclick="copyText('objDefense')" style="margin-top:6px;">Copia Risposta</button>
+                        <button class="btn-utility" onclick="copyText('objDefense')" style="margin-top:8px;">Copia Risposta</button>
                     </div>
                     <div class="objection-item">
                         <div class="obj-title">2. Descoping (Riduzione Attività)</div>
                         <div class="obj-desc" id="objDescoping"></div>
-                        <button class="btn-secondary" onclick="copyText('objDescoping')" style="margin-top:6px;">Copia Risposta</button>
+                        <button class="btn-utility" onclick="copyText('objDescoping')" style="margin-top:8px;">Copia Risposta</button>
                     </div>
                     <div class="objection-item">
                         <div class="obj-title">3. Trade-off (Sconto vs Saldo Anticipato)</div>
                         <div class="obj-desc" id="objTradeoff"></div>
-                        <button class="btn-secondary" onclick="copyText('objTradeoff')" style="margin-top:6px;">Copia Risposta</button>
+                        <button class="btn-utility" onclick="copyText('objTradeoff')" style="margin-top:8px;">Copia Risposta</button>
                     </div>
                 </div>
             </div>
