@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quanto Chiedere? | Calcolatore Tariffa & Ritenuta d'Acconto</title>
+    <title>QuantoChiedo.it | Calcolatore Avanzato Tariffa, Trasferte & Preventivi</title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -25,20 +25,20 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
             margin-top: 20px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         h1 {
             color: var(--accent-color);
-            font-size: 2rem;
-            margin-bottom: 8px;
+            font-size: 2.2rem;
+            margin-bottom: 6px;
         }
 
         p.subtitle {
@@ -55,31 +55,68 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
 
+        .section-title {
+            font-size: 1rem;
+            color: var(--accent-color);
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 550px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 550px) {
+            .form-group.full-width { grid-column: span 1; }
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            color: var(--text-color);
         }
 
         input, select {
             width: 100%;
-            padding: 12px;
+            padding: 10px 12px;
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
             border-radius: 6px;
             color: var(--text-color);
-            font-size: 1rem;
+            font-size: 0.95rem;
             box-sizing: border-box;
         }
 
         input:focus, select:focus {
             outline: none;
             border-color: var(--accent-color);
+        }
+
+        .help-text {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            display: block;
+            margin-top: 4px;
+            line-height: 1.3;
         }
 
         button {
@@ -92,6 +129,7 @@
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
+            margin-top: 15px;
             transition: background 0.2s;
         }
 
@@ -110,39 +148,44 @@
         .result-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 1.05rem;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .result-item strong {
+            color: var(--text-color);
         }
 
         .result-item.highlight {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: bold;
             color: var(--accent-color);
             border-top: 1px dashed var(--border-color);
-            padding-top: 10px;
+            padding-top: 12px;
+            margin-top: 10px;
         }
 
         .email-box {
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
-            padding: 12px;
+            padding: 15px;
             border-radius: 6px;
             font-size: 0.85rem;
             color: var(--text-secondary);
             white-space: pre-line;
-            margin-top: 15px;
+            margin-top: 12px;
+            line-height: 1.4;
         }
 
-        /* Spazio Monetizzazione Banner AdSense */
         .ad-space {
-            background-color: transparent;
             border: 1px dashed var(--border-color);
             border-radius: 8px;
-            padding: 15px;
+            padding: 12px;
             text-align: center;
             color: var(--text-secondary);
             font-size: 0.8rem;
-            margin: 20px 0;
+            margin: 15px 0;
         }
     </style>
 </head>
@@ -150,94 +193,248 @@
 
 <div class="container">
     <header>
-        <h1>Quanto Chiedere?</h1>
-        <p class="subtitle">Calcola la tua tariffa lorda e genera la proposta per il cliente.</p>
+        <h1>QuantoChiedo.it</h1>
+        <p class="subtitle">Calcolatore Avanzato di Tariffa, Trasferte & Preventivi</p>
     </header>
 
-    <!-- Spazio per futuro Banner Pubblicitario Superiore -->
     <div class="ad-space">Spazio Pubblicitario / Banner AdSense</div>
 
     <div class="card">
-        <div class="form-group">
-            <label for="netTarget">Quanto vuoi incassare pulito (€)?</label>
-            <input type="number" id="netTarget" placeholder="Es. 500" value="500">
+        
+        <div class="section-title">1. Lavoro & Compenso Base</div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="netTarget">Incasamento Netto Desiderato (€)</label>
+                <input type="number" id="netTarget" placeholder="Es. 500" value="500">
+                <span class="help-text">I soldi puliti che vuoi che ti rimangano in tasca.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="hours">Ore Stimate di Lavoro</label>
+                <input type="number" id="hours" placeholder="Es. 10" value="10">
+                <span class="help-text">Serve per calcolare la tua tariffa oraria.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="expenses">Spese Materiali / Acquisti Extra (€)</label>
+                <input type="number" id="expenses" placeholder="Es. 30" value="0">
+                <span class="help-text">Acquisto di font, licenze software, immagini stock o affitto strumenti necessari per il progetto.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="rivalsa">Rivalsa INPS / Cassa (4%)</label>
+                <select id="rivalsa">
+                    <option value="0">Nessuna Cassa / Rivalsa</option>
+                    <option value="4">Rivalsa INPS (4%)</option>
+                </select>
+                <span class="help-text">Addebitabile al cliente se operi in P.IVA.</span>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="regime">Regime Fiscale / Inquadramento</label>
+                <select id="regime">
+                    <option value="prestazione">Prestazione Occasionale (Ritenuta d'Acconto 20%)</option>
+                    <option value="forfettario">Partita IVA Forfettaria (Stima Imposte ~15%)</option>
+                    <option value="netto_puro">Nessuna Trattenuta (Netto = Lordo)</option>
+                </select>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="regime">Tipo di Collaborazione</label>
-            <select id="regime">
-                <option value="prestazione">Prestazione Occasionale (Ritenuta d'Acconto 20%)</option>
-                <option value="forfettario">Partita IVA Forfettaria (Stima Tasse 15%)</option>
-                <option value="netto_puro">Nessuna Trattenuta (Netto = Lordo)</option>
-            </select>
+        <div class="section-title">2. Trasferta, Viaggio & Logistica</div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="travelPayer">Spese di Viaggio / Trasferta</label>
+                <select id="travelPayer" onchange="toggleTravelInputs()">
+                    <option value="none">Nessuna trasferta richiesta</option>
+                    <option value="my_charge">A mio carico (da rimborsare nel totale)</option>
+                    <option value="client_charge">A carico diretto del cliente (Hotel/Voli già pagati da loro)</option>
+                </select>
+            </div>
+
+            <div class="form-group travel-field" style="display:none;">
+                <label for="kmDist">Distanza Totale A/R (Km)</label>
+                <input type="number" id="kmDist" placeholder="Es. 200" value="0">
+            </div>
+
+            <div class="form-group travel-field" style="display:none;">
+                <label for="travelCost">Costo Mezzi / Carburante / Biglietti (€)</label>
+                <input type="number" id="travelCost" placeholder="Es. 60" value="0">
+                <span class="help-text">Spesa stimata per benzina, pedaggi o treno.</span>
+            </div>
+
+            <div class="form-group travel-field" style="display:none;">
+                <label for="hotelCost">Costo Pernottamento / Hotel (€)</label>
+                <input type="number" id="hotelCost" placeholder="Es. 100" value="0">
+                <span class="help-text">Spesa complessiva per le notti in albergo.</span>
+            </div>
         </div>
 
-        <button onclick="calculate()">Calcola Preventivo</button>
+        <button onclick="calculate()">Calcola Preventivo Dettagliato</button>
 
         <div class="results" id="resultsBlock">
             <div class="result-item">
-                <span>Compenso Netto desiderato:</span>
-                <span id="resNet">€ 0.00</span>
+                <span>Netto Garantito in Tasca:</span>
+                <strong id="resNet">€ 0.00</strong>
             </div>
             <div class="result-item">
-                <span>Trattenute / Ritenuta d'Acconto:</span>
-                <span id="resTax">€ 0.00</span>
+                <span>Rimborso Spese Materiali / Extra:</span>
+                <strong id="resExpenses">€ 0.00</strong>
+            </div>
+            <div class="result-item" id="rowTravel" style="display:none;">
+                <span>Rimborso Trasferta & Alloggio:</span>
+                <strong id="resTravel">€ 0.00</strong>
+            </div>
+            <div class="result-item" id="rowRivalsa" style="display:none;">
+                <span>Rivalsa Cassa/INPS (4%):</span>
+                <strong id="resRivalsa">€ 0.00</strong>
+            </div>
+            <div class="result-item">
+                <span>Trattenute Fiscali / Ritenuta d'Acconto:</span>
+                <strong id="resTax">€ 0.00</strong>
+            </div>
+            <div class="result-item">
+                <span>Tariffa Oraria Netta Consigliata:</span>
+                <strong id="resHourly">€ 0.00 / ora</strong>
             </div>
             <div class="result-item highlight">
-                <span>Prezzo Lordo da Chiedere:</span>
-                <span id="resGross">€ 0.00</span>
+                <span>Prezzo Totale Lordo da Chiedere:</span>
+                <strong id="resGross">€ 0.00</strong>
             </div>
 
-            <label style="margin-top: 20px;">Testo Pronto per la Proposta (Copia & Incolla):</label>
+            <label style="margin-top: 20px; font-weight: bold;">Proposta Email Pronta per il Cliente:</label>
             <div class="email-box" id="emailText"></div>
         </div>
     </div>
 
-    <!-- Spazio Monetizzazione Box Affiliazione -->
     <div class="card" style="text-align: center; background: #0f172a;">
-        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">Devi gestire le ritenute o aprire la Partita IVA?</p>
-        <a href="#" style="color: var(--accent-color); font-weight: bold; text-decoration: none; font-size: 0.9rem;">Prova Fiscozen / Fatture in Cloud (Link Affiliato)</a>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">Hai dubbi su come gestire la tua contabilità o aprire P.IVA?</p>
+        <a href="#" style="color: var(--accent-color); font-weight: bold; text-decoration: none; font-size: 0.9rem;">Prova Fiscozen (Sconto speciale per gli utenti di QuantoChiedo)</a>
     </div>
 </div>
 
 <script>
-    function calculate() {
-        const netTarget = parseFloat(document.getElementById('netTarget').value);
-        const regime = document.getElementById('regime').value;
+    function toggleTravelInputs() {
+        const mode = document.getElementById('travelPayer').value;
+        const fields = document.querySelectorAll('.travel-field');
         
-        if (isNaN(netTarget) || netTarget <= 0) {
-            alert('Inserisci un importo valido');
+        fields.forEach(f => {
+            if (mode === 'my_charge') {
+                f.style.display = 'block';
+            } else {
+                f.style.display = 'none';
+            }
+        });
+    }
+
+    function calculate() {
+        const netTarget = parseFloat(document.getElementById('netTarget').value) || 0;
+        const hours = parseFloat(document.getElementById('hours').value) || 1;
+        const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+        const rivalsaPct = parseFloat(document.getElementById('rivalsa').value) || 0;
+        const regime = document.getElementById('regime').value;
+
+        // Dati Trasferta
+        const travelPayer = document.getElementById('travelPayer').value;
+        const kmDist = parseFloat(document.getElementById('kmDist').value) || 0;
+        const travelCost = parseFloat(document.getElementById('travelCost').value) || 0;
+        const hotelCost = parseFloat(document.getElementById('hotelCost').value) || 0;
+
+        if (netTarget <= 0) {
+            alert('Inserisci un importo netto valido');
             return;
         }
 
-        let gross = 0;
+        let totalTravel = 0;
+        if (travelPayer === 'my_charge') {
+            totalTravel = travelCost + hotelCost;
+        }
+
+        // Il compenso base comprende il netto + spese vive/materiali + rimborso trasferte
+        const baseTarget = netTarget + expenses + totalTravel;
+
+        let grossBeforeTax = baseTarget;
+        let rivalsaVal = 0;
+
+        if (rivalsaPct > 0) {
+            rivalsaVal = baseTarget * (rivalsaPct / 100);
+            grossBeforeTax += rivalsaVal;
+        }
+
+        let totalGross = 0;
         let tax = 0;
 
         if (regime === 'prestazione') {
-            // Formula ritenuta d'acconto 20% sul lordo: Netto = Lordo * 0.80 -> Lordo = Netto / 0.80
-            gross = netTarget / 0.80;
-            tax = gross * 0.20;
+            totalGross = grossBeforeTax / 0.80;
+            tax = totalGross * 0.20;
         } else if (regime === 'forfettario') {
-            // Stima approssimativa forfettario al 15%
-            gross = netTarget / 0.85;
-            tax = gross * 0.15;
+            totalGross = grossBeforeTax / 0.85;
+            tax = totalGross * 0.15;
         } else {
-            gross = netTarget;
+            totalGross = grossBeforeTax;
             tax = 0;
         }
 
-        document.getElementById('resNet').innerText = '€ ' + netTarget.toFixed(2);
-        document.getElementById('resTax').innerText = '€ ' + tax.toFixed(2);
-        document.getElementById('resGross').innerText = '€ ' + gross.toFixed(2);
+        const hourlyRate = netTarget / hours;
 
-        // Generazione messaggio automatico
-        let msg = `Buongiorno,\nin merito al lavoro richiesto, il preventivo complessivo è di € ${gross.toFixed(2)} lordi.`;
-        
-        if (regime === 'prestazione') {
-            msg += `\n\nTrattandosi di prestazione occasionale, verrà applicata la ritenuta d'acconto del 20% (€ ${tax.toFixed(2)}), che verserete voi per mio conto. L'importo netto da me percepito sarà di € ${netTarget.toFixed(2)}.`;
+        document.getElementById('resNet').innerText = '€ ' + netTarget.toFixed(2);
+        document.getElementById('resExpenses').innerText = '€ ' + expenses.toFixed(2);
+        document.getElementById('resTax').innerText = '€ ' + tax.toFixed(2);
+        document.getElementById('resHourly').innerText = '€ ' + hourlyRate.toFixed(2) + ' / ora';
+        document.getElementById('resGross').innerText = '€ ' + totalGross.toFixed(2);
+
+        if (totalTravel > 0) {
+            document.getElementById('resTravel').innerText = '€ ' + totalTravel.toFixed(2);
+            document.getElementById('rowTravel').style.display = 'flex';
+        } else {
+            document.getElementById('rowTravel').style.display = 'none';
         }
 
-        msg += `\n\nResto a disposizione per qualsiasi chiarimento.`;
+        if (rivalsaVal > 0) {
+            document.getElementById('resRivalsa').innerText = '€ ' + rivalsaVal.toFixed(2);
+            document.getElementById('rowRivalsa').style.display = 'flex';
+        } else {
+            document.getElementById('rowRivalsa').style.display = 'none';
+        }
+
+        // Generazione Testo Email
+        let msg = `Gentile Cliente,
+
+in merito alla richiesta, le confermo il preventivo dettagliato per lo svolgimento delle attività (stima di ${hours} ore lavorative):
+`;
+        
+        const feeAlone = totalGross - expenses - totalTravel;
+        msg += `
+- Compenso professionale: € ${feeAlone.toFixed(2)}`;
+        
+        if (expenses > 0) {
+            msg += `
+- Rimborso acquisti materiali/licenze extra: € ${expenses.toFixed(2)}`;
+        }
+
+        if (travelPayer === 'my_charge' && totalTravel > 0) {
+            msg += `
+- Rimborso spese di trasferta e pernottamento`;
+            if (kmDist > 0) msg += ` (${kmDist} km A/R)`;
+            msg += `: € ${totalTravel.toFixed(2)}`;
+        } else if (travelPayer === 'client_charge') {
+            msg += `
+- Note trasferta: Spese di viaggio e alloggio intese a carico diretto del Committente.`;
+        }
+
+        msg += `
+---------------------------------`;
+        msg += `
+TOTALE LORDO: € ${totalGross.toFixed(2)}`;
+
+        if (regime === 'prestazione') {
+            msg += `
+
+*Nota fiscale:* L'importo è soggetto a ritenuta d'acconto del 20% (€ ${tax.toFixed(2)}), che provvederete a versare per mio conto. L'importo netto corrisposto sarà di € ${(totalGross - tax).toFixed(2)}.`;
+        }
+
+        msg += `
+
+Resto a disposizione per qualsiasi chiarimento e per confermare la data di inizio lavori.`;
 
         document.getElementById('emailText').innerText = msg;
         document.getElementById('resultsBlock').style.display = 'block';
