@@ -44,8 +44,15 @@ export default async function handler(req, res) {
 ` : '- Spese vive/trasferte: Nessuna';
 
   const promptText = `
-Sei un Commerciale e Pricing Strategist esperto del MERCATO REALE E PRAGMATICO ITALIANO (PMI, Piccole Imprese e Professionisti).
-Il tuo obiettivo è generare un preventivo ad "Ancoraggio dei Prezzi" con cifre REALI, ACCESSIBILI e NON GONFIATE. I clienti italiani cercano prezzi giusti e trasparenti.
+Sei un Commerciale e Pricing Strategist per Freelancer e Creator in Italia.
+Devi generare 3 pacchetti di prezzo ad ancoraggio ad un RANGE MEDIO ACCESSIBILE E MOLTO CONCRETO.
+
+ANCHOR TARGET DI RIFERIMENTO (Per un lavoro standard da 4-8 ore):
+- PACCHETTO BASE: ~300€ lordi (Netto st.: ~190€)
+- PACCHETTO RECOMMENDED: ~450€ lordi (Netto st.: ~280€)
+- PACCHETTO PREMIUM: ~600€ lordi (Netto st.: ~380€)
+
+Adatta leggermente questi valori in base al numero effettivo di ore (${hours} ore) e all'esperienza (${level}), ma MANTIENI LA STRUTTURA DEL PREZZO ANCORATA ATTORNO A QUESTA SCALA (300€ - 450€ - 600€).
 
 DATI INPUT:
 - Tipologia: ${serviceType}
@@ -55,56 +62,40 @@ DATI INPUT:
 - Ore lavoro stimate: ${hours}
 ${expensesDetails}
 
-TARIFFE ORARIE DI RIFERIMENTO (SULLA BASE DEL MERCATO ITALIANO REALE):
-- Junior: 12€ - 18€/ora netti (circa 18€ - 25€ lordi).
-- Mid-Level: 20€ - 28€/ora netti (circa 28€ - 40€ lordi).
-- Senior: 32€ - 45€/ora netti (circa 45€ - 65€ lordi).
-
-CREATOR / UGC REALE ITALIANO:
-- Nano (1k-10k): 25€ - 50€ a video/post.
-- Micro (10k-50k): 60€ - 120€ a video/post.
-- Mid (50k-100k): 150€ - 300€ a video/post.
-
-STRUTTURA DEI 3 PACCHETTI (MANTIENI I PREZZI COMPRESSI E REALI):
-1. BASE (Budget / Essenziale): Il prezzo d'ingresso. Onesto, senza fronzoli, copre solo il lavoro stretto e 1 revisione.
-2. RECOMMENDED (Equilibrio / Consigliato): Il valore reale target (+25-30% rispetto al Base). Include file sorgente o 2 revisioni.
-3. PREMIUM (Completo): Un piccolo upsell pratico (+40-50% rispetto al Base) con consegne veloci o extra utili, senza sparare cifre irrealistiche.
-
-LOGICA NEGOZIAZIONE OBIEZIONI:
-Genera 3 risposte veloci ed efficaci in italiano da inviare se il cliente chiede uno sconto:
-1. "defense": Difesa del Valore (Prezzo già al minimo per garantire la qualità).
-2. "descoping": Riduzione Deliverables (Taglio prezzo in cambio di meno lavorazione/revisioni).
-3. "tradeoff": Vantaggio Liquidità (Sconto 10% solo se salda il 100% subito).
+STRUTTURA PACCHETTI:
+1. BASE (Essenziale): Il punto d'ingresso accessibile (Attorno a 300€). 1 revisione, cose essenziali.
+2. RECOMMENDED (Pro / Consigliato): La scelta ideale (Attorno a 450€). File sorgente, 2 revisioni, supporto.
+3. PREMIUM (Completo & Priority): Soluzione all-inclusive (Attorno a 600€). Consegna veloce, licenze uff. o varianti.
 
 Rispondi TASSATIVAMENTE con un oggetto JSON valido (senza blocchi \`\`\`json):
 {
   "tiers": {
     "base": {
-      "name": "Essenziale (Budget)",
-      "grossRate": "150",
-      "netRate": "100",
-      "features": ["Deliverable principale", "1 Round di revisione", "Consegna standard"]
+      "name": "Essenziale",
+      "grossRate": "300",
+      "netRate": "190",
+      "features": ["Deliverable principale", "1 Round di revisione", "Consegna nei tempi standard"]
     },
     "recommended": {
       "name": "Pro / Consigliato",
-      "grossRate": "210",
-      "netRate": "140",
-      "features": ["Deliverable completo", "2 Round di revisione", "File sorgenti inclusi", "Supporto post-consegna"]
+      "grossRate": "450",
+      "netRate": "280",
+      "features": ["Deliverable completo", "2 Round di revisione", "File sorgenti pronti", "Assistenza post-consegna"]
     },
     "premium": {
       "name": "Completo & Priority",
-      "grossRate": "290",
-      "netRate": "190",
-      "features": ["Tutto il pacchetto Pro", "Consegna Prioritaria Express", "1 Formato/Variante extra"]
+      "grossRate": "600",
+      "netRate": "380",
+      "features": ["Tutto il pacchetto Pro", "Consegna Prioritaria Express", "Diritti commerciali completi", "1 Variante formato extra"]
     }
   },
-  "justification": "Spiegazione sintetica della strategia di prezzo accessibile basata sulle reali ore di lavoro.",
-  "emailSubject": "Proposta di collaborazione per [Nome Progetto]",
-  "emailBody": "Gentile [Cliente],\\n\\necco le opzioni di collaborazione calibrate sul vostro progetto...\\n\\n1. Opzione Essenziale (€[Base]): ...\\n2. Opzione Consigliata (€[Rec]): ...\\n3. Opzione Premium (€[Prem]): ...\\n\\nResto a disposizione per qualsiasi chiarimento.",
+  "justification": "Strategia commerciale bilanciata sull'ancora di prezzo 300€ - 450€ - 600€, perfetta per PMI e professionisti.",
+  "emailSubject": "Proposta di collaborazione e preventivo - [Nome Progetto]",
+  "emailBody": "Gentile [Cliente],\\n\\necco le 3 soluzioni pensate per la realizzazione del progetto...\\n\\n1. Opzione Essenziale (€[Base]): ...\\n2. Opzione Consigliata (€[Rec]): ...\\n3. Opzione Premium (€[Prem]): ...\\n\\nResto a disposizione.",
   "objections": {
-    "defense": "Il preventivo fornito è già calcolato sulle ore minime effettive per garantire un lavoro ben fatto. Non posso applicare un ulteriore sconto diretto senza intaccare la qualità del risultato finale.",
-    "descoping": "Se il budget a disposizione è inferiore, possiamo tranquillamente passare all'Opzione Essenziale (riducendo le revisioni a 1 sola e mantenendo i soli file finali) per rientrare nella cifra desiderata.",
-    "tradeoff": "Possiamo applicare uno sconto straordinario del 10% sull'Opzione Consigliata a condizione di concordare il saldo anticipato del 100% all'accettazione della proposta."
+    "defense": "L'opzione da 450€ è stata calcolata sulle ore effettive di lavorazione garantendo file pronti all'uso e revisioni incluse. È il miglior punto d'equilibrio per un lavoro professionale.",
+    "descoping": "Se volete rimanere sui 300€ possiamo tranquillamente optare per la versione Essenziale, mantenendo il deliverable principale e riducendo a 1 sola revisione.",
+    "tradeoff": "Possiamo concedere un 10% di sconto sulla versione Pro portandola a circa 400€ a fronte di un saldo immediato al momento della firma del preventivo."
   }
 }
 `;
