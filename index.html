@@ -623,16 +623,17 @@
                         <option value="Senior / Specialist (5+ anni)">Senior / Specialist (5+ anni) [+25% sul base]</option>
                     </select>
                 </div>
+                <!-- CAMPO SOSTITUITO: Costi Vivi / Software / Licenze / Materiali Inclusi -->
                 <div class="field-group">
-                    <label>STIMA GIORNATE O ORE (0 = AUTO-CALCOLO DA BRIEF)</label>
-                    <input type="number" id="hours" value="0" placeholder="Es. 8 ore o 2 giornate">
+                    <label>COSTI VIVI / LICENZE / MATERIALI INCLUSI (€)</label>
+                    <input type="number" id="softwareCosts" value="0" placeholder="Es. 150 (abbonamenti, domini, server, materiali)">
                 </div>
             </div>
 
             <div class="config-grid">
                 <div class="field-group">
-                    <label id="metricLabel">PARAMETRO DI RIFERIMENTO</label>
-                    <input type="number" id="followers" value="0" placeholder="Es. 10000 o volume complessità">
+                    <label id="metricLabel">GIORNATE DI RIPRESA STIMATE</label>
+                    <input type="number" id="followers" value="0" placeholder="Es. 1 o 2 giornate">
                 </div>
                 <div class="field-group">
                     <label>DESCRIZIONE DEL PROGETTO (Racconta cosa farai)</label>
@@ -782,10 +783,9 @@
         const lower = text.toLowerCase();
         let conceptMatches = [];
         let contextMultiplier = 1.0;
-        let baseMarketValue = 1200; // Valore di riferimento base
+        let baseMarketValue = 1200;
         let semanticSummary = "Servizio Professionale Standard";
 
-        // Rilevamento concetti specifici
         const complexWebTerms = ['next.js', 'react', 'api', 'database', 'autenticazione', 'backend', 'saas', 'piattaforma', 'custom', 'e-commerce'];
         let webHits = complexWebTerms.filter(t => lower.includes(t)).length;
 
@@ -795,8 +795,7 @@
         const techHits = ['drone', 'montaggio', 'color grading', 'multicamera', 'sound design'].filter(t => lower.includes(t)).length;
 
         if (profession === 'freelance') {
-            // Mercato reale Sviluppo JS/Frontend: ~45€-65€/h per Mid/Senior
-            baseMarketValue = 1600; // Es. pacchetto base per sito o componente web app
+            baseMarketValue = 1600;
             semanticSummary = "Sviluppo Web / Frontend o Web App JavaScript";
             if (webHits >= 2 || lower.includes('piattaforma') || lower.includes('saas')) {
                 baseMarketValue = 3500;
@@ -805,7 +804,7 @@
             }
         } else if (profession === 'videomaker') {
             if (weddingHits >= 2 || lower.includes('matrimonio')) {
-                baseMarketValue = 1800; // Real market wedding standard in Italy
+                baseMarketValue = 1800;
                 semanticSummary = "Servizio Video e Foto Full-Day per Matrimonio";
                 contextMultiplier += 0.2;
                 conceptMatches.push("Copertura continuativa intera giornata (Full-Day Event)");
@@ -814,7 +813,7 @@
                 semanticSummary = "Produzione Spot / Video Commerciale o Evento";
             }
         } else if (profession === 'creator') {
-            baseMarketValue = 450; // Pacchetto standard UGC in Italia
+            baseMarketValue = 450;
             semanticSummary = "Campagna Contenuti UGC / Creator Multicanale";
         } else if (profession === 'consultant') {
             baseMarketValue = 900;
@@ -843,23 +842,15 @@
         const profession = document.getElementById('serviceType').value;
         const description = document.getElementById('description').value.trim();
         const level = document.getElementById('level').value;
-        const customHoursInput = parseFloat(document.getElementById('hours').value) || 0;
+        const softwareCosts = parseFloat(document.getElementById('softwareCosts').value) || 0;
         
         const levelFactor = level.includes('Junior') ? 0.85 : (level.includes('Senior') ? 1.25 : 1.0);
         const semantics = performRealMarketAnalysis(description, profession);
 
-        // Se l'utente ha inserito ore esatte, ricalcoliamo in base alle tariffe orarie reali di mercato italiano
         let finalBase = semantics.baseMarketValue;
-        if (customHoursInput > 0) {
-            let hourlyRate = profession === 'freelance' ? 45 : (profession === 'consultant' ? 70 : 50);
-            if (level.includes('Senior')) hourlyRate *= 1.3;
-            if (level.includes('Junior')) hourlyRate *= 0.8;
-            finalBase = customHoursInput * hourlyRate;
-        }
-
-        let baseCalculated = finalBase * levelFactor;
-        let proCalculated = finalBase * 1.4 * levelFactor;
-        let completeCalculated = finalBase * 1.9 * levelFactor;
+        let baseCalculated = (finalBase * levelFactor) + softwareCosts;
+        let proCalculated = (finalBase * 1.4 * levelFactor) + softwareCosts;
+        let completeCalculated = (finalBase * 1.9 * levelFactor) + softwareCosts;
 
         let extraTotalToCreator = 0;
         let extraDetailsText = "";
@@ -872,7 +863,7 @@
             const misc = parseFloat(document.getElementById('extraMisc').value) || 0;
             const payer = document.getElementById('extraPayer').value;
             
-            const kmCost = km * 0.35; // Costo chilometrico reale ACI medio
+            const kmCost = km * 0.35;
             const rawExtra = kmCost + hotel + misc;
 
             if (rawExtra > 0) {
@@ -896,7 +887,6 @@
         let recGross = Math.round(proCalculated + extraTotalToCreator);
         let premGross = Math.round(completeCalculated + extraTotalToCreator);
 
-        // Stima del netto ipotizzando regime forfettario o costi deducibili medi in Italia (~78% del lordo)
         let baseNet = Math.round(baseGross * 0.78);
         let recNet = Math.round(recGross * 0.78);
         let premNet = Math.round(premGross * 0.78);
@@ -918,17 +908,17 @@
         document.getElementById('tBaseName').innerText = pNameBase;
         document.getElementById('tBaseGross').innerText = "€" + baseGross;
         document.getElementById('tBaseNet').innerText = "Netto st.: €" + baseNet;
-        document.getElementById('tBaseFeatures').innerHTML = `<li>Servizio: ${semantics.semanticSummary}</li><li>Copertura essenziale di mercato</li>${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>1 round di revisione</li>`;
+        document.getElementById('tBaseFeatures').innerHTML = `<li>Servizio: ${semantics.semanticSummary}</li><li>Copertura essenziale di mercato</li>${softwareCosts > 0 ? `<li>Costi fissi/licenze inclusi (€${softwareCosts})</li>` : ''}${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>1 round di revisione</li>`;
 
         document.getElementById('tRecName').innerText = pNamePro;
         document.getElementById('tRecGross').innerText = "€" + recGross;
         document.getElementById('tRecNet').innerText = "Netto st.: €" + recNet;
-        document.getElementById('tRecFeatures').innerHTML = `<li>Servizio completo e strutturato</li>${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>Post-produzione e ottimizzazione avanzata</li>`;
+        document.getElementById('tRecFeatures').innerHTML = `<li>Servizio completo e strutturato</li>${softwareCosts > 0 ? `<li>Costi fissi/licenze inclusi (€${softwareCosts})</li>` : ''}${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>Post-produzione e ottimizzazione avanzata</li>`;
 
         document.getElementById('tPremName').innerText = pNamePrem;
         document.getElementById('tPremGross').innerText = "€" + premGross;
         document.getElementById('tPremNet').innerText = "Netto st.: €" + premNet;
-        document.getElementById('tPremFeatures').innerHTML = `<li>Soluzione massima qualità e priorità</li>${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>Consegne rapide e supporto esteso</li>`;
+        document.getElementById('tPremFeatures').innerHTML = `<li>Soluzione massima qualità e priorità</li>${softwareCosts > 0 ? `<li>Costi fissi/licenze inclusi (€${softwareCosts})</li>` : ''}${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>Consegne rapide e supporto esteso</li>`;
 
         let reasonsListHtml = "";
         if (semantics.conceptMatches.length > 0) {
@@ -942,6 +932,7 @@
             <p><strong>Parametri di mercato considerati:</strong></p>
             ${reasonsListHtml}
             <p>• <strong>Seniority Professionale:</strong> ${level} (Coefficiente applicato sul costo orario/giornaliero).</p>
+            ${softwareCosts > 0 ? `<p>• <strong>Costi vivi / Software / Licenze:</strong> Inclusi per un totale di €${softwareCosts}.</p>` : ''}
             ${extraDetailsText ? `<p>${extraDetailsText}</p>` : ''}
         `;
 
@@ -949,7 +940,7 @@
         
         let humanEmailText = `Ciao [Nome del Cliente],
 
-ti scrivo dopo aver analizzato con attenzione le specifiche tecniche ed economiche per ${description ? 'il progetto ("' + (description.length > 50 ? description.substring(0, 50) + '...' : description) + '")' : 'la nostra collaborazione'}. ${extraEmailSection}
+ti scrivo dopo aver analizzato con attenzione le specifiche tecniche ed economiche per ${description ? 'il progetto ("' + (description.length > 50 ? description.substring(0, 50) + '...' : description) + '")' : 'la nostra collaborazione'}. ${softwareCosts > 0 ? 'Nel totale sono inclusi anche i costi vivi stimati per software, licenze o materiali pari a €' + softwareCosts + '.' : ''} ${extraEmailSection}
 
 Per strutturare il lavoro nel rispetto degli standard di mercato e garantirti un risultato impeccabile, ho definito tre opzioni trasparenti:
 
