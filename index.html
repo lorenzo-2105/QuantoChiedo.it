@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Preventivo Reale, Trasparente e Flessibile</title>
+    <title>QuantoChiedo.it | Preventivo Reale e Controllato</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -43,7 +43,6 @@
             width: 100%;
         }
 
-        /* Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -61,41 +60,6 @@
             text-transform: uppercase;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 24px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--fin-emerald);
-        }
-
-        .btn-header {
-            background: rgba(255, 255, 255, 0.06);
-            color: var(--text-main);
-            font-weight: 700;
-            font-size: 0.85rem;
-            padding: 8px 18px;
-            border-radius: 20px;
-            border: 1px solid var(--border-glass);
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-header:hover {
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        /* Hero Section */
         .hero-section {
             text-align: center;
             margin-bottom: 30px;
@@ -134,10 +98,8 @@
             font-weight: 800;
             color: var(--fin-emerald);
             letter-spacing: -0.02em;
-            text-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
         }
 
-        /* Search Bar Area */
         .search-area-wrapper {
             position: relative;
             max-width: 650px;
@@ -187,10 +149,8 @@
 
         .btn-search-main:hover {
             background: var(--fin-emerald-hover);
-            transform: translateY(-1px);
         }
 
-        /* Pannello Parametri Avanzati */
         .config-panel {
             background: var(--card-glass);
             border: 1px solid var(--border-glass);
@@ -243,11 +203,6 @@
             line-height: 1.5;
         }
 
-        .field-group input:focus, .field-group select:focus, .field-group textarea:focus {
-            border-color: var(--fin-emerald);
-        }
-
-        /* Selettore dinamico a seconda della modalità */
         .dynamic-fields-wrapper {
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.06);
@@ -256,7 +211,6 @@
             margin-top: 14px;
         }
 
-        /* Risultati Report Unico */
         .results-wrapper {
             display: none;
             background: rgba(15, 23, 42, 0.92);
@@ -265,14 +219,8 @@
             padding: 30px;
             margin-top: 30px;
             backdrop-filter: blur(20px);
-            animation: fadeIn 0.4s ease-out forwards;
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
             text-align: left;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .single-proposal-card {
@@ -295,7 +243,6 @@
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
             margin-bottom: 4px;
         }
 
@@ -311,7 +258,7 @@
             font-weight: 600;
         }
 
-        .creator-rationale-box {
+        .creator-rationale-box, .email-short-box {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(16, 185, 129, 0.25);
             border-radius: 14px;
@@ -324,7 +271,6 @@
             font-weight: 800;
             color: var(--fin-emerald);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
             margin-bottom: 12px;
         }
 
@@ -337,16 +283,7 @@
         .rationale-content ul {
             margin-left: 18px;
             margin-top: 6px;
-            margin-bottom: 10px;
             color: var(--text-muted);
-        }
-
-        .email-short-box {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border-glass);
-            border-radius: 14px;
-            padding: 20px;
-            margin-top: 24px;
         }
 
         .email-preview-text {
@@ -370,110 +307,98 @@
             font-weight: 600;
             cursor: pointer;
             margin-top: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-copy:hover {
-            background: rgba(255,255,255,0.15);
         }
     </style>
 </head>
 <body>
 
 <div class="main-container">
-    <!-- NAVBAR -->
     <header class="navbar">
         <div class="logo">QuantoChiedo</div>
-        <div class="nav-links">
-            <a href="#benchmark">Mercato & Tariffe</a>
-        </div>
-        <button class="btn-header">Area Riservata</button>
     </header>
 
-    <!-- HERO SECTION -->
     <section class="hero-section">
-        <h1 class="hero-title">Preventivo Reale e Selezionabile</h1>
-        <p class="hero-subtitle">Scegli tra calcolo orario da professionista o pacchetto Creator basato su follower e deliverables.</p>
+        <h1 class="hero-title">Preventivo Reale e Controllato</h1>
+        <p class="hero-subtitle">Gestione precisa dei pacchetti e dei deliverable multipli.</p>
 
         <div class="counter-box">
-            <div class="counter-label">Preventivi elaborati con tariffe verificate</div>
-            <div class="counter-number" id="dynamicCounter">10.412</div>
+            <div class="counter-label">Preventivi elaborati</div>
+            <div class="counter-number" id="dynamicCounter">10.480</div>
         </div>
 
-        <!-- BARRA INPUT PRINCIPALE -->
         <div class="search-area-wrapper">
             <div class="search-card">
                 <select id="serviceType">
                     <option value="socialmanager" selected>📱 Social Media Manager / Content Creator</option>
-                    <option value="videomaker">🎥 Videomaker / Reportage / Produzione Video</option>
-                    <option value="freelance">💼 Sviluppatore Web / Frontend / Fullstack</option>
-                    <option value="designer">🎨 Grafico / Brand Designer / Illustratore</option>
-                    <option value="photographer">📸 Fotografo Professionista / Eventi</option>
-                    <option value="consultant">📊 Consulente Strategico / Business</option>
+                    <option value="videomaker">🎥 Videomaker / Produzione Video</option>
+                    <option value="freelance">💼 Sviluppatore Web / Fullstack</option>
+                    <option value="designer">🎨 Grafico / Brand Designer</option>
                 </select>
-                <button class="btn-search-main" onclick="calculatePricing()">Calcola Preventivo Reale</button>
+                <button class="btn-search-main" onclick="calculatePricing()">Calcola Preventivo</button>
             </div>
         </div>
 
-        <!-- PANNELLO CONFIGURAZIONE AVANZATA -->
         <div class="config-panel">
             <div class="config-grid">
                 <div class="field-group">
-                    <label>MODALITÀ DI CALCOLO DEL PREVENTIVO</label>
+                    <label>MODALITÀ DI CALCOLO</label>
                     <select id="calcMode" onchange="toggleModeFields()">
-                        <option value="package" selected>🌟 Pacchetto Creator / Influencer (Reel + Storie + Follower)</option>
-                        <option value="hourly">⏱️ Tariffa a Tempo (Ore o Giornate di Lavoro)</option>
+                        <option value="package" selected>🌟 Pacchetto Creator (Reel + Storie + Altro)</option>
+                        <option value="hourly">⏱️ Tariffa a Tempo (Ore o Giornate)</option>
                     </select>
                 </div>
                 <div class="field-group">
-                    <label>TIPOLOGIA DI CLIENTE / COMMITTENTE</label>
+                    <label>TIPOLOGIA COMMITTENTE</label>
                     <select id="clientType">
-                        <option value="pmi" selected>Privato / Piccolo Locale / PMI</option>
+                        <option value="pmi" selected>Privato / PMI</option>
                         <option value="startup">Startup / Brand Emergente</option>
-                        <option value="enterprise">Corporate / Brand Strutturato / Azienda</option>
+                        <option value="enterprise">Corporate / Azienda Strutturata</option>
                     </select>
                 </div>
             </div>
 
-            <!-- BLOCCO DINAMICO: PACCHETTO CREATOR O ORARIO -->
+            <!-- PACCHETTO CREATOR AGGIORNATO CON "ALTRO CONTENUTO" -->
             <div class="dynamic-fields-wrapper" id="packageFields">
                 <div class="config-grid" style="margin-top:0;">
                     <div class="field-group" style="margin-top:0;">
-                        <label>NUMERO DI FOLLOWER DEL PROFILO</label>
+                        <label>FASCIA FOLLOWER</label>
                         <select id="followerTier">
                             <option value="10k">10.000 - 30.000 follower</option>
                             <option value="60k" selected>50.000 - 80.000 follower (Mid-level)</option>
-                            <option value="100k">100.000+ follower (Top Creator)</option>
+                            <option value="100k">100.000+ follower (Top)</option>
                         </select>
                     </div>
                     <div class="field-group" style="margin-top:0;">
-                        <label>NUMERO DI REEL / VIDEO BREVI INCLUSI</label>
-                        <input type="number" id="numReels" value="1" min="0" placeholder="Es. 1">
+                        <label>NUMERO DI REEL</label>
+                        <input type="number" id="numReels" value="0" min="0">
                     </div>
                 </div>
                 <div class="config-grid">
                     <div class="field-group" style="margin-top:0;">
-                        <label>NUMERO DI STORIE IG / POST INCLUSI</label>
-                        <input type="number" id="numStories" value="8" min="0" placeholder="Es. 8">
+                        <label>NUMERO DI STORIE IG</label>
+                        <input type="number" id="numStories" value="0" min="0">
                     </div>
                     <div class="field-group" style="margin-top:0;">
-                        <label>UTILIZZO ADV / DARK POST PER IL BRAND?</label>
-                        <select id="advRights">
-                            <option value="no" selected>No (Solo pubblicazione organica)</option>
-                            <option value="yes">Sì (Diritti ADV / Sponsorizzazione attivi +25%)</option>
-                        </select>
+                        <label>ALTRI CONTENUTI (Post Carosello / Foto)</label>
+                        <input type="number" id="numOther" value="0" min="0">
                     </div>
+                </div>
+                <div class="field-group">
+                    <label>UTILIZZO DIRITTI ADV / DARK POST?</label>
+                    <select id="advRights">
+                        <option value="no" selected>No (Solo organico)</option>
+                        <option value="yes">Sì (Diritti ADV attivi +25%)</option>
+                    </select>
                 </div>
             </div>
 
+            <!-- MODALITÀ ORARIA -->
             <div class="dynamic-fields-wrapper" id="hourlyFields" style="display: none;">
                 <div class="config-grid" style="margin-top:0;">
                     <div class="field-group" style="margin-top:0;">
-                        <label>QUANTITÀ E UNITÀ DI TEMPO</label>
+                        <label>QUANTITÀ E TEMPO</label>
                         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
-                            <input type="number" id="workQuantity" value="6" placeholder="Quantità">
+                            <input type="number" id="workQuantity" value="0" min="0">
                             <select id="timeUnit">
                                 <option value="ore" selected>Ore</option>
                                 <option value="giorni">Giorni</option>
@@ -481,64 +406,62 @@
                         </div>
                     </div>
                     <div class="field-group" style="margin-top:0;">
-                        <label>COSTI VIVI / LICENZE SOFTWARE (€)</label>
-                        <input type="number" id="softwareCosts" value="0" placeholder="0">
+                        <label>COSTI VIVI / SOFTWARE (€)</label>
+                        <input type="number" id="softwareCosts" value="0" min="0">
                     </div>
                 </div>
             </div>
 
             <div class="config-grid">
                 <div class="field-group">
-                    <label>DESCRIZIONE DEL PROGETTO (Analisi semantica attiva)</label>
-                    <textarea id="description" placeholder="Scrivi i dettagli del brief: tipo di locale, accordi particolari, complessità...">Realizzazione di 1 reel curato e 8 storie per Instagram, riprese e montaggio dedicati, brand di livello medio.</textarea>
+                    <label>DESCRIZIONE DEL PROGETTO</label>
+                    <textarea id="description" placeholder="Dettagli del brief..."></textarea>
                 </div>
                 <div class="field-group">
-                    <label>SENIORITÀ / ESPERIENZA PROFESSIONALE</label>
+                    <label>SENIORITÀ</label>
                     <select id="level" style="margin-top: 6px;">
-                        <option value="Junior">Junior / Emergente</option>
-                        <option value="Mid" selected>Mid-Level / Professionista affermato</option>
-                        <option value="Senior">Senior / Top Creator</option>
+                        <option value="Junior">Junior</option>
+                        <option value="Mid" selected>Mid-Level</option>
+                        <option value="Senior">Senior</option>
                     </select>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- RISULTATI REPORT UNICO -->
     <div class="results-wrapper" id="resultsBlock">
-        <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--fin-emerald);">🎯 Proposta Economica Reale e Veritiera</h2>
+        <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--fin-emerald);">🎯 Proposta Economica</h2>
         
         <div class="single-proposal-card">
             <div>
-                <div class="proposal-title" id="proposalTypeName">Preventivo Ufficiale Calcolato</div>
+                <div class="proposal-title" id="proposalTypeName">Preventivo Ufficiale</div>
                 <div class="proposal-main-price" id="finalGrossPrice">€0</div>
-                <div class="proposal-net-price" id="finalNetPrice">Stima netto in tasca (circa): €0</div>
-            </div>
-            <div style="text-align: right; font-size: 0.85rem; color: var(--text-muted); max-width: 300px;">
-                Calcolato combinando la modalità selezionata, i follower, i contenuti e i parametri di mercato reali.
+                <div class="proposal-net-price" id="finalNetPrice">Stima netto in tasca: €0</div>
             </div>
         </div>
 
         <div class="creator-rationale-box">
-            <div class="rationale-title">🔍 Spiegazione Dettagliata: Perché questo prezzo?</div>
+            <div class="rationale-title">🔍 Dettaglio Calcolo</div>
             <div class="rationale-content" id="rationaleText"></div>
         </div>
 
         <div class="email-short-box">
-            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">✉️ MESSAGGIO O EMAIL PRONTA DA INVIARE AL CLIENTE</label>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">✉️ EMAIL PRONTA</label>
             <div class="email-preview-text" id="emailBody"></div>
-            <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo</button>
+            <button class="btn-copy" onclick="copyText('emailBody')">Copia Testo</button>
         </div>
     </div>
 </div>
 
 <script>
-    let currentCounter = 10412;
-
-    setInterval(() => {
-        currentCounter += Math.floor(Math.random() * 3) + 1;
-        document.getElementById('dynamicCounter').innerText = currentCounter.toLocaleString('it-IT');
-    }, 4000);
+    window.onload = function() {
+        document.getElementById('numReels').value = 0;
+        document.getElementById('numStories').value = 0;
+        document.getElementById('numOther').value = 0;
+        document.getElementById('workQuantity').value = 0;
+        document.getElementById('softwareCosts').value = 0;
+        document.getElementById('description').value = "";
+    };
 
     function toggleModeFields() {
         const mode = document.getElementById('calcMode').value;
@@ -553,11 +476,9 @@
 
     function calculatePricing() {
         const mode = document.getElementById('calcMode').value;
-        const profession = document.getElementById('serviceType').value;
         const clientType = document.getElementById('clientType').value;
         const level = document.getElementById('level').value;
         const descriptionRaw = document.getElementById('description').value.trim();
-        const descriptionLower = descriptionRaw.toLowerCase();
 
         let clientMultiplier = clientType === 'startup' ? 1.1 : (clientType === 'enterprise' ? 1.25 : 1.0);
         let levelMultiplier = level === 'Junior' ? 0.85 : (level === 'Senior' ? 1.2 : 1.0);
@@ -566,47 +487,46 @@
         let rationaleDetails = "";
 
         if (mode === 'package') {
-            // Modalità Pacchetto Creator (es. 60k follower, 1 reel, 8 storie)
             const followerTier = document.getElementById('followerTier').value;
-            const numReels = parseFloat(document.getElementById('numReels')) ? parseFloat(document.getElementById('numReels').value) : 1;
+            const numReels = parseFloat(document.getElementById('numReels').value) || 0;
             const numStories = parseFloat(document.getElementById('numStories').value) || 0;
+            const numOther = parseFloat(document.getElementById('numOther').value) || 0;
             const advRights = document.getElementById('advRights').value;
 
-            // Tariffa base in base ai follower
-            let basePackageValue = 300; // di base per 10k
-            let followerLabel = "10k - 30k follower";
-            if (followerTier === '60k') {
-                basePackageValue = 480; // per 60k, lordo che porta a circa 350-400 netti
-                followerLabel = "50k - 80k follower (Mid-level)";
+            let reelUnitValue = 240;
+            let storyUnitValue = 35;
+            let otherUnitValue = 100;
+            let followerLabel = "50k - 80k follower (Mid-level)";
+
+            if (followerTier === '10k') {
+                reelUnitValue = 100; storyUnitValue = 15; otherUnitValue = 50;
+                followerLabel = "10k - 30k follower";
             } else if (followerTier === '100k') {
-                basePackageValue = 850;
+                reelUnitValue = 400; storyUnitValue = 60; otherUnitValue = 180;
                 followerLabel = "100k+ follower";
             }
 
-            // Calcolo valore basato sui deliverables (1 reel vale di più di una storia)
-            let reelsValue = numReels * 220;
-            let storiesValue = numStories * 35;
-            let rawContentSum = Math.max(basePackageValue, reelsValue + storiesValue);
+            let dynamicReelsTotal = numReels * reelUnitValue;
+            let dynamicStoriesTotal = numStories * storyUnitValue;
+            let dynamicOtherTotal = numOther * otherUnitValue;
+            let rawContentSum = dynamicReelsTotal + dynamicStoriesTotal + dynamicOtherTotal;
 
             let advMultiplier = advRights === 'yes' ? 1.25 : 1.0;
-
             let calculatedSubtotal = rawContentSum * levelMultiplier * clientMultiplier * advMultiplier;
             finalGross = Math.round(calculatedSubtotal);
 
             rationaleDetails = `
                 <li><strong>Modalità:</strong> Pacchetto Creator / Influencer</li>
                 <li><strong>Fascia Audience:</strong> ${followerLabel}</li>
-                <li><strong>Contenuti inclusi:</strong> ${numReels} Reel(s) e ${numStories} Storie IG</li>
-                <li><strong>Diritti ADV / Sponsorizzazione:</strong> ${advRights === 'yes' ? 'Inclusi (+25%)' : 'Esclusi (solo organico)'}</li>
+                <li><strong>Deliverable:</strong> ${numReels} Reel (€${dynamicReelsTotal}), ${numStories} Storie (€${dynamicStoriesTotal}), ${numOther} Altri contenuti (€${dynamicOtherTotal})</li>
+                <li><strong>Diritti ADV:</strong> ${advRights === 'yes' ? 'Inclusi (+25%)' : 'Esclusi'}</li>
             `;
-
         } else {
-            // Modalità Oraria / Giornaliera tradizionale
-            const workQuantity = parseFloat(document.getElementById('workQuantity').value) || 1;
+            const workQuantity = parseFloat(document.getElementById('workQuantity').value) || 0;
             const timeUnit = document.getElementById('timeUnit').value;
             const softwareCosts = parseFloat(document.getElementById('softwareCosts').value) || 0;
 
-            let baseHourlyRate = profession === 'videomaker' ? 32 : (profession === 'socialmanager' ? 25 : 30);
+            let baseHourlyRate = 25;
             let timeMultiplier = timeUnit === 'giorni' ? 7 : 1;
             let totalHours = workQuantity * timeMultiplier;
 
@@ -615,54 +535,26 @@
 
             rationaleDetails = `
                 <li><strong>Modalità:</strong> Tariffa a Tempo (${workQuantity} ${timeUnit})</li>
-                <li><strong>Tariffa Oraria Base:</strong> €${baseHourlyRate}/h (Totale ${totalHours} ore stimate)</li>
-                <li><strong>Costi Vivi / Software:</strong> €${softwareCosts}</li>
+                <li><strong>Costi Software:</strong> €${softwareCosts}</li>
             `;
         }
 
-        // Stima netta realistica (regime forfettario o simile con ritenute)
         let estimatedNet = Math.round(finalGross * 0.78);
 
-        document.getElementById('proposalTypeName').innerText = "Preventivo Ufficiale • " + document.getElementById('serviceType').options[document.getElementById('serviceType').selectedIndex].text;
         document.getElementById('finalGrossPrice').innerText = "€" + finalGross;
         document.getElementById('finalNetPrice').innerText = "Stima netto in tasca (circa): €" + estimatedNet;
-
-        let rationaleHtml = `
-            <p>Questo importo di <strong>€${finalGross}</strong> rispecchia i valori di mercato attuali per questo tipo di ingaggio.</p>
-            <p><strong>Parametri applicati:</strong></p>
-            <ul>
-                ${rationaleDetails}
-                <li><strong>Esperienza (${level}):</strong> ${levelMultiplier}x.</li>
-                <li><strong>Tipologia Committente:</strong> ${clientMultiplier}x.</li>
-                ${descriptionRaw.length > 5 ? `<li><strong>Analisi testuale del brief:</strong> Acquisita e integrata con successo.</li>` : ''}
-            </ul>
-        `;
-
-        document.getElementById('rationaleText').innerHTML = rationaleHtml;
-
-        let humanEmailText = `Salve,
-
-ti invio il preventivo ufficiale per la collaborazione definita:
-
-• **Importo Totale:** €${finalGross}
-• **Dettaglio Attività:** Come da accordi per i contenuti e le specifiche richieste.
-
-Resto a disposizione per procedere.
-
-Un cordiale saluto,
-[Tuo Nome]`;
-
-        document.getElementById('emailBody').innerText = humanEmailText;
+        document.getElementById('rationaleText').innerHTML = `<ul>${rationaleDetails}</ul>`;
+        document.getElementById('emailBody').innerText = `Salve,\n\nEcco il preventivo ufficiale:\n• Totale: €${finalGross}\n\nUn saluto,\n[Tuo Nome]`;
 
         document.getElementById('resultsBlock').style.display = 'block';
         document.getElementById('resultsBlock').scrollIntoView({ behavior: 'smooth' });
-
-        currentCounter++;
     }
 
-    window.onload = function() {
-        calculatePricing();
-    };
+    function copyText(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text);
+        alert("Testo copiato negli appunti!");
+    }
 </script>
 
 </body>
