@@ -541,7 +541,7 @@
                     <option value="photographer">📸 Fotografo di Scena / Eventi / Commerciale</option>
                     <option value="socialmanager">📱 Social Media Manager / Content Creator</option>
                     <option value="carpenter">🪵 Falegname / Artigiano / Restauro Mobile</option>
-                    <option value="trainer">🏋️ Personal Trainer / Coach Sportivo (Sessione/Mese)</option>
+                    <option value="trainer">🏋️ Personal Trainer / Coach Sportivo (Settimane o Mesi)</option>
                     <option value="consultant">📊 Consulente Strategico / Business / Fiscale</option>
                 </select>
                 <button class="btn-search-main" onclick="calculatePricing()">Calcola Preventivo Reale</button>
@@ -575,20 +575,20 @@
                     <input type="number" id="softwareCosts" value="40" placeholder="Es. aghi, colori, licenze o materie prime">
                 </div>
                 <div class="field-group">
-                    <label id="metricLabel">ORE STIMATE O SESSIONI DI LAVORO</label>
-                    <input type="number" id="followers" value="3" placeholder="Es. ore stimate o giornate">
+                    <label id="metricLabel">QUANTITÀ / DURATA (Ore, Giorni o Mesi)</label>
+                    <input type="number" id="followers" value="3" placeholder="Es. 3 mesi o 3 ore">
                 </div>
             </div>
 
             <div class="config-grid">
                 <div class="field-group">
                     <label>DESCRIZIONE DEL PROGETTO (Brief o Dettagli)</label>
-                    <textarea id="description" placeholder="Descrivi il lavoro: es. Tatuaggio custom stile realistico sull'avambraccio, oppure sviluppo sito web..."></textarea>
+                    <textarea id="description" placeholder="Descrivi il lavoro: es. Percorso di coaching di 3 mesi mirato alla ricomposizione corporea..."></textarea>
                 </div>
                 <div class="field-group">
                     <label>ALLEGATO FOTO / BOZZETTO DI RIFERIMENTO</label>
                     <div class="upload-dropzone" onclick="document.getElementById('fileInput').click()">
-                        <span class="upload-text" id="uploadLabel">📁 Clicca per caricare foto o bozzetto (PNG, JPG)</span>
+                        <span class="upload-text" id="uploadLabel">📁 Clicca per caricare foto o documento (PNG, JPG)</span>
                         <input type="file" id="fileInput" accept="image/*" onchange="handleImageUpload(event)">
                     </div>
                     <div class="preview-img-container" id="previewContainer">
@@ -646,7 +646,7 @@
                 <div class="proposal-net-price" id="finalNetPrice">Stima netto in tasca (circa): €0</div>
             </div>
             <div style="text-align: right; font-size: 0.85rem; color: var(--text-muted); max-width: 300px;">
-                Calcolato combinando la tariffa oraria di mercato reale, i costi dei materiali inseriti e il coefficiente di esperienza.
+                Calcolato combinando la tariffa di mercato reale, la durata temporale inserita e i costi vivi.
             </div>
         </div>
 
@@ -681,7 +681,7 @@
             reader.onload = function(e) {
                 document.getElementById('imagePreview').src = e.target.result;
                 document.getElementById('previewContainer').style.display = 'block';
-                document.getElementById('uploadLabel').innerText = "✅ Foto/Bozzetto caricato con successo";
+                document.getElementById('uploadLabel').innerText = "✅ File caricato con successo";
                 hasUploadedImage = true;
                 if(document.getElementById('resultsBlock').style.display == 'block') {
                     calculatePricing();
@@ -708,8 +708,8 @@
         else if(val === 'freelance') label.innerText = "STIMA ORE TOTALI DI SVILUPPO";
         else if(val === 'videomaker' || val === 'photographer') label.innerText = "GIORNATE DI LAVORO STIMATE";
         else if(val === 'designer' || val === 'carpenter') label.innerText = "ORE STIMATE DI LAVORAZIONE";
-        else if(val === 'trainer') label.innerText = "NUMERO DI SEDUTE O MESI DI COACHING";
-        else label.innerText = "ORE DI ATTIVITÀ STIMATE";
+        else if(val === 'trainer') label.innerText = "DURATA IN MESI (Es. 1, 3, 6 mesi)";
+        else label.innerText = "QUANTITÀ / DURATA STIMATA";
     });
 
     function calculatePricing() {
@@ -718,7 +718,7 @@
         const level = document.getElementById('level').value;
         const clientType = document.getElementById('clientType').value;
         const softwareCosts = parseFloat(document.getElementById('softwareCosts').value) || 0;
-        const hoursOrUnits = parseFloat(document.getElementById('followers').value) || 2;
+        const inputQuantity = parseFloat(document.getElementById('followers').value) || 1;
         
         const levelFactor = level.includes('Junior') ? 0.85 : (level.includes('Senior') ? 1.3 : 1.0);
         
@@ -732,51 +732,61 @@
             clientDescText = "Corporate / Brand Strutturato";
         }
 
-        // Tariffe orarie basate sui dati reali di mercato in Italia (2026)
-        let hourlyRateBase = 45;
+        let baseValue = 45;
         let professionNameStr = "Professionista Standard";
+        let unitText = "unità";
 
+        // Gestione specifica per ogni mansione inclusi i mesi per il Personal Trainer
         switch(profession) {
             case 'tattoo':
-                hourlyRateBase = 95; // Media riscontrata tra 80€ e 150€ all'ora in Italia
+                baseValue = 95; // € all'ora
+                unitText = "ore di seduta";
                 professionNameStr = "Tatuatore / Body Artist Professionale";
                 break;
             case 'freelance':
-                hourlyRateBase = 50;
+                baseValue = 50; // € all'ora
+                unitText = "ore di sviluppo";
                 professionNameStr = "Sviluppatore Web / Fullstack";
                 break;
             case 'videomaker':
-                hourlyRateBase = 70;
+                baseValue = 280; // € a giornata
+                unitText = "giornate di produzione";
                 professionNameStr = "Videomaker / Produzione Video";
                 break;
             case 'designer':
-                hourlyRateBase = 45;
+                baseValue = 45; // € all'ora
+                unitText = "ore di lavorazione";
                 professionNameStr = "Grafico / Brand Designer";
                 break;
             case 'photographer':
-                hourlyRateBase = 60;
+                baseValue = 250; // € a giornata
+                unitText = "giornate di scatto/servizio";
                 professionNameStr = "Fotografo Professionista";
                 break;
             case 'socialmanager':
-                hourlyRateBase = 35;
+                baseValue = 350; // € al mese standard
+                unitText = "mesi di gestione";
                 professionNameStr = "Social Media Manager";
                 break;
             case 'carpenter':
-                hourlyRateBase = 40;
+                baseValue = 40; // € all'ora
+                unitText = "ore di falegnameria";
                 professionNameStr = "Falegname / Artigiano";
                 break;
             case 'trainer':
-                hourlyRateBase = 40;
-                professionNameStr = "Personal Trainer / Coach";
+                baseValue = 180; // € al mese stimando un pacchetto standard di coaching continuativo
+                unitText = "mesi di coaching";
+                professionNameStr = "Personal Trainer / Coach Sportivo";
                 break;
             case 'consultant':
-                hourlyRateBase = 80;
+                baseValue = 80; // € all'ora
+                unitText = "ore di consulenza";
                 professionNameStr = "Consulente Strategico / Business";
                 break;
         }
 
-        // Calcolo basato su dati reali: (Tariffa oraria * Ore) * Fattore Esperienza * Fattore Cliente + Costi Vivi
-        let calculatedSubtotal = (hourlyRateBase * hoursOrUnits) * levelFactor * clientMultiplier;
+        // Calcolo reale scalato sulla quantità inserita (es. 3 mesi moltiplicano la base mensile)
+        let calculatedSubtotal = (baseValue * inputQuantity) * levelFactor * clientMultiplier;
         let finalGrossCalculation = calculatedSubtotal + softwareCosts;
 
         let extraTotalToCreator = 0;
@@ -800,33 +810,32 @@
 
                 if (payer === 'creator') {
                     extraTotalToCreator = rawExtra;
-                    extraDetailsText = `Spese accessorie incluse nel preventivo: ${parts.join(', ')} (Totale extra: €${Math.round(extraTotalToCreator)}).`;
+                    extraDetailsText = `Spese accessorie incluse: ${parts.join(', ')} (Totale extra: €${Math.round(extraTotalToCreator)}).`;
                 } else {
-                    extraDetailsText = `Spese accessorie a carico del cliente e conteggiate a parte: ${parts.join(', ')}.`;
+                    extraDetailsText = `Spese accessorie a carico del cliente (escluse dal totale): ${parts.join(', ')}.`;
                 }
             }
         }
 
         let finalGross = Math.round(finalGrossCalculation + extraTotalToCreator);
-        let estimatedNet = Math.round(finalGross * 0.78); // Stima al netto di tasse/contributi medi
+        let estimatedNet = Math.round(finalGross * 0.78);
 
         document.getElementById('proposalTypeName').innerText = "Preventivo Ufficiale • " + professionNameStr;
         document.getElementById('finalGrossPrice').innerText = "€" + finalGross;
         document.getElementById('finalNetPrice').innerText = "Stima netto in tasca (circa): €" + estimatedNet;
 
         let rationaleHtml = `
-            <p>Questo importo di <strong>€${finalGross}</strong> non è casuale, ma deriva da un'analisi incrociata dei listini e delle tariffe medie di mercato rilevate online per la mansione di <strong>${professionNameStr}</strong>.</p>
-            <p><strong>Come è stato composto il prezzo:</strong></p>
+            <p>Questo importo di <strong>€${finalGross}</strong> è calcolato moltiplicando i parametri di mercato reali per la quantità inserita.</p>
+            <p><strong>Dettaglio del calcolo:</strong></p>
             <ul>
-                <li><strong>Tariffa Oraria di Riferimento:</strong> Impostata a circa €${hourlyRateBase}/ora in base agli standard di mercato attuali per questa categoria professionale.</li>
-                <li><strong>Volume di Lavoro:</strong> ${hoursOrUnits} unità/ore stimate per il completamento del task.</li>
-                <li><strong>Coefficiente Esperienza (${level}):</strong> Moltiplicatore applicato pari a ${levelFactor}x in base al livello di specializzazione e reputazione sul campo.</li>
-                <li><strong>Tipologia Committente (${clientDescText}):</strong> Adeguamento del valore economico pari a ${clientMultiplier}x per riflettere la complessità e le responsabilità aziendali.</li>
-                <li><strong>Costi Vivi / Materiali / Setup:</strong> Inclusi in misura di €${softwareCosts} (copertura materiali di consumo, strumentazione tecnica o licenze).</li>
-                ${extraDetailsText ? `<li><strong>Extra e Trasferte:</strong> ${extraDetailsText}</li>` : ''}
-                ${hasUploadedImage ? '<li><strong>Analisi visiva allegato:</strong> Inclusa nel calcolo della complessità del progetto.</li>' : ''}
+                <li><strong>Tariffa Base Riferimento:</strong> €${baseValue} parametrata su ${unitText}.</li>
+                <li><strong>Quantità / Durata Inserita:</strong> ${inputQuantity} ${unitText}.</li>
+                <li><strong>Coefficiente Esperienza (${level}):</strong> Moltiplicatore ${levelFactor}x.</li>
+                <li><strong>Tipologia Committente (${clientDescText}):</strong> Adeguamento pari a ${clientMultiplier}x.</li>
+                <li><strong>Costi Vivi / Materiali / Setup:</strong> €${softwareCosts}.</li>
+                ${extraDetailsText ? `<li><strong>Extra:</strong> ${extraDetailsText}</li>` : ''}
             </ul>
-            <p>Questa struttura garantisce una proposta <strong>onesta, sostenibile per il professionista e perfettamente allineata al valore percepito dal cliente</strong> sul mercato.</p>
+            <p>Modificando la durata o le ore, il preventivo adesso si aggiorna dinamicamente riflettendo l'effettivo volume di lavoro richiesto.</p>
         `;
 
         document.getElementById('rationaleText').innerHTML = rationaleHtml;
@@ -836,11 +845,11 @@
 ti invio il preventivo ufficiale elaborato per il progetto richiesto, strutturato in modo trasparente sulla base dei parametri di lavorazione e degli standard professionali di mercato.
 
 • **Importo Totale del Servizio:** €${finalGross} (IVA e oneri esclusi se applicabili)
-• **Dettaglio Attività:** ${hoursOrUnits} ore/sessioni stimate, inclusi materiali di setup/consumabili (€${softwareCosts}) ${hasUploadedImage ? 'e l\'analisi approfondita del bozzetto di riferimento allegato' : ''}.
+• **Dettaglio Attività:** ${inputQuantity} ${unitText}, inclusi materiali di setup/consumabili (€${softwareCosts}).
 ${extraDetailsText ? '• ' + extraDetailsText + '\n' : ''}
-Il prezzo riflette l'impegno tecnico, la qualità dei materiali e la cura sartoriale dedicata per raggiungere un risultato eccellente e sicuro.
+Il prezzo riflette l'impegno tecnico e la continuità del percorso concordato per raggiungere gli obiettivi prefissati.
 
-Resto a disposizione per qualsiasi chiarimento o per procedere con la pianificazione.
+Resto a disposizione per qualsiasi chiarimento o per procedere.
 
 Un cordiale saluto,
 [Tuo Nome]`;
