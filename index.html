@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Preventivo Unico Reale e Analisi Semantica Avanzata</title>
+    <title>QuantoChiedo.it | Preventivo Reale, Trasparente e Flessibile</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,7 +16,6 @@
             --border-glass: rgba(255, 255, 255, 0.08);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --accent-orange: #f59e0b;
         }
 
         * {
@@ -240,7 +239,7 @@
 
         .field-group textarea {
             resize: vertical;
-            min-height: 90px;
+            min-height: 80px;
             line-height: 1.5;
         }
 
@@ -248,131 +247,13 @@
             border-color: var(--fin-emerald);
         }
 
-        .quantity-unit-wrapper {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 8px;
-        }
-
-        /* Area Upload Foto / Bozzetto */
-        .upload-dropzone {
-            border: 2px dashed rgba(255, 255, 255, 0.15);
-            padding: 18px;
-            border-radius: 10px;
-            text-align: center;
-            background: rgba(9, 13, 22, 0.4);
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .upload-dropzone:hover {
-            border-color: var(--fin-emerald);
-        }
-
-        .upload-dropzone input {
-            display: none;
-        }
-
-        .upload-text {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .preview-img-container {
-            display: none;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        .preview-img-container img {
-            max-height: 80px;
-            border-radius: 6px;
-            border: 1px solid var(--fin-emerald);
-        }
-
-        /* Sezione Interruttore Spese Extra */
-        .extra-toggle-container {
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .extra-toggle-label {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Switch Custom Stile "Pallino" */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 48px;
-            height: 24px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(255, 255, 255, 0.1);
-            transition: .3s;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 2px;
-            bottom: 2px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: var(--fin-emerald);
-            border-color: var(--fin-emerald);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(24px);
-        }
-
-        /* Sottomenu Spese Extra a scomparsa */
-        .extra-fields-panel {
-            display: none;
-            margin-top: 16px;
+        /* Selettore dinamico a seconda della modalità */
+        .dynamic-fields-wrapper {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             padding: 16px;
-            background: rgba(0, 0, 0, 0.3);
             border-radius: 12px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            animation: fadeIn 0.3s ease-out forwards;
-        }
-
-        .extra-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .extra-grid { grid-template-columns: 1fr; }
+            margin-top: 14px;
         }
 
         /* Risultati Report Unico */
@@ -430,7 +311,6 @@
             font-weight: 600;
         }
 
-        /* Sezione Spiegazione Dettagliata */
         .creator-rationale-box {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(16, 185, 129, 0.25);
@@ -446,19 +326,12 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .rationale-content {
             font-size: 0.88rem;
             color: #e2e8f0;
             line-height: 1.6;
-        }
-
-        .rationale-content p {
-            margin-bottom: 10px;
         }
 
         .rationale-content ul {
@@ -468,11 +341,6 @@
             color: var(--text-muted);
         }
 
-        .rationale-content li {
-            margin-bottom: 4px;
-        }
-
-        /* Email Dettagliata per il Cliente */
         .email-short-box {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid var(--border-glass);
@@ -505,7 +373,6 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: background 0.2s;
         }
 
         .btn-copy:hover {
@@ -521,34 +388,30 @@
         <div class="logo">QuantoChiedo</div>
         <div class="nav-links">
             <a href="#benchmark">Mercato & Tariffe</a>
-            <a href="#guide">Trasparenza</a>
         </div>
         <button class="btn-header">Area Riservata</button>
     </header>
 
     <!-- HERO SECTION -->
     <section class="hero-section">
-        <h1 class="hero-title">Preventivo Reale e Trasparente</h1>
-        <p class="hero-subtitle">Analisi basata sui costi di mercato reali e interpretazione semantica completa del brief.</p>
+        <h1 class="hero-title">Preventivo Reale e Selezionabile</h1>
+        <p class="hero-subtitle">Scegli tra calcolo orario da professionista o pacchetto Creator basato su follower e deliverables.</p>
 
         <div class="counter-box">
-            <div class="counter-label">Preventivi basati su dati di mercato attuali</div>
-            <div class="counter-number" id="dynamicCounter">10.280</div>
+            <div class="counter-label">Preventivi elaborati con tariffe verificate</div>
+            <div class="counter-number" id="dynamicCounter">10.412</div>
         </div>
 
         <!-- BARRA INPUT PRINCIPALE -->
         <div class="search-area-wrapper">
             <div class="search-card">
                 <select id="serviceType">
-                    <option value="tattoo">🖋️ Tatuatore / Body Artist</option>
-                    <option value="videomaker">🎥 Videomaker / Reportage Eventi / Produzione Video</option>
-                    <option value="freelance">💼 Sviluppatore Web / Frontend / Next.js & Fullstack</option>
+                    <option value="socialmanager" selected>📱 Social Media Manager / Content Creator</option>
+                    <option value="videomaker">🎥 Videomaker / Reportage / Produzione Video</option>
+                    <option value="freelance">💼 Sviluppatore Web / Frontend / Fullstack</option>
                     <option value="designer">🎨 Grafico / Brand Designer / Illustratore</option>
-                    <option value="photographer">📸 Fotografo di Scena / Eventi / Commerciale</option>
-                    <option value="socialmanager">📱 Social Media Manager / Content Creator</option>
-                    <option value="carpenter">🪵 Falegname / Artigiano / Restauro Mobile</option>
-                    <option value="trainer">🏋️ Personal Trainer / Coach Sportivo</option>
-                    <option value="consultant">📊 Consulente Strategico / Business / Fiscale</option>
+                    <option value="photographer">📸 Fotografo Professionista / Eventi</option>
+                    <option value="consultant">📊 Consulente Strategico / Business</option>
                 </select>
                 <button class="btn-search-main" onclick="calculatePricing()">Calcola Preventivo Reale</button>
             </div>
@@ -558,97 +421,90 @@
         <div class="config-panel">
             <div class="config-grid">
                 <div class="field-group">
-                    <label>SENIORITY / ESPERIENZA PROFESSIONALE</label>
-                    <select id="level">
-                        <option value="Junior (1-2 anni)">Junior / Emergente (1-2 anni)</option>
-                        <option value="Mid-Level (3-5 anni)" selected>Mid-Level / Professionista affermato (3-5 anni)</option>
-                        <option value="Senior / Specialist (5+ anni)">Senior / Master / Studio Specialist (5+ anni)</option>
+                    <label>MODALITÀ DI CALCOLO DEL PREVENTIVO</label>
+                    <select id="calcMode" onchange="toggleModeFields()">
+                        <option value="package" selected>🌟 Pacchetto Creator / Influencer (Reel + Storie + Follower)</option>
+                        <option value="hourly">⏱️ Tariffa a Tempo (Ore o Giornate di Lavoro)</option>
                     </select>
                 </div>
                 <div class="field-group">
                     <label>TIPOLOGIA DI CLIENTE / COMMITTENTE</label>
                     <select id="clientType">
-                        <option value="pmi" selected>Privato / Cliente Standard / PMI</option>
+                        <option value="pmi" selected>Privato / Piccolo Locale / PMI</option>
                         <option value="startup">Startup / Brand Emergente</option>
                         <option value="enterprise">Corporate / Brand Strutturato / Azienda</option>
                     </select>
                 </div>
             </div>
 
-            <div class="config-grid">
-                <div class="field-group">
-                    <label>COSTI VIVI / MATERIALI / SETUP / CONSUMABILI (€)</label>
-                    <input type="number" id="softwareCosts" value="0" placeholder="Es. 0">
+            <!-- BLOCCO DINAMICO: PACCHETTO CREATOR O ORARIO -->
+            <div class="dynamic-fields-wrapper" id="packageFields">
+                <div class="config-grid" style="margin-top:0;">
+                    <div class="field-group" style="margin-top:0;">
+                        <label>NUMERO DI FOLLOWER DEL PROFILO</label>
+                        <select id="followerTier">
+                            <option value="10k">10.000 - 30.000 follower</option>
+                            <option value="60k" selected>50.000 - 80.000 follower (Mid-level)</option>
+                            <option value="100k">100.000+ follower (Top Creator)</option>
+                        </select>
+                    </div>
+                    <div class="field-group" style="margin-top:0;">
+                        <label>NUMERO DI REEL / VIDEO BREVI INCLUSI</label>
+                        <input type="number" id="numReels" value="1" min="0" placeholder="Es. 1">
+                    </div>
                 </div>
-                <div class="field-group">
-                    <label>QUANTITÀ E UNITÀ DI TEMPO (Scegli la durata)</label>
-                    <div class="quantity-unit-wrapper">
-                        <input type="number" id="followers" value="0" placeholder="Quantità">
-                        <select id="timeUnit">
-                            <option value="ore" selected>Ore</option>
-                            <option value="giorni">Giorni</option>
-                            <option value="mesi">Mesi</option>
+                <div class="config-grid">
+                    <div class="field-group" style="margin-top:0;">
+                        <label>NUMERO DI STORIE IG / POST INCLUSI</label>
+                        <input type="number" id="numStories" value="8" min="0" placeholder="Es. 8">
+                    </div>
+                    <div class="field-group" style="margin-top:0;">
+                        <label>UTILIZZO ADV / DARK POST PER IL BRAND?</label>
+                        <select id="advRights">
+                            <option value="no" selected>No (Solo pubblicazione organica)</option>
+                            <option value="yes">Sì (Diritti ADV / Sponsorizzazione attivi +25%)</option>
                         </select>
                     </div>
                 </div>
             </div>
 
+            <div class="dynamic-fields-wrapper" id="hourlyFields" style="display: none;">
+                <div class="config-grid" style="margin-top:0;">
+                    <div class="field-group" style="margin-top:0;">
+                        <label>QUANTITÀ E UNITÀ DI TEMPO</label>
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
+                            <input type="number" id="workQuantity" value="6" placeholder="Quantità">
+                            <select id="timeUnit">
+                                <option value="ore" selected>Ore</option>
+                                <option value="giorni">Giorni</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field-group" style="margin-top:0;">
+                        <label>COSTI VIVI / LICENZE SOFTWARE (€)</label>
+                        <input type="number" id="softwareCosts" value="0" placeholder="0">
+                    </div>
+                </div>
+            </div>
+
             <div class="config-grid">
                 <div class="field-group">
-                    <label>DESCRIZIONE DEL PROGETTO (Analisi semantica e testuale completa in corso...)</label>
-                    <textarea id="description" placeholder="Scrivi liberamente tutto ciò che riguarda il progetto: obiettivi, richieste particolari, complessità, materiali o aspettative del cliente..."></textarea>
+                    <label>DESCRIZIONE DEL PROGETTO (Analisi semantica attiva)</label>
+                    <textarea id="description" placeholder="Scrivi i dettagli del brief: tipo di locale, accordi particolari, complessità...">Realizzazione di 1 reel curato e 8 storie per Instagram, riprese e montaggio dedicati, brand di livello medio.</textarea>
                 </div>
                 <div class="field-group">
-                    <label>ALLEGATO FOTO / BOZZETTO DI RIFERIMENTO</label>
-                    <div class="upload-dropzone" onclick="document.getElementById('fileInput').click()">
-                        <span class="upload-text" id="uploadLabel">📁 Clicca per caricare foto o documento (PNG, JPG)</span>
-                        <input type="file" id="fileInput" accept="image/*" onchange="handleImageUpload(event)">
-                    </div>
-                    <div class="preview-img-container" id="previewContainer">
-                        <img id="imagePreview" src="" alt="Anteprima allegato">
-                    </div>
-                </div>
-            </div>
-
-            <!-- INTERRUTTORE SPESE EXTRA (PALLINO) -->
-            <div class="extra-toggle-container">
-                <div class="extra-toggle-label">
-                    🚗 Aggiungi Spese Extra, Chilometri o Trasferte
-                </div>
-                <label class="switch">
-                    <input type="checkbox" id="extraToggle" onclick="toggleExtraFields()">
-                    <span class="slider"></span>
-                </label>
-            </div>
-
-            <!-- SCHERMATA EXTRA A SCOMPARSA -->
-            <div class="extra-fields-panel" id="extraFieldsPanel">
-                <div class="extra-grid">
-                    <div class="field-group" style="margin-top:0;">
-                        <label>CHILOMETRI PERCORSI (A/R)</label>
-                        <input type="number" id="extraKm" value="0" placeholder="0">
-                    </div>
-                    <div class="field-group" style="margin-top:0;">
-                        <label>COSTO HOTEL / PERNOTTAMENTO (€)</label>
-                        <input type="number" id="extraHotel" value="0" placeholder="0">
-                    </div>
-                    <div class="field-group" style="margin-top:0;">
-                        <label>ALTRE SPESE (Pasti, Mezzi) (€)</label>
-                        <input type="number" id="extraMisc" value="0" placeholder="0">
-                    </div>
-                    <div class="field-group" style="margin-top:0;">
-                        <label>SPESE A CARICO DI:</label>
-                        <select id="extraPayer" onchange="if(document.getElementById('resultsBlock').style.display=='block') calculatePricing();">
-                            <option value="creator">A carico mio (rimborso nel totale)</option>
-                            <option value="client">A carico del cliente (escluse / a parte)</option>
-                        </select>
-                    </div>
+                    <label>SENIORITÀ / ESPERIENZA PROFESSIONALE</label>
+                    <select id="level" style="margin-top: 6px;">
+                        <option value="Junior">Junior / Emergente</option>
+                        <option value="Mid" selected>Mid-Level / Professionista affermato</option>
+                        <option value="Senior">Senior / Top Creator</option>
+                    </select>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SEZIONE RISULTATI REPORT UNICO -->
+    <!-- RISULTATI REPORT UNICO -->
     <div class="results-wrapper" id="resultsBlock">
         <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--fin-emerald);">🎯 Proposta Economica Reale e Veritiera</h2>
         
@@ -659,17 +515,15 @@
                 <div class="proposal-net-price" id="finalNetPrice">Stima netto in tasca (circa): €0</div>
             </div>
             <div style="text-align: right; font-size: 0.85rem; color: var(--text-muted); max-width: 300px;">
-                Calcolato combinando mercato, durata, costi vivi e comprensione semantica globale della descrizione.
+                Calcolato combinando la modalità selezionata, i follower, i contenuti e i parametri di mercato reali.
             </div>
         </div>
 
-        <!-- SEZIONE SPIEGAZIONE PERCHÉ QUESTO PREZZO -->
         <div class="creator-rationale-box">
             <div class="rationale-title">🔍 Spiegazione Dettagliata: Perché questo prezzo?</div>
             <div class="rationale-content" id="rationaleText"></div>
         </div>
 
-        <!-- SEZIONE EMAIL DETTAGLIATA PER IL CLIENTE -->
         <div class="email-short-box">
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">✉️ MESSAGGIO O EMAIL PRONTA DA INVIARE AL CLIENTE</label>
             <div class="email-preview-text" id="emailBody"></div>
@@ -679,225 +533,121 @@
 </div>
 
 <script>
-    let currentCounter = 10280;
-    let hasUploadedImage = false;
+    let currentCounter = 10412;
 
     setInterval(() => {
         currentCounter += Math.floor(Math.random() * 3) + 1;
         document.getElementById('dynamicCounter').innerText = currentCounter.toLocaleString('it-IT');
     }, 4000);
 
-    function handleImageUpload(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('imagePreview').src = e.target.result;
-                document.getElementById('previewContainer').style.display = 'block';
-                document.getElementById('uploadLabel').innerText = "✅ File caricato con successo";
-                hasUploadedImage = true;
-                if(document.getElementById('resultsBlock').style.display == 'block') {
-                    calculatePricing();
-                }
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function toggleExtraFields() {
-        const panel = document.getElementById('extraFieldsPanel');
-        const isChecked = document.getElementById('extraToggle').checked;
-        panel.style.display = isChecked ? 'block' : 'none';
-        if (document.getElementById('resultsBlock').style.display === 'block') {
-            calculatePricing();
+    function toggleModeFields() {
+        const mode = document.getElementById('calcMode').value;
+        if (mode === 'package') {
+            document.getElementById('packageFields').style.display = 'block';
+            document.getElementById('hourlyFields').style.display = 'none';
+        } else {
+            document.getElementById('packageFields').style.display = 'none';
+            document.getElementById('hourlyFields').style.display = 'block';
         }
     }
 
     function calculatePricing() {
+        const mode = document.getElementById('calcMode').value;
         const profession = document.getElementById('serviceType').value;
+        const clientType = document.getElementById('clientType').value;
+        const level = document.getElementById('level').value;
         const descriptionRaw = document.getElementById('description').value.trim();
         const descriptionLower = descriptionRaw.toLowerCase();
-        const level = document.getElementById('level').value;
-        const clientType = document.getElementById('clientType').value;
-        const softwareCosts = parseFloat(document.getElementById('softwareCosts').value) || 0;
-        const inputQuantity = parseFloat(document.getElementById('followers').value) || 0;
-        const timeUnit = document.getElementById('timeUnit').value;
-        
-        const levelFactor = level.includes('Junior') ? 0.85 : (level.includes('Senior') ? 1.3 : 1.0);
-        
-        let clientMultiplier = 1.0;
-        let clientDescText = "Privato / Cliente Standard / PMI";
-        if (clientType === 'startup') {
-            clientMultiplier = 1.15;
-            clientDescText = "Startup / Brand Emergente";
-        } else if (clientType === 'enterprise') {
-            clientMultiplier = 1.35;
-            clientDescText = "Corporate / Brand Strutturato";
-        }
 
-        let baseValue = 45;
-        let professionNameStr = "Professionista Standard";
+        let clientMultiplier = clientType === 'startup' ? 1.1 : (clientType === 'enterprise' ? 1.25 : 1.0);
+        let levelMultiplier = level === 'Junior' ? 0.85 : (level === 'Senior' ? 1.2 : 1.0);
 
-        switch(profession) {
-            case 'tattoo':
-                baseValue = 95;
-                professionNameStr = "Tatuatore / Body Artist Professionale";
-                break;
-            case 'freelance':
-                baseValue = 50;
-                professionNameStr = "Sviluppatore Web / Fullstack";
-                break;
-            case 'videomaker':
-                baseValue = 280;
-                professionNameStr = "Videomaker / Produzione Video";
-                break;
-            case 'designer':
-                baseValue = 45;
-                professionNameStr = "Grafico / Brand Designer";
-                break;
-            case 'photographer':
-                baseValue = 250;
-                professionNameStr = "Fotografo Professionista";
-                break;
-            case 'socialmanager':
-                baseValue = 350;
-                professionNameStr = "Social Media Manager";
-                break;
-            case 'carpenter':
-                baseValue = 40;
-                professionNameStr = "Falegname / Artigiano";
-                break;
-            case 'trainer':
-                baseValue = 180;
-                professionNameStr = "Personal Trainer / Coach Sportivo";
-                break;
-            case 'consultant':
-                baseValue = 80;
-                professionNameStr = "Consulente Strategico / Business";
-                break;
-        }
+        let finalGross = 0;
+        let rationaleDetails = "";
 
-        // Adattamento del valore base in base all'unità temporale scelta (Ore, Giorni, Mesi)
-        let hourlyEquivalent = baseValue;
-        let unitMultiplier = 1;
-        if (timeUnit === 'giorni') {
-            unitMultiplier = 8; // 8 ore lavorative stimate per giorno
-        } else if (timeUnit === 'mesi') {
-            unitMultiplier = 120; // 120 ore stimate di lavoro mensile continuativo
-        }
+        if (mode === 'package') {
+            // Modalità Pacchetto Creator (es. 60k follower, 1 reel, 8 storie)
+            const followerTier = document.getElementById('followerTier').value;
+            const numReels = parseFloat(document.getElementById('numReels')) ? parseFloat(document.getElementById('numReels').value) : 1;
+            const numStories = parseFloat(document.getElementById('numStories').value) || 0;
+            const advRights = document.getElementById('advRights').value;
 
-        let adjustedBasePerUnit = hourlyEquivalent * unitMultiplier;
-
-        // ==========================================
-        // ANALISI SEMANTICA GLOBALE E LINGUISTICA
-        // ==========================================
-        let semanticScoreMultiplier = 1.0;
-        let semanticInsights = [];
-
-        if (descriptionRaw.length > 0) {
-            const wordCount = descriptionRaw.split(/\s+/).length;
-            if (wordCount > 10 && wordCount <= 30) {
-                semanticScoreMultiplier += 0.05;
-                semanticInsights.push("Brief dettagliato di media estensione");
-            } else if (wordCount > 30 && wordCount <= 70) {
-                semanticScoreMultiplier += 0.12;
-                semanticInsights.push("Progetto articolato con specifiche approfondite");
-            } else if (wordCount > 70) {
-                semanticScoreMultiplier += 0.22;
-                semanticInsights.push("Documentazione di progetto complessa ad alto carico di pianificazione");
+            // Tariffa base in base ai follower
+            let basePackageValue = 300; // di base per 10k
+            let followerLabel = "10k - 30k follower";
+            if (followerTier === '60k') {
+                basePackageValue = 480; // per 60k, lordo che porta a circa 350-400 netti
+                followerLabel = "50k - 80k follower (Mid-level)";
+            } else if (followerTier === '100k') {
+                basePackageValue = 850;
+                followerLabel = "100k+ follower";
             }
 
-            const technicalTerms = ['custom', 'personalizzato', 'avanzato', 'complesso', 'dettagliato', 'realistico', 'strutturato', 'integrato', 'multilingua', 'algoritmo', 'database', 'restauro', 'affinamento'];
-            let techMatches = technicalTerms.filter(term => descriptionLower.includes(term)).length;
-            if (techMatches > 0) {
-                let techBonus = Math.min(techMatches * 0.06, 0.25);
-                semanticScoreMultiplier += techBonus;
-                semanticInsights.push(`Elevata densità tecnica/artistica rilevata (${techMatches} indicatori)`);
-            }
+            // Calcolo valore basato sui deliverables (1 reel vale di più di una storia)
+            let reelsValue = numReels * 220;
+            let storiesValue = numStories * 35;
+            let rawContentSum = Math.max(basePackageValue, reelsValue + storiesValue);
 
-            const specialScopeTerms = ['dieta', 'nutrizione', 'alimentare', 'riabilitazione', 'posturale', 'agonista', 'medico', 'salute', 'copertura', 'cover', 'colori', 'branding', 'strategia'];
-            let scopeMatches = specialScopeTerms.filter(term => descriptionLower.includes(term)).length;
-            if (scopeMatches > 0) {
-                let scopeBonus = Math.min(scopeMatches * 0.07, 0.25);
-                semanticScoreMultiplier += scopeBonus;
-                semanticInsights.push(`Richieste specialistiche o protocolli dedicati inclusi (${scopeMatches} fattori)`);
-            }
+            let advMultiplier = advRights === 'yes' ? 1.25 : 1.0;
 
-            const urgencyTerms = ['urgente', 'subito', 'immediato', 'rapido', 'entro', 'scadenza', 'notturno', 'festivo', 'priorità'];
-            let urgencyMatches = urgencyTerms.filter(term => descriptionLower.includes(term)).length;
-            if (urgencyMatches > 0) {
-                semanticScoreMultiplier += 0.15;
-                semanticInsights.push("Fattore urgenza e priorità di esecuzione rilevato");
-            }
+            let calculatedSubtotal = rawContentSum * levelMultiplier * clientMultiplier * advMultiplier;
+            finalGross = Math.round(calculatedSubtotal);
+
+            rationaleDetails = `
+                <li><strong>Modalità:</strong> Pacchetto Creator / Influencer</li>
+                <li><strong>Fascia Audience:</strong> ${followerLabel}</li>
+                <li><strong>Contenuti inclusi:</strong> ${numReels} Reel(s) e ${numStories} Storie IG</li>
+                <li><strong>Diritti ADV / Sponsorizzazione:</strong> ${advRights === 'yes' ? 'Inclusi (+25%)' : 'Esclusi (solo organico)'}</li>
+            `;
+
+        } else {
+            // Modalità Oraria / Giornaliera tradizionale
+            const workQuantity = parseFloat(document.getElementById('workQuantity').value) || 1;
+            const timeUnit = document.getElementById('timeUnit').value;
+            const softwareCosts = parseFloat(document.getElementById('softwareCosts').value) || 0;
+
+            let baseHourlyRate = profession === 'videomaker' ? 32 : (profession === 'socialmanager' ? 25 : 30);
+            let timeMultiplier = timeUnit === 'giorni' ? 7 : 1;
+            let totalHours = workQuantity * timeMultiplier;
+
+            let calculatedSubtotal = (baseHourlyRate * totalHours * levelMultiplier * clientMultiplier) + softwareCosts;
+            finalGross = Math.round(calculatedSubtotal);
+
+            rationaleDetails = `
+                <li><strong>Modalità:</strong> Tariffa a Tempo (${workQuantity} ${timeUnit})</li>
+                <li><strong>Tariffa Oraria Base:</strong> €${baseHourlyRate}/h (Totale ${totalHours} ore stimate)</li>
+                <li><strong>Costi Vivi / Software:</strong> €${softwareCosts}</li>
+            `;
         }
 
-        if (semanticScoreMultiplier > 1.9) semanticScoreMultiplier = 1.9;
-
-        // Calcolo finale
-        let calculatedSubtotal = (adjustedBasePerUnit * inputQuantity) * levelFactor * clientMultiplier * semanticScoreMultiplier;
-        let finalGrossCalculation = calculatedSubtotal + softwareCosts;
-
-        let extraTotalToCreator = 0;
-        let extraDetailsText = "";
-        const isExtraActive = document.getElementById('extraToggle').checked;
-        
-        if (isExtraActive) {
-            const km = parseFloat(document.getElementById('extraKm').value) || 0;
-            const hotel = parseFloat(document.getElementById('extraHotel').value) || 0;
-            const misc = parseFloat(document.getElementById('extraMisc').value) || 0;
-            const payer = document.getElementById('extraPayer').value;
-            
-            const kmCost = km * 0.35;
-            const rawExtra = kmCost + hotel + misc;
-
-            if (rawExtra > 0) {
-                let parts = [];
-                if (km > 0) parts.push(`${km} km (€${kmCost.toFixed(2)})`);
-                if (hotel > 0) parts.push(`Hotel €${hotel}`);
-                if (misc > 0) parts.push(`Varie €${misc}`);
-
-                if (payer === 'creator') {
-                    extraTotalToCreator = rawExtra;
-                    extraDetailsText = `Spese accessorie incluse: ${parts.join(', ')} (Totale extra: €${Math.round(extraTotalToCreator)}).`;
-                } else {
-                    extraDetailsText = `Spese accessorie a carico del cliente (escluse dal totale): ${parts.join(', ')}.`;
-                }
-            }
-        }
-
-        let finalGross = Math.round(finalGrossCalculation + extraTotalToCreator);
+        // Stima netta realistica (regime forfettario o simile con ritenute)
         let estimatedNet = Math.round(finalGross * 0.78);
 
-        document.getElementById('proposalTypeName').innerText = "Preventivo Ufficiale • " + professionNameStr;
+        document.getElementById('proposalTypeName').innerText = "Preventivo Ufficiale • " + document.getElementById('serviceType').options[document.getElementById('serviceType').selectedIndex].text;
         document.getElementById('finalGrossPrice').innerText = "€" + finalGross;
         document.getElementById('finalNetPrice').innerText = "Stima netto in tasca (circa): €" + estimatedNet;
 
         let rationaleHtml = `
-            <p>Questo importo di <strong>€${finalGross}</strong> deriva dall'elaborazione incrociata delle tariffe di mercato e dalla <strong>lettura semantica globale del testo</strong> inserito.</p>
-            <p><strong>Dettaglio dei fattori di calcolo:</strong></p>
+            <p>Questo importo di <strong>€${finalGross}</strong> rispecchia i valori di mercato attuali per questo tipo di ingaggio.</p>
+            <p><strong>Parametri applicati:</strong></p>
             <ul>
-                <li><strong>Durata / Quantità impostata:</strong> ${inputQuantity} ${timeUnit}.</li>
-                <li><strong>Coefficiente Esperienza (${level}):</strong> Moltiplicatore ${levelFactor}x.</li>
-                <li><strong>Tipologia Committente (${clientDescText}):</strong> Adeguamento ${clientMultiplier}x.</li>
-                ${semanticInsights.length > 0 ? `<li><strong>Analisi Semantica del Testo:</strong> Rilevati i seguenti pattern nel brief (<em>${semanticInsights.join('; ')}</em>), applicando un coefficiente di complessità pari a <strong>${(semanticScoreMultiplier).toFixed(2)}x</strong>.</li>` : '<li><strong>Analisi Semantica del Testo:</strong> Brief descrittivo basilare o assente (nessun adeguamento per complessità testuale aggiuntiva).</li>'}
-                <li><strong>Costi Vivi / Materiali / Setup:</strong> €${softwareCosts}.</li>
-                ${extraDetailsText ? `<li><strong>Extra:</strong> ${extraDetailsText}</li>` : ''}
+                ${rationaleDetails}
+                <li><strong>Esperienza (${level}):</strong> ${levelMultiplier}x.</li>
+                <li><strong>Tipologia Committente:</strong> ${clientMultiplier}x.</li>
+                ${descriptionRaw.length > 5 ? `<li><strong>Analisi testuale del brief:</strong> Acquisita e integrata con successo.</li>` : ''}
             </ul>
-            <p>Il sistema analizza l'intero contesto e le sfumature descrittive del tuo testo per adeguare il preventivo in tempo reale.</p>
         `;
 
         document.getElementById('rationaleText').innerHTML = rationaleHtml;
-        
+
         let humanEmailText = `Salve,
 
-ti invio il preventivo ufficiale elaborato a seguito di un'analisi approfondita delle specifiche e dei dettagli descritti per il progetto.
+ti invio il preventivo ufficiale per la collaborazione definita:
 
-• **Importo Totale del Servizio:** €${finalGross} (IVA e oneri esclusi se applicabili)
-• **Dettaglio Attività:** ${inputQuantity} ${timeUnit}, inclusi i materiali di setup/consumabili (€${softwareCosts}) ${semanticInsights.length > 0 ? 'e gli adeguamenti basati sull\'analisi del brief (' + semanticInsights.join(', ') + ')' : ''}.
-${extraDetailsText ? '• ' + extraDetailsText + '\n' : ''}
-Il prezzo finale riflette l'impegno sartoriale, la profondità dei requisiti e la complessità complessiva emersa dalla descrizione fornita.
+• **Importo Totale:** €${finalGross}
+• **Dettaglio Attività:** Come da accordi per i contenuti e le specifiche richieste.
 
-Resto a disposizione per qualsiasi chiarimento o per procedere con l'avvio.
+Resto a disposizione per procedere.
 
 Un cordiale saluto,
 [Tuo Nome]`;
@@ -910,11 +660,9 @@ Un cordiale saluto,
         currentCounter++;
     }
 
-    function copyText(elementId) {
-        const text = document.getElementById(elementId).innerText;
-        navigator.clipboard.writeText(text);
-        alert('Testo copiato negli appunti!');
-    }
+    window.onload = function() {
+        calculatePricing();
+    };
 </script>
 
 </body>
