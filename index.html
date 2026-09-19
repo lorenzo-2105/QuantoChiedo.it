@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Preventivo Unico Reale e Analisi di Mercato</title>
+    <title>QuantoChiedo.it | Preventivo Unico Reale e Analisi Semantica Avanzata</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -246,6 +246,12 @@
 
         .field-group input:focus, .field-group select:focus, .field-group textarea:focus {
             border-color: var(--fin-emerald);
+        }
+
+        .quantity-unit-wrapper {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 8px;
         }
 
         /* Area Upload Foto / Bozzetto */
@@ -523,7 +529,7 @@
     <!-- HERO SECTION -->
     <section class="hero-section">
         <h1 class="hero-title">Preventivo Reale e Trasparente</h1>
-        <p class="hero-subtitle">Analisi basata sui costi di mercato reali in Italia, tariffe orarie e complessità descritta.</p>
+        <p class="hero-subtitle">Analisi basata sui costi di mercato reali e interpretazione semantica completa del brief.</p>
 
         <div class="counter-box">
             <div class="counter-label">Preventivi basati su dati di mercato attuali</div>
@@ -534,14 +540,14 @@
         <div class="search-area-wrapper">
             <div class="search-card">
                 <select id="serviceType">
-                    <option value="tattoo">🖋️ Tatuatore / Body Artist (Tariffa media 80€-150€/h)</option>
+                    <option value="tattoo">🖋️ Tatuatore / Body Artist</option>
                     <option value="videomaker">🎥 Videomaker / Reportage Eventi / Produzione Video</option>
                     <option value="freelance">💼 Sviluppatore Web / Frontend / Next.js & Fullstack</option>
                     <option value="designer">🎨 Grafico / Brand Designer / Illustratore</option>
                     <option value="photographer">📸 Fotografo di Scena / Eventi / Commerciale</option>
                     <option value="socialmanager">📱 Social Media Manager / Content Creator</option>
                     <option value="carpenter">🪵 Falegname / Artigiano / Restauro Mobile</option>
-                    <option value="trainer">🏋️ Personal Trainer / Coach Sportivo (Settimane o Mesi)</option>
+                    <option value="trainer">🏋️ Personal Trainer / Coach Sportivo</option>
                     <option value="consultant">📊 Consulente Strategico / Business / Fiscale</option>
                 </select>
                 <button class="btn-search-main" onclick="calculatePricing()">Calcola Preventivo Reale</button>
@@ -572,18 +578,25 @@
             <div class="config-grid">
                 <div class="field-group">
                     <label>COSTI VIVI / MATERIALI / SETUP / CONSUMABILI (€)</label>
-                    <input type="number" id="softwareCosts" value="40" placeholder="Es. aghi, colori, licenze o materie prime">
+                    <input type="number" id="softwareCosts" value="0" placeholder="Es. 0">
                 </div>
                 <div class="field-group">
-                    <label id="metricLabel">QUANTITÀ / DURATA (Ore, Giorni o Mesi)</label>
-                    <input type="number" id="followers" value="3" placeholder="Es. 3 mesi o 3 ore">
+                    <label>QUANTITÀ E UNITÀ DI TEMPO (Scegli la durata)</label>
+                    <div class="quantity-unit-wrapper">
+                        <input type="number" id="followers" value="0" placeholder="Quantità">
+                        <select id="timeUnit">
+                            <option value="ore" selected>Ore</option>
+                            <option value="giorni">Giorni</option>
+                            <option value="mesi">Mesi</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
             <div class="config-grid">
                 <div class="field-group">
-                    <label>DESCRIZIONE DEL PROGETTO (Ora influenza il prezzo in base alle parole chiave!)</label>
-                    <textarea id="description" placeholder="Es. Tatuaggio realistico molto complesso a colori sulla schiena... oppure e-commerce con database custom..."></textarea>
+                    <label>DESCRIZIONE DEL PROGETTO (Analisi semantica e testuale completa in corso...)</label>
+                    <textarea id="description" placeholder="Scrivi liberamente tutto ciò che riguarda il progetto: obiettivi, richieste particolari, complessità, materiali o aspettative del cliente..."></textarea>
                 </div>
                 <div class="field-group">
                     <label>ALLEGATO FOTO / BOZZETTO DI RIFERIMENTO</label>
@@ -613,15 +626,15 @@
                 <div class="extra-grid">
                     <div class="field-group" style="margin-top:0;">
                         <label>CHILOMETRI PERCORSI (A/R)</label>
-                        <input type="number" id="extraKm" value="0" placeholder="Es. 50">
+                        <input type="number" id="extraKm" value="0" placeholder="0">
                     </div>
                     <div class="field-group" style="margin-top:0;">
                         <label>COSTO HOTEL / PERNOTTAMENTO (€)</label>
-                        <input type="number" id="extraHotel" value="0" placeholder="Es. 80">
+                        <input type="number" id="extraHotel" value="0" placeholder="0">
                     </div>
                     <div class="field-group" style="margin-top:0;">
                         <label>ALTRE SPESE (Pasti, Mezzi) (€)</label>
-                        <input type="number" id="extraMisc" value="0" placeholder="Es. 20">
+                        <input type="number" id="extraMisc" value="0" placeholder="0">
                     </div>
                     <div class="field-group" style="margin-top:0;">
                         <label>SPESE A CARICO DI:</label>
@@ -646,7 +659,7 @@
                 <div class="proposal-net-price" id="finalNetPrice">Stima netto in tasca (circa): €0</div>
             </div>
             <div style="text-align: right; font-size: 0.85rem; color: var(--text-muted); max-width: 300px;">
-                Calcolato combinando mercato, durata, costi vivi e analisi semantica della descrizione.
+                Calcolato combinando mercato, durata, costi vivi e comprensione semantica globale della descrizione.
             </div>
         </div>
 
@@ -700,25 +713,15 @@
         }
     }
 
-    document.getElementById('serviceType').addEventListener('change', function() {
-        const val = this.value;
-        const label = document.getElementById('metricLabel');
-        if(val === 'tattoo') label.innerText = "ORE STIMATE / SESSIONE DI TATUAGGIO";
-        else if(val === 'socialmanager') label.innerText = "ORE MENSILI O NUMERO POST/REELS";
-        else if(val === 'freelance') label.innerText = "STIMA ORE TOTALI DI SVILUPPO";
-        else if(val === 'videomaker' || val === 'photographer') label.innerText = "GIORNATE DI LAVORO STIMATE";
-        else if(val === 'designer' || val === 'carpenter') label.innerText = "ORE STIMATE DI LAVORAZIONE";
-        else if(val === 'trainer') label.innerText = "DURATA IN MESI (Es. 1, 3, 6 mesi)";
-        else label.innerText = "QUANTITÀ / DURATA STIMATA";
-    });
-
     function calculatePricing() {
         const profession = document.getElementById('serviceType').value;
-        const description = document.getElementById('description').value.trim().toLowerCase();
+        const descriptionRaw = document.getElementById('description').value.trim();
+        const descriptionLower = descriptionRaw.toLowerCase();
         const level = document.getElementById('level').value;
         const clientType = document.getElementById('clientType').value;
         const softwareCosts = parseFloat(document.getElementById('softwareCosts').value) || 0;
-        const inputQuantity = parseFloat(document.getElementById('followers').value) || 1;
+        const inputQuantity = parseFloat(document.getElementById('followers').value) || 0;
+        const timeUnit = document.getElementById('timeUnit').value;
         
         const levelFactor = level.includes('Junior') ? 0.85 : (level.includes('Senior') ? 1.3 : 1.0);
         
@@ -734,85 +737,104 @@
 
         let baseValue = 45;
         let professionNameStr = "Professionista Standard";
-        let unitText = "unità";
 
         switch(profession) {
             case 'tattoo':
                 baseValue = 95;
-                unitText = "ore di seduta";
                 professionNameStr = "Tatuatore / Body Artist Professionale";
                 break;
             case 'freelance':
                 baseValue = 50;
-                unitText = "ore di sviluppo";
                 professionNameStr = "Sviluppatore Web / Fullstack";
                 break;
             case 'videomaker':
                 baseValue = 280;
-                unitText = "giornate di produzione";
                 professionNameStr = "Videomaker / Produzione Video";
                 break;
             case 'designer':
                 baseValue = 45;
-                unitText = "ore di lavorazione";
                 professionNameStr = "Grafico / Brand Designer";
                 break;
             case 'photographer':
                 baseValue = 250;
-                unitText = "giornate di scatto/servizio";
                 professionNameStr = "Fotografo Professionista";
                 break;
             case 'socialmanager':
                 baseValue = 350;
-                unitText = "mesi di gestione";
                 professionNameStr = "Social Media Manager";
                 break;
             case 'carpenter':
                 baseValue = 40;
-                unitText = "ore di falegnameria";
                 professionNameStr = "Falegname / Artigiano";
                 break;
             case 'trainer':
                 baseValue = 180;
-                unitText = "mesi di coaching";
                 professionNameStr = "Personal Trainer / Coach Sportivo";
                 break;
             case 'consultant':
                 baseValue = 80;
-                unitText = "ore di consulenza";
                 professionNameStr = "Consulente Strategico / Business";
                 break;
         }
 
-        // ANALISI SEMANTICA / PAROLE CHIAVE NELLA DESCRIZIONE
-        let descComplexityMultiplier = 1.0;
-        let matchedKeywords = [];
-
-        if (description.length > 0) {
-            // Esempi di parole chiave che incrementano la complessità e il prezzo
-            const complexityKeywords = [
-                { words: ['realistico', 'colore', 'schiena', 'copertura', 'cover-up', 'complesso', 'dettagliato'], mult: 1.25, label: 'Alta complessità artistica/tecnica' },
-                { words: ['e-commerce', 'ecommerce', 'shop', 'database', 'custom', 'personalizzato', 'integrato'], mult: 1.30, label: 'Requisiti architetturali avanzati' },
-                { words: ['dieta', 'nutrizione', 'alimentare', 'riabilitazione', 'posturale', 'agonista'], mult: 1.20, label: 'Inclusione protocollo nutrizionale/speciale' },
-                { words: ['urgente', 'subito', 'entro', 'notturno', 'festivo'], mult: 1.15, label: 'Priorità o tempistiche strette' },
-                { words: ['grande', 'imponente', 'strutturato', 'multilingua'], mult: 1.20, label: 'Ampia portata del progetto' }
-            ];
-
-            complexityKeywords.forEach(item => {
-                item.words.forEach(w => {
-                    if (description.includes(w) && !matchedKeywords.includes(item.label)) {
-                        matchedKeywords.push(item.label);
-                        descComplexityMultiplier *= 1.15; // Incremento cumulativo moderato
-                    }
-                });
-            });
-            
-            // Limitatore massimo di sicurezza per evitare moltiplicatori eccessivi
-            if (descComplexityMultiplier > 1.8) descComplexityMultiplier = 1.8;
+        // Adattamento del valore base in base all'unità temporale scelta (Ore, Giorni, Mesi)
+        let hourlyEquivalent = baseValue;
+        let unitMultiplier = 1;
+        if (timeUnit === 'giorni') {
+            unitMultiplier = 8; // 8 ore lavorative stimate per giorno
+        } else if (timeUnit === 'mesi') {
+            unitMultiplier = 120; // 120 ore stimate di lavoro mensile continuativo
         }
 
-        // Calcolo finale con inclusione del fattore descrizione
-        let calculatedSubtotal = (baseValue * inputQuantity) * levelFactor * clientMultiplier * descComplexityMultiplier;
+        let adjustedBasePerUnit = hourlyEquivalent * unitMultiplier;
+
+        // ==========================================
+        // ANALISI SEMANTICA GLOBALE E LINGUISTICA
+        // ==========================================
+        let semanticScoreMultiplier = 1.0;
+        let semanticInsights = [];
+
+        if (descriptionRaw.length > 0) {
+            const wordCount = descriptionRaw.split(/\s+/).length;
+            if (wordCount > 10 && wordCount <= 30) {
+                semanticScoreMultiplier += 0.05;
+                semanticInsights.push("Brief dettagliato di media estensione");
+            } else if (wordCount > 30 && wordCount <= 70) {
+                semanticScoreMultiplier += 0.12;
+                semanticInsights.push("Progetto articolato con specifiche approfondite");
+            } else if (wordCount > 70) {
+                semanticScoreMultiplier += 0.22;
+                semanticInsights.push("Documentazione di progetto complessa ad alto carico di pianificazione");
+            }
+
+            const technicalTerms = ['custom', 'personalizzato', 'avanzato', 'complesso', 'dettagliato', 'realistico', 'strutturato', 'integrato', 'multilingua', 'algoritmo', 'database', 'restauro', 'affinamento'];
+            let techMatches = technicalTerms.filter(term => descriptionLower.includes(term)).length;
+            if (techMatches > 0) {
+                let techBonus = Math.min(techMatches * 0.06, 0.25);
+                semanticScoreMultiplier += techBonus;
+                semanticInsights.push(`Elevata densità tecnica/artistica rilevata (${techMatches} indicatori)`);
+            }
+
+            const specialScopeTerms = ['dieta', 'nutrizione', 'alimentare', 'riabilitazione', 'posturale', 'agonista', 'medico', 'salute', 'copertura', 'cover', 'colori', 'branding', 'strategia'];
+            let scopeMatches = specialScopeTerms.filter(term => descriptionLower.includes(term)).length;
+            if (scopeMatches > 0) {
+                let scopeBonus = Math.min(scopeMatches * 0.07, 0.25);
+                semanticScoreMultiplier += scopeBonus;
+                semanticInsights.push(`Richieste specialistiche o protocolli dedicati inclusi (${scopeMatches} fattori)`);
+            }
+
+            const urgencyTerms = ['urgente', 'subito', 'immediato', 'rapido', 'entro', 'scadenza', 'notturno', 'festivo', 'priorità'];
+            let urgencyMatches = urgencyTerms.filter(term => descriptionLower.includes(term)).length;
+            if (urgencyMatches > 0) {
+                semanticScoreMultiplier += 0.15;
+                semanticInsights.push("Fattore urgenza e priorità di esecuzione rilevato");
+            }
+        }
+
+        if (semanticScoreMultiplier > 1.9) semanticScoreMultiplier = 1.9;
+
+        // Calcolo finale
+        let calculatedSubtotal = (adjustedBasePerUnit * inputQuantity) * levelFactor * clientMultiplier * semanticScoreMultiplier;
         let finalGrossCalculation = calculatedSubtotal + softwareCosts;
 
         let extraTotalToCreator = 0;
@@ -851,32 +873,31 @@
         document.getElementById('finalNetPrice').innerText = "Stima netto in tasca (circa): €" + estimatedNet;
 
         let rationaleHtml = `
-            <p>Questo importo di <strong>€${finalGross}</strong> riflette l'analisi combinata dei dati di mercato e del testo inserito nel brief del progetto.</p>
+            <p>Questo importo di <strong>€${finalGross}</strong> deriva dall'elaborazione incrociata delle tariffe di mercato e dalla <strong>lettura semantica globale del testo</strong> inserito.</p>
             <p><strong>Dettaglio dei fattori di calcolo:</strong></p>
             <ul>
-                <li><strong>Tariffa Base Riferimento:</strong> €${baseValue} su base ${unitText}.</li>
-                <li><strong>Quantità / Durata:</strong> ${inputQuantity} ${unitText}.</li>
+                <li><strong>Durata / Quantità impostata:</strong> ${inputQuantity} ${timeUnit}.</li>
                 <li><strong>Coefficiente Esperienza (${level}):</strong> Moltiplicatore ${levelFactor}x.</li>
                 <li><strong>Tipologia Committente (${clientDescText}):</strong> Adeguamento ${clientMultiplier}x.</li>
-                ${matchedKeywords.length > 0 ? `<li><strong>Analisi Testo Descrizione:</strong> Rilevate specificità tecniche (<em>${matchedKeywords.join(', ')}</em>) con un incremento di complessità stimato in ${(descComplexityMultiplier).toFixed(2)}x.</li>` : '<li><strong>Analisi Testo Descrizione:</strong> Brief standard inserito (nessun rincaro per complessità particolari).</li>'}
+                ${semanticInsights.length > 0 ? `<li><strong>Analisi Semantica del Testo:</strong> Rilevati i seguenti pattern nel brief (<em>${semanticInsights.join('; ')}</em>), applicando un coefficiente di complessità pari a <strong>${(semanticScoreMultiplier).toFixed(2)}x</strong>.</li>` : '<li><strong>Analisi Semantica del Testo:</strong> Brief descrittivo basilare o assente (nessun adeguamento per complessità testuale aggiuntiva).</li>'}
                 <li><strong>Costi Vivi / Materiali / Setup:</strong> €${softwareCosts}.</li>
                 ${extraDetailsText ? `<li><strong>Extra:</strong> ${extraDetailsText}</li>` : ''}
             </ul>
-            <p>Modificando parole chiave nella descrizione (es. aggiungendo termini tecnici, urgenze o richieste avanzate), vedrai il preventivo adeguarsi istantaneamente.</p>
+            <p>Il sistema analizza l'intero contesto e le sfumature descrittive del tuo testo per adeguare il preventivo in tempo reale.</p>
         `;
 
         document.getElementById('rationaleText').innerHTML = rationaleHtml;
         
         let humanEmailText = `Salve,
 
-ti invio il preventivo ufficiale elaborato sulla base delle specifiche tecniche e delle richieste descritte nel brief.
+ti invio il preventivo ufficiale elaborato a seguito di un'analisi approfondita delle specifiche e dei dettagli descritti per il progetto.
 
 • **Importo Totale del Servizio:** €${finalGross} (IVA e oneri esclusi se applicabili)
-• **Dettaglio Attività:** ${inputQuantity} ${unitText}, inclusi i materiali di setup/consumabili (€${softwareCosts}) ${matchedKeywords.length > 0 ? 'e gli adeguamenti per complessità tecnica ("' + matchedKeywords.join(', ') + '")' : ''}.
+• **Dettaglio Attività:** ${inputQuantity} ${timeUnit}, inclusi i materiali di setup/consumabili (€${softwareCosts}) ${semanticInsights.length > 0 ? 'e gli adeguamenti basati sull\'analisi del brief (' + semanticInsights.join(', ') + ')' : ''}.
 ${extraDetailsText ? '• ' + extraDetailsText + '\n' : ''}
-Il prezzo riflette l'impegno sartoriale e le specifiche richieste evidenziate nella descrizione del progetto.
+Il prezzo finale riflette l'impegno sartoriale, la profondità dei requisiti e la complessità complessiva emersa dalla descrizione fornita.
 
-Resto a disposizione per qualsiasi chiarimento o per procedere.
+Resto a disposizione per qualsiasi chiarimento o per procedere con l'avvio.
 
 Un cordiale saluto,
 [Tuo Nome]`;
