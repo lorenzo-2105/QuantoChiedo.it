@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Preventivo con Costi Reali di Mercato</title>
+    <title>QuantoChiedo.it | Preventivo Professionale Avanzato</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -592,7 +592,7 @@
     <!-- HERO SECTION -->
     <section class="hero-section">
         <h1 class="hero-title">Quanto vale il tuo lavoro?</h1>
-        <p class="hero-subtitle">Analisi basata sui costi reali di mercato e listini professionali in Italia.</p>
+        <p class="hero-subtitle">Analisi basata sui costi reali e listini professionali strutturati in Italia.</p>
 
         <div class="counter-box">
             <div class="counter-label">Più di 10k preventivi e analisi elaborate</div>
@@ -603,12 +603,12 @@
         <div class="search-area-wrapper">
             <div class="search-card">
                 <select id="serviceType">
-                    <option value="creator">✨ Content Creator / UGC (Mercato: 150€-500€/video)</option>
-                    <option value="freelance">💼 Sviluppatore / Frontend / Next.js JS (Mercato: 35€-70€/h)</option>
-                    <option value="videomaker" selected>🎥 Videomaker / Eventi / Matrimoni (Mercato: 1.200€-3.000€)</option>
-                    <option value="consultant">📊 Consulente / Strategist / Fiscale (Mercato: 50€-120€/h)</option>
+                    <option value="creator">✨ Content Creator / UGC & Social Media Production</option>
+                    <option value="freelance">💼 Sviluppatore Web / Frontend / Next.js & Fullstack</option>
+                    <option value="videomaker" selected>🎥 Videomaker / Reportage Eventi / Produzione Video</option>
+                    <option value="consultant">📊 Consulente Strategico / Business / Fiscale</option>
                 </select>
-                <button class="btn-search-main" onclick="calculatePricing()">Analizza Prezzo Reale</button>
+                <button class="btn-search-main" onclick="calculatePricing()">Genera Preventivo Pro</button>
             </div>
         </div>
 
@@ -618,27 +618,35 @@
                 <div class="field-group">
                     <label>SENIORITY PROFESSIONALE</label>
                     <select id="level">
-                        <option value="Junior (1-2 anni)">Junior (1-2 anni) [-15% sul base]</option>
-                        <option value="Mid-Level (3-5 anni)" selected>Mid-Level (3-5 anni) [Prezzo Standard]</option>
-                        <option value="Senior / Specialist (5+ anni)">Senior / Specialist (5+ anni) [+25% sul base]</option>
+                        <option value="Junior (1-2 anni)">Junior (1-2 anni di esperienza)</option>
+                        <option value="Mid-Level (3-5 anni)" selected>Mid-Level (3-5 anni di esperienza - Standard)</option>
+                        <option value="Senior / Specialist (5+ anni)">Senior / Specialist (5+ anni - Alta specializzazione)</option>
                     </select>
                 </div>
-                <!-- CAMPO SOSTITUITO: Costi Vivi / Software / Licenze / Materiali Inclusi -->
                 <div class="field-group">
-                    <label>COSTI VIVI / LICENZE / MATERIALI INCLUSI (€)</label>
-                    <input type="number" id="softwareCosts" value="0" placeholder="Es. 150 (abbonamenti, domini, server, materiali)">
+                    <label>TIPOLOGIA DI CLIENTE / BUDGET AZIENDALE</label>
+                    <select id="clientType">
+                        <option value="pmi" selected>PMI / Azienda Locale / Professionista</option>
+                        <option value="startup">Startup / Azienda in forte crescita</option>
+                        <option value="enterprise">Corporate / Multinazionale / Brand Strutturato</option>
+                    </select>
                 </div>
             </div>
 
             <div class="config-grid">
                 <div class="field-group">
-                    <label id="metricLabel">GIORNATE DI RIPRESA STIMATE</label>
-                    <input type="number" id="followers" value="0" placeholder="Es. 1 o 2 giornate">
+                    <label>COSTI VIVI / LICENZE / MATERIALI INCLUSI (€)</label>
+                    <input type="number" id="softwareCosts" value="0" placeholder="Es. 150 (abbonamenti, domini, server, materiali)">
                 </div>
                 <div class="field-group">
-                    <label>DESCRIZIONE DEL PROGETTO (Racconta cosa farai)</label>
-                    <textarea id="description" placeholder="Es. Sviluppo di una web app in Next.js/React con pannello utente, autenticazione e integrazione API esterne... oppure riprese video con drone per un evento aziendale..."></textarea>
+                    <label id="metricLabel">GIORNATE DI LAVORO O RIPRESA STIMATE</label>
+                    <input type="number" id="followers" value="2" placeholder="Es. 2 giornate">
                 </div>
+            </div>
+
+            <div class="field-group">
+                <label>DESCRIZIONE DETTAGLIATA DEL PROGETTO (Brief)</label>
+                <textarea id="description" placeholder="Racconta le specifiche esatte: es. Riprese video con drone in 4K per evento aziendale di due giorni, con montaggio e color grading avanzato... oppure sviluppo web app..."></textarea>
             </div>
 
             <!-- INTERRUTTORE SPESE EXTRA (PALLINO) -->
@@ -681,7 +689,7 @@
 
     <!-- SEZIONE RISULTATI REPORT -->
     <div class="results-wrapper" id="resultsBlock">
-        <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--fin-emerald);">📈 Analisi Reale di Mercato</h2>
+        <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--fin-emerald);">📈 Analisi Professionale Strutturata</h2>
         
         <div class="results-grid">
             <div class="tier-box">
@@ -715,7 +723,7 @@
 
         <!-- SEZIONE SPIEGAZIONE SEMPLIFICATA MA DETTAGLIATA -->
         <div class="creator-rationale-box">
-            <div class="rationale-title">💡 Come sono stati calcolati questi prezzi di mercato</div>
+            <div class="rationale-title">💡 Come sono stati strutturati questi importi</div>
             <div class="rationale-content" id="rationaleText"></div>
         </div>
 
@@ -773,16 +781,14 @@
         const val = this.value;
         const label = document.getElementById('metricLabel');
         if(val === 'creator') label.innerText = "NUMERO VIDEO / PACCHETTO UGC";
-        else if(val === 'freelance') label.innerText = "STIMA ORE TOTALI DI SVILUPPO (es. 40h)";
-        else if(val === 'videomaker') label.innerText = "GIORNATE DI RIPRESA STIMATE";
+        else if(val === 'freelance') label.innerText = "STIMA ORE TOTALI DI SVILUPPO";
+        else if(val === 'videomaker') label.innerText = "GIORNATE DI LAVORO O RIPRESA STIMATE";
         else if(val === 'consultant') label.innerText = "ORE DI CONSULENZA O INCONTRI";
     });
 
-    /* MOTORE CON TARIFFE REALI DI MERCATO ITALIANO */
-    function performRealMarketAnalysis(text, profession) {
+    function performDetailedAnalysis(text, profession) {
         const lower = text.toLowerCase();
         let conceptMatches = [];
-        let contextMultiplier = 1.0;
         let baseMarketValue = 1200;
         let semanticSummary = "Servizio Professionale Standard";
 
@@ -799,14 +805,12 @@
             semanticSummary = "Sviluppo Web / Frontend o Web App JavaScript";
             if (webHits >= 2 || lower.includes('piattaforma') || lower.includes('saas')) {
                 baseMarketValue = 3500;
-                contextMultiplier += 0.4;
                 conceptMatches.push(`Infrastruttura tecnica complessa rilevata (${webHits} tecnologie chiave: es. API, Database, React/Next.js)`);
             }
         } else if (profession === 'videomaker') {
             if (weddingHits >= 2 || lower.includes('matrimonio')) {
                 baseMarketValue = 1800;
                 semanticSummary = "Servizio Video e Foto Full-Day per Matrimonio";
-                contextMultiplier += 0.2;
                 conceptMatches.push("Copertura continuativa intera giornata (Full-Day Event)");
             } else {
                 baseMarketValue = 1300;
@@ -821,18 +825,15 @@
         }
 
         if (techHits > 0) {
-            contextMultiplier += 0.2;
             conceptMatches.push(`Attrezzatura e lavorazioni tecniche specializzate (${techHits} elementi)`);
         }
 
         if (text.length > 200) {
-            contextMultiplier += 0.15;
             conceptMatches.push("Brief dettagliato con specifiche tecniche ben definite");
         }
 
         return {
             baseMarketValue,
-            contextMultiplier,
             semanticSummary,
             conceptMatches
         };
@@ -842,12 +843,25 @@
         const profession = document.getElementById('serviceType').value;
         const description = document.getElementById('description').value.trim();
         const level = document.getElementById('level').value;
+        const clientType = document.getElementById('clientType').value;
         const softwareCosts = parseFloat(document.getElementById('softwareCosts').value) || 0;
         
         const levelFactor = level.includes('Junior') ? 0.85 : (level.includes('Senior') ? 1.25 : 1.0);
-        const semantics = performRealMarketAnalysis(description, profession);
+        
+        // Coefficiente strutturato in base al tipo di cliente
+        let clientMultiplier = 1.0;
+        let clientDescText = "PMI / Azienda Locale";
+        if (clientType === 'startup') {
+            clientMultiplier = 1.15;
+            clientDescText = "Startup in forte crescita";
+        } else if (clientType === 'enterprise') {
+            clientMultiplier = 1.35;
+            clientDescText = "Corporate / Brand Strutturato";
+        }
 
-        let finalBase = semantics.baseMarketValue;
+        const semantics = performDetailedAnalysis(description, profession);
+
+        let finalBase = semantics.baseMarketValue * clientMultiplier;
         let baseCalculated = (finalBase * levelFactor) + softwareCosts;
         let proCalculated = (finalBase * 1.4 * levelFactor) + softwareCosts;
         let completeCalculated = (finalBase * 1.9 * levelFactor) + softwareCosts;
@@ -908,12 +922,12 @@
         document.getElementById('tBaseName').innerText = pNameBase;
         document.getElementById('tBaseGross').innerText = "€" + baseGross;
         document.getElementById('tBaseNet').innerText = "Netto st.: €" + baseNet;
-        document.getElementById('tBaseFeatures').innerHTML = `<li>Servizio: ${semantics.semanticSummary}</li><li>Copertura essenziale di mercato</li>${softwareCosts > 0 ? `<li>Costi fissi/licenze inclusi (€${softwareCosts})</li>` : ''}${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>1 round di revisione</li>`;
+        document.getElementById('tBaseFeatures').innerHTML = `<li>Servizio: ${semantics.semanticSummary}</li><li>Copertura essenziale</li>${softwareCosts > 0 ? `<li>Costi fissi/licenze inclusi (€${softwareCosts})</li>` : ''}${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>1 round di revisione</li>`;
 
         document.getElementById('tRecName').innerText = pNamePro;
         document.getElementById('tRecGross').innerText = "€" + recGross;
         document.getElementById('tRecNet').innerText = "Netto st.: €" + recNet;
-        document.getElementById('tRecFeatures').innerHTML = `<li>Servizio completo e strutturato</li>${softwareCosts > 0 ? `<li>Costi fissi/licenze inclusi (€${softwareCosts})</li>` : ''}${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>Post-produzione e ottimizzazione avanzata</li>`;
+        document.getElementById('tRecFeatures').innerHTML = `<li>Servizio completo strutturato</li>${softwareCosts > 0 ? `<li>Costi fissi/licenze inclusi (€${softwareCosts})</li>` : ''}${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>Post-produzione e ottimizzazione avanzata</li>`;
 
         document.getElementById('tPremName').innerText = pNamePrem;
         document.getElementById('tPremGross').innerText = "€" + premGross;
@@ -924,14 +938,15 @@
         if (semantics.conceptMatches.length > 0) {
             reasonsListHtml = "<ul>" + semantics.conceptMatches.map(m => `<li>${m}</li>`).join('') + "</ul>";
         } else {
-            reasonsListHtml = "<p>• Tariffa calibrata sui listini medi reali rilevati nel settore in Italia.</p>";
+            reasonsListHtml = "<p>• Tariffa calibrata sui listini professionali strutturati.</p>";
         }
 
         let rationaleHtml = `
-            <p>Il calcolo si basa sui costi correnti di mercato per la categoria: <strong>${semantics.semanticSummary}</strong>.</p>
-            <p><strong>Parametri di mercato considerati:</strong></p>
+            <p>Il calcolo strutturato si basa sulla categoria: <strong>${semantics.semanticSummary}</strong>.</p>
+            <p><strong>Fattori di strutturazione applicati:</strong></p>
             ${reasonsListHtml}
-            <p>• <strong>Seniority Professionale:</strong> ${level} (Coefficiente applicato sul costo orario/giornaliero).</p>
+            <p>• <strong>Seniority Professionale:</strong> ${level}.</p>
+            <p>• <strong>Tipologia Cliente:</strong> ${clientDescText} (Coefficiente complessità applicato).</p>
             ${softwareCosts > 0 ? `<p>• <strong>Costi vivi / Software / Licenze:</strong> Inclusi per un totale di €${softwareCosts}.</p>` : ''}
             ${extraDetailsText ? `<p>${extraDetailsText}</p>` : ''}
         `;
@@ -942,9 +957,9 @@
 
 ti scrivo dopo aver analizzato con attenzione le specifiche tecniche ed economiche per ${description ? 'il progetto ("' + (description.length > 50 ? description.substring(0, 50) + '...' : description) + '")' : 'la nostra collaborazione'}. ${softwareCosts > 0 ? 'Nel totale sono inclusi anche i costi vivi stimati per software, licenze o materiali pari a €' + softwareCosts + '.' : ''} ${extraEmailSection}
 
-Per strutturare il lavoro nel rispetto degli standard di mercato e garantirti un risultato impeccabile, ho definito tre opzioni trasparenti:
+Per strutturare il lavoro in modo trasparente e garantirti un risultato impeccabile, ho definito tre opzioni:
 
-1. **Opzione Base** a **€${baseGross}** (+ IVA): pensata per coprire l'essenziale con tariffe allineate al mercato.
+1. **Opzione Base** a **€${baseGross}** (+ IVA): pensata per coprire l'essenziale.
 2. **Opzione Pro (consigliata)** a **€${recGross}** (+ IVA): la soluzione ideale che include tutte le lavorazioni e le specifiche tecniche richieste.
 3. **Opzione Completa / All-Inclusive** a **€${premGross}** (+ IVA): il pacchetto top con priorità assoluta e cura estesa dei dettagli.
 
@@ -955,7 +970,7 @@ Un saluto,
 
         document.getElementById('emailBody').innerText = humanEmailText;
 
-        document.getElementById('objDefense').innerText = `"Comprendo le valutazioni sul budget, ma la cifra di €${recGross} riflette i costi reali di mercato, le ore di lavorazione e gli standard qualitativi necessari per un lavoro professionale in questo settore."`;
+        document.getElementById('objDefense').innerText = `"Comprendo le valutazioni sul budget, ma la cifra di €${recGross} riflette i parametri strutturati, le ore di lavorazione e gli standard qualitativi necessari per un lavoro professionale di alto livello."`;
         document.getElementById('objDescoping').innerText = `"Se necessitate di rientrare in un budget inferiore, possiamo optare per l'opzione Base a €${baseGross}, riducendo leggermente il perimetro delle attività incluse."`;
         document.getElementById('objTradeoff').innerText = `"Posso applicare un'agevolazione del 5% sull'opzione Pro (€${Math.round(recGross * 0.95)}) a fronte di una conferma immediata e della pianificazione sicura delle scadenze."`;
 
