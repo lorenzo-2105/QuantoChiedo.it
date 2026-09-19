@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantoChiedo.it | Preventivo Professionale Avanzato</title>
+    <title>QuantoChiedo.it | Preventivo Professionale Avanzato con Foto</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -240,12 +240,48 @@
 
         .field-group textarea {
             resize: vertical;
-            min-height: 105px;
+            min-height: 90px;
             line-height: 1.5;
         }
 
         .field-group input:focus, .field-group select:focus, .field-group textarea:focus {
             border-color: var(--fin-emerald);
+        }
+
+        /* Area Upload Foto / Bozzetto */
+        .upload-dropzone {
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+            background: rgba(9, 13, 22, 0.4);
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .upload-dropzone:hover {
+            border-color: var(--fin-emerald);
+        }
+
+        .upload-dropzone input {
+            display: none;
+        }
+
+        .upload-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .preview-img-container {
+            display: none;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .preview-img-container img {
+            max-height: 80px;
+            border-radius: 6px;
+            border: 1px solid var(--fin-emerald);
         }
 
         /* Sezione Interruttore Spese Extra */
@@ -433,7 +469,7 @@
             font-size: 0.7rem;
         }
 
-        /* Sezione Spiegazione Semplificata ma Dettagliata */
+        /* Sezione Spiegazione Dettagliata */
         .creator-rationale-box {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(16, 185, 129, 0.25);
@@ -592,7 +628,7 @@
     <!-- HERO SECTION -->
     <section class="hero-section">
         <h1 class="hero-title">Quanto vale il tuo lavoro?</h1>
-        <p class="hero-subtitle">Analisi basata sui costi reali e listini professionali strutturati in Italia.</p>
+        <p class="hero-subtitle">Preventivi e stime professionali basate su parametri reali.</p>
 
         <div class="counter-box">
             <div class="counter-label">Più di 10k preventivi e analisi elaborate</div>
@@ -603,9 +639,11 @@
         <div class="search-area-wrapper">
             <div class="search-card">
                 <select id="serviceType">
-                    <option value="creator">✨ Content Creator / UGC & Social Media Production</option>
+                    <option value="tattoo">🖋️ Tatuatore / Body Artist (Custom, Realistico, Fineline)</option>
+                    <option value="videomaker">🎥 Videomaker / Reportage Eventi / Produzione Video</option>
                     <option value="freelance">💼 Sviluppatore Web / Frontend / Next.js & Fullstack</option>
-                    <option value="videomaker" selected>🎥 Videomaker / Reportage Eventi / Produzione Video</option>
+                    <option value="designer">🎨 Grafico / Brand Designer / Illustratore</option>
+                    <option value="creator">✨ Content Creator / UGC & Social Media Production</option>
                     <option value="consultant">📊 Consulente Strategico / Business / Fiscale</option>
                 </select>
                 <button class="btn-search-main" onclick="calculatePricing()">Genera Preventivo Pro</button>
@@ -616,43 +654,55 @@
         <div class="config-panel">
             <div class="config-grid">
                 <div class="field-group">
-                    <label>SENIORITY PROFESSIONALE</label>
+                    <label>SENIORITY / ESPERIENZA PROFESSIONALE</label>
                     <select id="level">
-                        <option value="Junior (1-2 anni)">Junior (1-2 anni di esperienza)</option>
-                        <option value="Mid-Level (3-5 anni)" selected>Mid-Level (3-5 anni di esperienza - Standard)</option>
-                        <option value="Senior / Specialist (5+ anni)">Senior / Specialist (5+ anni - Alta specializzazione)</option>
+                        <option value="Junior (1-2 anni)">Junior / Emergente (1-2 anni)</option>
+                        <option value="Mid-Level (3-5 anni)" selected>Mid-Level / Professionista affermato (3-5 anni)</option>
+                        <option value="Senior / Specialist (5+ anni)">Senior / Master / Resident Studio (5+ anni)</option>
                     </select>
                 </div>
                 <div class="field-group">
-                    <label>TIPOLOGIA DI CLIENTE / BUDGET AZIENDALE</label>
+                    <label>TIPOLOGIA DI CLIENTE / COMMITTENTE</label>
                     <select id="clientType">
-                        <option value="pmi" selected>PMI / Azienda Locale / Professionista</option>
-                        <option value="startup">Startup / Azienda in forte crescita</option>
-                        <option value="enterprise">Corporate / Multinazionale / Brand Strutturato</option>
+                        <option value="pmi" selected>Privato / Cliente Standard / PMI</option>
+                        <option value="startup">Startup / Brand Emergente</option>
+                        <option value="enterprise">Corporate / Brand Strutturato / Azienda</option>
                     </select>
                 </div>
             </div>
 
             <div class="config-grid">
                 <div class="field-group">
-                    <label>COSTI VIVI / LICENZE / MATERIALI INCLUSI (€)</label>
-                    <input type="number" id="softwareCosts" value="0" placeholder="Es. 150 (abbonamenti, domini, server, materiali)">
+                    <label>COSTI VIVI / MATERIALI / LICENZE / SETUP (€)</label>
+                    <input type="number" id="softwareCosts" value="0" placeholder="Es. 50 (aghi/colori, domini, abbonamenti)">
                 </div>
                 <div class="field-group">
-                    <label id="metricLabel">GIORNATE DI LAVORO O RIPRESA STIMATE</label>
-                    <input type="number" id="followers" value="2" placeholder="Es. 2 giornate">
+                    <label id="metricLabel">ORE STIMATE O SESSIONI DI LAVORO</label>
+                    <input type="number" id="followers" value="2" placeholder="Es. 3 ore o giornate">
                 </div>
             </div>
 
-            <div class="field-group">
-                <label>DESCRIZIONE DETTAGLIATA DEL PROGETTO (Brief)</label>
-                <textarea id="description" placeholder="Racconta le specifiche esatte: es. Riprese video con drone in 4K per evento aziendale di due giorni, con montaggio e color grading avanzato... oppure sviluppo web app..."></textarea>
+            <div class="config-grid">
+                <div class="field-group">
+                    <label>DESCRIZIONE DEL PROGETTO (Brief o Dettagli)</label>
+                    <textarea id="description" placeholder="Descrivi il lavoro: es. Tatuaggio stile fineline sull'avambraccio di circa 15cm... oppure sviluppo applicativo..."></textarea>
+                </div>
+                <div class="field-group">
+                    <label>ALLEGATO FOTO / BOZZETTO DI RIFERIMENTO</label>
+                    <div class="upload-dropzone" onclick="document.getElementById('fileInput').click()">
+                        <span class="upload-text" id="uploadLabel">📁 Clicca per caricare foto o bozzetto (PNG, JPG)</span>
+                        <input type="file" id="fileInput" accept="image/*" onchange="handleImageUpload(event)">
+                    </div>
+                    <div class="preview-img-container" id="previewContainer">
+                        <img id="imagePreview" src="" alt="Anteprima allegato">
+                    </div>
+                </div>
             </div>
 
             <!-- INTERRUTTORE SPESE EXTRA (PALLINO) -->
             <div class="extra-toggle-container">
                 <div class="extra-toggle-label">
-                    🚗 Aggiungi Spese Extra, Chilometri e Trasferte
+                    🚗 Aggiungi Spese Extra, Chilometri o Trasferte
                 </div>
                 <label class="switch">
                     <input type="checkbox" id="extraToggle" onclick="toggleExtraFields()">
@@ -660,20 +710,20 @@
                 </label>
             </div>
 
-            <!-- SCHERMATA EXTRA A SCOMPARSA CON SCELTA CARICO SPESE -->
+            <!-- SCHERMATA EXTRA A SCOMPARSA -->
             <div class="extra-fields-panel" id="extraFieldsPanel">
                 <div class="extra-grid">
                     <div class="field-group" style="margin-top:0;">
                         <label>CHILOMETRI PERCORSI (A/R)</label>
-                        <input type="number" id="extraKm" value="0" placeholder="Es. 150">
+                        <input type="number" id="extraKm" value="0" placeholder="Es. 50">
                     </div>
                     <div class="field-group" style="margin-top:0;">
                         <label>COSTO HOTEL / PERNOTTAMENTO (€)</label>
-                        <input type="number" id="extraHotel" value="0" placeholder="Es. 100">
+                        <input type="number" id="extraHotel" value="0" placeholder="Es. 80">
                     </div>
                     <div class="field-group" style="margin-top:0;">
                         <label>ALTRE SPESE (Pasti, Mezzi) (€)</label>
-                        <input type="number" id="extraMisc" value="0" placeholder="Es. 35">
+                        <input type="number" id="extraMisc" value="0" placeholder="Es. 20">
                     </div>
                     <div class="field-group" style="margin-top:0;">
                         <label>SPESE A CARICO DI:</label>
@@ -721,7 +771,7 @@
             </div>
         </div>
 
-        <!-- SEZIONE SPIEGAZIONE SEMPLIFICATA MA DETTAGLIATA -->
+        <!-- SEZIONE SPIEGAZIONE DETTAGLIATA -->
         <div class="creator-rationale-box">
             <div class="rationale-title">💡 Come sono stati strutturati questi importi</div>
             <div class="rationale-content" id="rationaleText"></div>
@@ -729,9 +779,9 @@
 
         <!-- SEZIONE EMAIL DETTAGLIATA PER IL CLIENTE -->
         <div class="email-short-box">
-            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">✉️ EMAIL PRONTA DA INVIARE AL CLIENTE</label>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--fin-emerald);">✉️ MESSAGGIO O EMAIL PRONTA DA INVIARE AL CLIENTE</label>
             <div class="email-preview-text" id="emailBody"></div>
-            <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo Email</button>
+            <button class="btn-copy" onclick="copyText('emailBody')">📋 Copia Testo</button>
         </div>
 
         <button class="objection-btn" onclick="toggleObjections()" style="margin-top: 20px;">
@@ -758,10 +808,29 @@
 
 <script>
     let currentCounter = 10245;
+    let hasUploadedImage = false;
+
     setInterval(() => {
         currentCounter += Math.floor(Math.random() * 3) + 1;
         document.getElementById('dynamicCounter').innerText = currentCounter.toLocaleString('it-IT');
     }, 4000);
+
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imagePreview').src = e.target.result;
+                document.getElementById('previewContainer').style.display = 'block';
+                document.getElementById('uploadLabel').innerText = "✅ Foto/Bozzetto caricato con successo";
+                hasUploadedImage = true;
+                if(document.getElementById('resultsBlock').style.display == 'block') {
+                    calculatePricing();
+                }
+            }
+            reader.readAsDataURL(file);
+        }
+    }
 
     function toggleExtraFields() {
         const panel = document.getElementById('extraFieldsPanel');
@@ -780,9 +849,11 @@
     document.getElementById('serviceType').addEventListener('change', function() {
         const val = this.value;
         const label = document.getElementById('metricLabel');
-        if(val === 'creator') label.innerText = "NUMERO VIDEO / PACCHETTO UGC";
+        if(val === 'tattoo') label.innerText = "ORE STIMATE / SESSIONE DI TATUAGGIO";
+        else if(val === 'creator') label.innerText = "NUMERO VIDEO / PACCHETTO UGC";
         else if(val === 'freelance') label.innerText = "STIMA ORE TOTALI DI SVILUPPO";
         else if(val === 'videomaker') label.innerText = "GIORNATE DI LAVORO O RIPRESA STIMATE";
+        else if(val === 'designer') label.innerText = "NUMERO BOZZETTI / ORE DI GRAFICA";
         else if(val === 'consultant') label.innerText = "ORE DI CONSULENZA O INCONTRI";
     });
 
@@ -795,17 +866,27 @@
         const complexWebTerms = ['next.js', 'react', 'api', 'database', 'autenticazione', 'backend', 'saas', 'piattaforma', 'custom', 'e-commerce'];
         let webHits = complexWebTerms.filter(t => lower.includes(t)).length;
 
+        const tattooConcepts = ['realistico', 'giapponese', 'manica', 'schiena', 'grande', 'colore', 'copertura', 'cover-up'];
+        let tattooHits = tattooConcepts.filter(c => lower.includes(c)).length;
+
         const weddingConcepts = ['matrimonio', 'cerimonia', 'sposi', 'ricevimento', 'chiesa', 'wedding'];
         let weddingHits = weddingConcepts.filter(c => lower.includes(c)).length;
 
         const techHits = ['drone', 'montaggio', 'color grading', 'multicamera', 'sound design'].filter(t => lower.includes(t)).length;
 
-        if (profession === 'freelance') {
+        if (profession === 'tattoo') {
+            baseMarketValue = 180; // Tariffa media base o sessione
+            semanticSummary = "Progetto Tatuaggio Personalizzato / Custom Body Art";
+            if (tattooHits >= 2 || lower.includes('manica') || lower.includes('schiena')) {
+                baseMarketValue = 450;
+                conceptMatches.push(`Lavorazione complessa / estesa rilevata (${tattooHits} elementi di dettaglio anatomico o stile)`);
+            }
+        } else if (profession === 'freelance') {
             baseMarketValue = 1600;
             semanticSummary = "Sviluppo Web / Frontend o Web App JavaScript";
             if (webHits >= 2 || lower.includes('piattaforma') || lower.includes('saas')) {
                 baseMarketValue = 3500;
-                conceptMatches.push(`Infrastruttura tecnica complessa rilevata (${webHits} tecnologie chiave: es. API, Database, React/Next.js)`);
+                conceptMatches.push(`Infrastruttura tecnica complessa rilevata (${webHits} tecnologie chiave)`);
             }
         } else if (profession === 'videomaker') {
             if (weddingHits >= 2 || lower.includes('matrimonio')) {
@@ -816,6 +897,9 @@
                 baseMarketValue = 1300;
                 semanticSummary = "Produzione Spot / Video Commerciale o Evento";
             }
+        } else if (profession === 'designer') {
+            baseMarketValue = 600;
+            semanticSummary = "Progetto Brand Identity / Grafica & Logo Design";
         } else if (profession === 'creator') {
             baseMarketValue = 450;
             semanticSummary = "Campagna Contenuti UGC / Creator Multicanale";
@@ -826,6 +910,10 @@
 
         if (techHits > 0) {
             conceptMatches.push(`Attrezzatura e lavorazioni tecniche specializzate (${techHits} elementi)`);
+        }
+
+        if (hasUploadedImage) {
+            conceptMatches.push("Analisi visiva allegato (Bozzetto / Riferimento visivo integrato nel preventivo)");
         }
 
         if (text.length > 200) {
@@ -848,12 +936,11 @@
         
         const levelFactor = level.includes('Junior') ? 0.85 : (level.includes('Senior') ? 1.25 : 1.0);
         
-        // Coefficiente strutturato in base al tipo di cliente
         let clientMultiplier = 1.0;
-        let clientDescText = "PMI / Azienda Locale";
+        let clientDescText = "Privato / Cliente Standard";
         if (clientType === 'startup') {
             clientMultiplier = 1.15;
-            clientDescText = "Startup in forte crescita";
+            clientDescText = "Startup / Brand Emergente";
         } else if (clientType === 'enterprise') {
             clientMultiplier = 1.35;
             clientDescText = "Corporate / Brand Strutturato";
@@ -862,9 +949,9 @@
         const semantics = performDetailedAnalysis(description, profession);
 
         let finalBase = semantics.baseMarketValue * clientMultiplier;
-        let baseCalculated = (finalBase * levelFactor) + softwareCosts;
-        let proCalculated = (finalBase * 1.4 * levelFactor) + softwareCosts;
-        let completeCalculated = (finalBase * 1.9 * levelFactor) + softwareCosts;
+        let baseCalculated = (profession === 'tattoo') ? finalBase + softwareCosts : (finalBase * levelFactor) + softwareCosts;
+        let proCalculated = (profession === 'tattoo') ? (finalBase * 1.5) + softwareCosts : (finalBase * 1.4 * levelFactor) + softwareCosts;
+        let completeCalculated = (profession === 'tattoo') ? (finalBase * 2.1) + softwareCosts : (finalBase * 1.9 * levelFactor) + softwareCosts;
 
         let extraTotalToCreator = 0;
         let extraDetailsText = "";
@@ -888,11 +975,11 @@
 
                 if (payer === 'creator') {
                     extraTotalToCreator = rawExtra;
-                    extraDetailsText = `• Spese di trasferta incluse nel totale: ${parts.join(', ')} (Totale extra: €${Math.round(extraTotalToCreator)})`;
-                    extraEmailSection = `\nNel preventivo ho incluso anche una stima per le spese vive di trasferta (circa €${Math.round(extraTotalToCreator)} per ${parts.join(', ')}).`;
+                    extraDetailsText = `• Spese accessorie incluse: ${parts.join(', ')} (Totale extra: €${Math.round(extraTotalToCreator)})`;
+                    extraEmailSection = `\nNel preventivo ho incluso anche una stima per le spese accessorie (circa €${Math.round(extraTotalToCreator)} per ${parts.join(', ')}).`;
                 } else {
-                    extraDetailsText = `• Spese di trasferta a carico del cliente (escluse dal totale): ${parts.join(', ')}`;
-                    extraEmailSection = `\n(Nota: Le spese vive di trasferta quantificate in ${parts.join(', ')} saranno da considerarsi a parte o fatturate a rimborso).`;
+                    extraDetailsText = `• Spese accessorie a carico del cliente (escluse dal totale): ${parts.join(', ')}`;
+                    extraEmailSection = `\n(Nota: Le spese accessorie quantificate in ${parts.join(', ')} saranno da considerarsi a parte).`;
                 }
             }
         }
@@ -909,7 +996,11 @@
         let pNamePro = "Pro / Consigliato";
         let pNamePrem = "Completo & All-Inclusive";
 
-        if(profession === 'videomaker' && description.toLowerCase().includes('matrimonio')) {
+        if(profession === 'tattoo') {
+            pNameBase = "Sessione Base / Piccolo Formato";
+            pNamePro = "Custom Design & Media Copertura";
+            pNamePrem = "Full-Session / Grande Progetto (Manica/Schiena)";
+        } else if(profession === 'videomaker' && description.toLowerCase().includes('matrimonio')) {
             pNameBase = "Reportage Essenziale";
             pNamePro = "Cinematic Event Pro";
             pNamePrem = "Luxury Full-Coverage & Drone";
@@ -922,17 +1013,17 @@
         document.getElementById('tBaseName').innerText = pNameBase;
         document.getElementById('tBaseGross').innerText = "€" + baseGross;
         document.getElementById('tBaseNet').innerText = "Netto st.: €" + baseNet;
-        document.getElementById('tBaseFeatures').innerHTML = `<li>Servizio: ${semantics.semanticSummary}</li><li>Copertura essenziale</li>${softwareCosts > 0 ? `<li>Costi fissi/licenze inclusi (€${softwareCosts})</li>` : ''}${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>1 round di revisione</li>`;
+        document.getElementById('tBaseFeatures').innerHTML = `<li>Servizio: ${semantics.semanticSummary}</li><li>Copertura essenziale</li>${softwareCosts > 0 ? `<li>Materiali/setup inclusi (€${softwareCosts})</li>` : ''}${hasUploadedImage ? '<li>Analisi bozzetto inclusa</li>' : ''}<li>1 round di revisione</li>`;
 
         document.getElementById('tRecName').innerText = pNamePro;
         document.getElementById('tRecGross').innerText = "€" + recGross;
         document.getElementById('tRecNet').innerText = "Netto st.: €" + recNet;
-        document.getElementById('tRecFeatures').innerHTML = `<li>Servizio completo strutturato</li>${softwareCosts > 0 ? `<li>Costi fissi/licenze inclusi (€${softwareCosts})</li>` : ''}${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>Post-produzione e ottimizzazione avanzata</li>`;
+        document.getElementById('tRecFeatures').innerHTML = `<li>Servizio completo strutturato</li>${softwareCosts > 0 ? `<li>Materiali/setup inclusi (€${softwareCosts})</li>` : ''}${hasUploadedImage ? '<li>Studio dettagliato bozzetto</li>' : ''}<li>Lavorazione e finiture avanzate</li>`;
 
         document.getElementById('tPremName').innerText = pNamePrem;
         document.getElementById('tPremGross').innerText = "€" + premGross;
         document.getElementById('tPremNet').innerText = "Netto st.: €" + premNet;
-        document.getElementById('tPremFeatures').innerHTML = `<li>Soluzione massima qualità e priorità</li>${softwareCosts > 0 ? `<li>Costi fissi/licenze inclusi (€${softwareCosts})</li>` : ''}${extraTotalToCreator > 0 ? '<li>Spese trasferta incluse</li>' : ''}<li>Consegne rapide e supporto esteso</li>`;
+        document.getElementById('tPremFeatures').innerHTML = `<li>Soluzione massima qualità e priorità</li>${softwareCosts > 0 ? `<li>Materiali/setup inclusi (€${softwareCosts})</li>` : ''}${hasUploadedImage ? '<li>Progetto visivo avanzato con bozzetto</li>' : ''}<li>Sessioni estese e cura dedicata</li>`;
 
         let reasonsListHtml = "";
         if (semantics.conceptMatches.length > 0) {
@@ -945,34 +1036,34 @@
             <p>Il calcolo strutturato si basa sulla categoria: <strong>${semantics.semanticSummary}</strong>.</p>
             <p><strong>Fattori di strutturazione applicati:</strong></p>
             ${reasonsListHtml}
-            <p>• <strong>Seniority Professionale:</strong> ${level}.</p>
-            <p>• <strong>Tipologia Cliente:</strong> ${clientDescText} (Coefficiente complessità applicato).</p>
-            ${softwareCosts > 0 ? `<p>• <strong>Costi vivi / Software / Licenze:</strong> Inclusi per un totale di €${softwareCosts}.</p>` : ''}
+            <p>• <strong>Seniority / Esperienza:</strong> ${level}.</p>
+            <p>• <strong>Tipologia Committente:</strong> ${clientDescText}.</p>
+            ${softwareCosts > 0 ? `<p>• <strong>Costi vivi / Materiali:</strong> Inclusi per un totale di €${softwareCosts}.</p>` : ''}
             ${extraDetailsText ? `<p>${extraDetailsText}</p>` : ''}
         `;
 
         document.getElementById('rationaleText').innerHTML = rationaleHtml;
         
-        let humanEmailText = `Ciao [Nome del Cliente],
+        let humanEmailText = `Ciao,
 
-ti scrivo dopo aver analizzato con attenzione le specifiche tecniche ed economiche per ${description ? 'il progetto ("' + (description.length > 50 ? description.substring(0, 50) + '...' : description) + '")' : 'la nostra collaborazione'}. ${softwareCosts > 0 ? 'Nel totale sono inclusi anche i costi vivi stimati per software, licenze o materiali pari a €' + softwareCosts + '.' : ''} ${extraEmailSection}
+ti scrivo dopo aver analizzato con attenzione le specifiche e ${hasUploadedImage ? 'il bozzetto/riferimento visivo che mi hai allegato' : 'la richiesta'} per il progetto. ${softwareCosts > 0 ? 'Nel totale sono inclusi anche i costi vivi per materiali o setup pari a €' + softwareCosts + '.' : ''} ${extraEmailSection}
 
 Per strutturare il lavoro in modo trasparente e garantirti un risultato impeccabile, ho definito tre opzioni:
 
-1. **Opzione Base** a **€${baseGross}** (+ IVA): pensata per coprire l'essenziale.
-2. **Opzione Pro (consigliata)** a **€${recGross}** (+ IVA): la soluzione ideale che include tutte le lavorazioni e le specifiche tecniche richieste.
-3. **Opzione Completa / All-Inclusive** a **€${premGross}** (+ IVA): il pacchetto top con priorità assoluta e cura estesa dei dettagli.
+1. **Opzione Base** a **€${baseGross}** (+ eventuali imposte di legge): ideale per soluzioni essenziali.
+2. **Opzione Pro (consigliata)** a **€${recGross}** (+ eventuali imposte di legge): la soluzione ideale per sviluppare il progetto nei dettagli richiesti.
+3. **Opzione Completa / All-Inclusive** a **€${premGross}** (+ eventuali imposte di legge): il pacchetto di massima qualità con cura estesa.
 
-Fammi sapere quale opzione preferisci, così procediamo con la pianificazione!
+Fammi sapere quale opzione preferisci così blocchiamo la data o procediamo con i lavori!
 
 Un saluto,
 [Tuo Nome]`;
 
         document.getElementById('emailBody').innerText = humanEmailText;
 
-        document.getElementById('objDefense').innerText = `"Comprendo le valutazioni sul budget, ma la cifra di €${recGross} riflette i parametri strutturati, le ore di lavorazione e gli standard qualitativi necessari per un lavoro professionale di alto livello."`;
-        document.getElementById('objDescoping').innerText = `"Se necessitate di rientrare in un budget inferiore, possiamo optare per l'opzione Base a €${baseGross}, riducendo leggermente il perimetro delle attività incluse."`;
-        document.getElementById('objTradeoff').innerText = `"Posso applicare un'agevolazione del 5% sull'opzione Pro (€${Math.round(recGross * 0.95)}) a fronte di una conferma immediata e della pianificazione sicura delle scadenze."`;
+        document.getElementById('objDefense').innerText = `"Comprendo le valutazioni sul budget, ma la cifra di €${recGross} riflette i parametri strutturati, il tempo di esecuzione e gli standard qualitativi necessari per un lavoro professionale e sicuro."`;
+        document.getElementById('objDescoping').innerText = `"Se necessitate di rientrare in un budget inferiore, possiamo optare per l'opzione Base a €${baseGross}, riducendo leggermente la complessità o i dettagli del progetto."`;
+        document.getElementById('objTradeoff').innerText = `"Posso applicare un'agevolazione del 5% sull'opzione Pro (€${Math.round(recGross * 0.95)}) a fronte di una conferma immediata e della pianificazione sicura dell'appuntamento."`;
 
         document.getElementById('resultsBlock').style.display = 'block';
         document.getElementById('resultsBlock').scrollIntoView({ behavior: 'smooth' });
